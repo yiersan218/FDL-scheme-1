@@ -60,6 +60,15 @@ def load_config(config_name_or_path):
             config.inherited_training_keys.add("clustering_learning_rate")
     training.setdefault("cluster_head_learning_rate_multiplier", 1.0)
     training.setdefault("center_momentum", 0.0)
+    config.setdefault("compression", {})
+    compression = config["compression"]
+    compression.setdefault("method", "none")
+    compression.setdefault("budget_ratio", 0.5)
+    compression.setdefault("calibration_size", 64)
+    compression.setdefault("candidates", 6)
+    compression.setdefault("view_weight", 0.1)
+    compression.setdefault("pair_weight", 0.1)
+    compression.setdefault("error_feedback", False)
     config["config_path"] = str(path.resolve())
     _validate_config(config)
     return config
@@ -122,6 +131,20 @@ def _validate_config(config):
     missing_losses = required_losses.difference(loss_weights)
     if missing_losses:
         raise ValueError(f"Missing loss weights: {sorted(missing_losses)}")
+    compression = config.get("compression", {})
+    if compression.get("method", "none") not in {"none", "topk", "paper", "stage"}:
+        raise ValueError("compression.method must be none, topk, paper, or stage")
+    if not 0 < float(compression.get("budget_ratio", 0.5)) <= 1:
+        raise ValueError("compression.budget_ratio must be in (0, 1]")
+    if int(compression.get("calibration_size", 64)) <= 0:
+        raise ValueError("compression.calibration_size must be positive")
+    if int(compression.get("candidates", 6)) <= 0:
+        raise ValueError("compression.candidates must be positive")
+    for name in ("view_weight", "pair_weight"):
+        if float(compression.get(name, 0.1)) < 0:
+            raise ValueError(f"compression.{name} must be nonnegative")
+    if not isinstance(compression.get("error_feedback", False), bool):
+        raise ValueError("compression.error_feedback must be boolean")
 
 
 def resolve_project_path(path_value):

@@ -1,0 +1,96 @@
+{
+  "dataset": "LandUse_21",
+  "samples": 2100,
+  "view_dims": [
+    20,
+    59,
+    40
+  ],
+  "num_clusters": 21,
+  "metrics": {
+    "acc": 0.26904761904761904,
+    "nmi": 0.3158221647030947,
+    "ari": 0.13148375430785175,
+    "confidence": 0.06642724573612213
+  },
+  "best_round": 14,
+  "selection_metric": "nmi",
+  "communication": {
+    "uplink_bytes": 70657608,
+    "dense_uplink_bytes": 141276744,
+    "downlink_bytes": 141235584,
+    "compression_seconds": 10.890343699999846,
+    "uplink_reduction": 0.4998638417091492
+  },
+  "config": {
+    "dataset": {
+      "name": "LandUse_21",
+      "file": "dataset/LandUse_21.mat",
+      "num_clusters": 21,
+      "num_clients": 7,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0
+    },
+    "training": {
+      "rounds": 16,
+      "pretrain_rounds": 13,
+      "center_init_round": 12,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.5,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-压缩\\tuning\\stage-b50",
+      "save_model": true
+    },
+    "tuning": {
+      "best_round": 16,
+      "acc": 0.2876190476190476,
+      "nmi": 0.33610204343835953,
+      "ari": 0.14295063392523574,
+      "last_round_acc": 0.2876190476190476,
+      "last_round_nmi": 0.33610204343835953,
+      "last_round_ari": 0.14295063392523574
+    },
+    "compression": {
+      "method": "stage",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 4,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": false
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\LandUse_21.json"
+  }
+}

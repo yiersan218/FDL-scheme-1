@@ -36,6 +36,8 @@ system/run_all.py                          七数据集批量入口
 system/flcore/trainmodel/multiview.py       多视图模型和损失
 system/flcore/clients/clientcluster.py      客户端本地训练与中心摘要
 system/flcore/servers/servercluster.py      两阶段调度、聚合、评估和保存
+system/flcore/compression.py                紧凑模型更新编码、解码与校准评分
+system/run_compression.py                   固定字节预算候选搜索和压缩报告
 system/utils/mat_data.py                   MAT 加载和无标签客户端划分
 visualization/plot_history.py              两阶段曲线绘制
 tests/test_clustering.py                    核心回归测试
@@ -85,3 +87,7 @@ tests/test_visualization.py                 可视化回归测试
 
 - 算法、配置、数据格式、运行命令或结果语义变化时，直接更新 README、model.md、dataset/detals.md 和本文档的现有内容。
 - 不将 MAT 数据、模型检查点和缓存作为源码提交；当前两阶段运行结果与调参记录需要一并提交。
+- 压缩实验必须比较相同**实际上行模型载荷字节数**下的候选；压缩载荷不得包含标签、原始样本或单样本表示。普通参数可稀疏上传，聚类中心与簇计数继续按原规则聚合。
+- 压缩正式结果写入 `results-压缩/<dataset>/`，候选保留在 `results-压缩/tuning/`；根目录 `summary.md` 只汇总正式 Stage＋反馈结果，`tuning_summary.md` 只比较它与同预算 Top-k_ef。载荷字节不能写成实测网络流量或延迟。
+- 当前压缩正式结果在七个数据集统一使用 `stage_ef`（Stage＋客户端误差反馈）。重新运行 `system/run_compression.py` 默认复用或运行 `stage_ef`、`topk_ef`，按用户指定方案发布，不按七集平均 NMI 自动选法。旧自动统一选优和逐数据集选优需分别显式指定 `--selection uniform`、`--selection per-dataset`，并使用独立结果目录避免覆盖正式结果。
+- 20% 上行预算的三种子探索报告位于 `results-压缩/tuning/历史报告/Stage优化实验.md`，原始 JSON 保留在 `results-压缩/tuning/`。当前 50% 单种子结果中 Stage＋反馈的七集平均 NMI 低于 Top-k_ef，不得将局部改善写成已验证的整体创新收益。

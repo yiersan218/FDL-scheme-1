@@ -6,6 +6,7 @@ import torch
 from sklearn.cluster import KMeans
 from torch.utils.data import DataLoader
 
+from flcore.compression import compress_client_update
 from flcore.trainmodel.multiview import clustering_objective, target_distribution
 from utils.mat_data import MultiViewSubset
 
@@ -20,6 +21,7 @@ class FederatedClusteringClient:
         self.config = config
         self.device = device
         self.dataset = MultiViewSubset(data, self.indices)
+        self.compression_residual = None
 
     @property
     def num_samples(self):
@@ -112,11 +114,46 @@ class FederatedClusteringClient:
         result = {
             "client_id": self.id,
             "num_samples": self.num_samples,
-            "state_dict": {key: value.detach().cpu() for key, value in model.state_dict().items()},
             "metrics": {key: value / max(steps, 1) for key, value in totals.items()},
         }
         if clustering_enabled:
             result["cluster_counts"] = self.soft_cluster_counts(model)
+        compression = self.config.get("compression", {"method": "none"})
+        if compression["method"] == "none":
+            result["state_dict"] = {
+                key: value.detach().cpu() for key, value in model.state_dict().items()
+            }
+        else:
+            views, targets = None, None
+            if compression["method"] in {"paper", "stage"}:
+                rng = np.random.default_rng(
+                    int(training["seed"]) + self.id * 1009 + round_index * 7919 + 17
+                )
+                positions = torch.from_numpy(rng.choice(
+                    self.num_samples,
+                    size=min(int(compression["calibration_size"]), self.num_samples),
+                    replace=False,
+                ))
+                views = tuple(view[positions].to(self.device) for view in self.dataset.views)
+                if target_cache is not None:
+                    targets = target_cache[self.dataset.indices[positions]].to(self.device)
+            packet = compress_client_update(
+                model,
+                global_model,
+                {**compression, "loss_weights": self.config["loss_weights"]},
+                views=views,
+                targets=targets,
+                centers_enabled=clustering_enabled,
+                clustering_scale=clustering_weight_scale,
+                residual=self.compression_residual if compression["error_feedback"] else None,
+            )
+            if compression["error_feedback"]:
+                self.compression_residual = packet.pop("residual")
+            else:
+                packet.pop("residual")
+            result["payload"] = packet.pop("payload")
+            result["centers"] = packet.pop("centers")
+            result["compression"] = packet
         return result
 
     @torch.no_grad()

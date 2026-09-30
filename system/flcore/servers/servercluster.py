@@ -11,6 +11,7 @@ from sklearn.cluster import KMeans
 from torch.utils.data import DataLoader
 
 from flcore.clients.clientcluster import FederatedClusteringClient
+from flcore.compression import dense_uplink_bytes, reconstruct_state
 from flcore.trainmodel.multiview import MultiViewClusteringModel
 from utils.clustering_metrics import evaluate_clustering
 from utils.mat_data import MultiViewSubset, balanced_client_indices
@@ -67,6 +68,7 @@ class FederatedMultiViewClusteringServer:
         self.best_state = None
         self.best_round = None
         self.best_metrics = None
+        self.initialization_bytes = 0
 
     def _selected_clients(self):
         count = max(1, int(np.ceil(len(self.clients) * float(self.training["join_ratio"]))))
@@ -74,6 +76,7 @@ class FederatedMultiViewClusteringServer:
 
     def _initialize_centers(self):
         summaries = [client.cluster_summary(self.global_model) for client in self.clients]
+        self.initialization_bytes = sum(center.nbytes + count.nbytes for center, count in summaries)
         centers = np.concatenate([item[0] for item in summaries], axis=0)
         counts = np.concatenate([item[1] for item in summaries], axis=0)
         kmeans = KMeans(
@@ -105,6 +108,11 @@ class FederatedMultiViewClusteringServer:
 
     def _aggregate(self, updates):
         center_key = "cluster_head.centers"
+        for update in updates:
+            if "payload" in update:
+                update["state_dict"] = reconstruct_state(
+                    self.global_model, update["payload"], update.get("centers")
+                )
         reference = self.global_model.state_dict()[center_key].detach().cpu()
         if self.centers_initialized:
             for update in updates:
@@ -176,9 +184,11 @@ class FederatedMultiViewClusteringServer:
         report_gap = progress_report_gap(rounds)
         started = time.time()
         for round_index in range(rounds):
+            center_initialization_bytes = 0
             if round_index == center_init_round and not self.centers_initialized:
                 print("Initializing global cluster centers from client summaries ...")
                 self._initialize_centers()
+                center_initialization_bytes = self.initialization_bytes
             round_number = round_index + 1
             phase = "clustering" if round_index >= pretrain_rounds else "pretraining"
             clustering_enabled = self.centers_initialized
@@ -198,6 +208,32 @@ class FederatedMultiViewClusteringServer:
                 )
                 for client in selected
             ]
+            dense_uplink = sum(
+                dense_uplink_bytes(self.global_model, self.centers_initialized)
+                for _client in selected
+            )
+            actual_uplink = sum(
+                update["compression"]["bytes"] if "compression" in update
+                else dense_uplink_bytes(self.global_model, self.centers_initialized)
+                for update in updates
+            )
+            model_bytes = sum(
+                value.numel() * value.element_size()
+                for value in self.global_model.state_dict().values()
+            )
+            communication = {
+                "uplink_bytes": int(actual_uplink + center_initialization_bytes),
+                "dense_uplink_bytes": int(dense_uplink + center_initialization_bytes),
+                "downlink_bytes": int(model_bytes * len(selected)),
+                "center_initialization_bytes": int(center_initialization_bytes),
+                "compression_seconds": sum(
+                    update.get("compression", {}).get("compression_seconds", 0.0)
+                    for update in updates
+                ),
+            }
+            communication["uplink_reduction"] = (
+                1.0 - communication["uplink_bytes"] / communication["dense_uplink_bytes"]
+            )
             self._aggregate(updates)
             train_metrics = self._weighted_training_metrics(updates)
             record = {
@@ -206,6 +242,7 @@ class FederatedMultiViewClusteringServer:
                 "center_initialized": self.centers_initialized,
                 "clients": [client.id for client in selected],
                 "train": train_metrics,
+                "communication": communication,
                 "elapsed_seconds": time.time() - started,
             }
             if (round_index + 1) % eval_gap == 0 or round_index + 1 == rounds:
@@ -264,8 +301,18 @@ class FederatedMultiViewClusteringServer:
             "metrics": final_metrics,
             "best_round": self.best_round,
             "selection_metric": self.training.get("selection_metric", "nmi"),
+            "communication": {
+                "uplink_bytes": sum(item["communication"]["uplink_bytes"] for item in self.history),
+                "dense_uplink_bytes": sum(item["communication"]["dense_uplink_bytes"] for item in self.history),
+                "downlink_bytes": sum(item["communication"]["downlink_bytes"] for item in self.history),
+                "compression_seconds": sum(item["communication"]["compression_seconds"] for item in self.history),
+            },
             "config": self.config,
         }
+        summary["communication"]["uplink_reduction"] = (
+            1.0 - summary["communication"]["uplink_bytes"]
+            / summary["communication"]["dense_uplink_bytes"]
+        )
         with (root / "summary.json").open("w", encoding="utf-8") as handle:
             json.dump(summary, handle, indent=2, ensure_ascii=False)
         if output.get("save_model", True):

@@ -1,0 +1,96 @@
+{
+  "dataset": "animal",
+  "samples": 10158,
+  "view_dims": [
+    4096,
+    4096
+  ],
+  "num_clusters": 50,
+  "metrics": {
+    "acc": 0.5863358928923016,
+    "nmi": 0.6735920804601264,
+    "ari": 0.4873316199698106,
+    "confidence": 0.027548186480998993
+  },
+  "best_round": 13,
+  "selection_metric": "nmi",
+  "communication": {
+    "uplink_bytes": 350009000,
+    "dense_uplink_bytes": 1749784600,
+    "downlink_bytes": 1749709600,
+    "compression_seconds": 7.6700252999999865,
+    "uplink_reduction": 0.7999702363365182
+  },
+  "config": {
+    "dataset": {
+      "name": "animal",
+      "file": "dataset/animal.mat",
+      "num_clusters": 50,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0
+    },
+    "training": {
+      "rounds": 20,
+      "pretrain_rounds": 12,
+      "center_init_round": 11,
+      "local_epochs": 1,
+      "pretraining_local_epochs": 1,
+      "clustering_local_epochs": 1,
+      "batch_size": 256,
+      "eval_batch_size": 512,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 10,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 44,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.05,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-压缩\\tuning\\b20-seed44\\topk_ef",
+      "save_model": true
+    },
+    "tuning": {
+      "best_round": 17,
+      "acc": 0.6268950580822996,
+      "nmi": 0.6868044158402079,
+      "ari": 0.5178013842352764,
+      "last_round_acc": 0.625812167749557,
+      "last_round_nmi": 0.6861966904901589,
+      "last_round_ari": 0.5166175636803556
+    },
+    "compression": {
+      "method": "topk",
+      "budget_ratio": 0.2,
+      "calibration_size": 64,
+      "candidates": 4,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "stage_margin": 0.0,
+      "error_feedback": true
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\backup\\animal.json"
+  }
+}

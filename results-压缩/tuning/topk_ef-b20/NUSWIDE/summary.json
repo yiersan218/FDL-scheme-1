@@ -1,0 +1,99 @@
+{
+  "dataset": "NUSWIDE",
+  "samples": 5000,
+  "view_dims": [
+    65,
+    226,
+    145,
+    74,
+    129
+  ],
+  "num_clusters": 5,
+  "metrics": {
+    "acc": 0.4718,
+    "nmi": 0.2054743735069988,
+    "ari": 0.18397993523806813,
+    "confidence": 0.23604829609394073
+  },
+  "best_round": 17,
+  "selection_metric": "nmi",
+  "communication": {
+    "uplink_bytes": 59972060,
+    "dense_uplink_bytes": 299836700,
+    "downlink_bytes": 299828800,
+    "compression_seconds": 1.9770203999999993,
+    "uplink_reduction": 0.7999842580978246
+  },
+  "config": {
+    "dataset": {
+      "name": "NUSWIDE",
+      "file": "dataset/NUSWIDE.mat",
+      "num_clusters": 5,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0
+    },
+    "training": {
+      "rounds": 20,
+      "pretrain_rounds": 8,
+      "center_init_round": 7,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 5e-05,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.02,
+      "clustering": 0.5,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-压缩\\tuning\\topk_ef-b20",
+      "save_model": true
+    },
+    "tuning": {
+      "best_round": 20,
+      "acc": 0.5786,
+      "nmi": 0.26285372878227975,
+      "ari": 0.25543153780572664,
+      "last_round_acc": 0.5786,
+      "last_round_nmi": 0.26285372878227975,
+      "last_round_ari": 0.25543153780572664
+    },
+    "compression": {
+      "method": "topk",
+      "budget_ratio": 0.2,
+      "calibration_size": 64,
+      "candidates": 4,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "stage_margin": 0.0,
+      "error_feedback": true
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\NUSWIDE.json"
+  }
+}

@@ -1,0 +1,722 @@
+[
+  {
+    "round": 1,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.989142600695292,
+      "reconstruction": 0.9872365931669872,
+      "consistency": 0.009530054653684297,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "confidence": 0.06697765439748764,
+      "clustering_weight_scale": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 22364380,
+      "dense_uplink_bytes": 111821900,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5863839999999998,
+      "uplink_reduction": 0.8
+    },
+    "elapsed_seconds": 2.313300609588623,
+    "clustering": {
+      "acc": 0.15661764705882353,
+      "nmi": 0.14352856475463002,
+      "ari": 0.02435496347555701,
+      "confidence": 0.06688341498374939
+    }
+  },
+  {
+    "round": 2,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.8151293873786927,
+      "reconstruction": 0.813228714466095,
+      "consistency": 0.00950337198252479,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "confidence": 0.0664577193558216,
+      "clustering_weight_scale": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 22364380,
+      "dense_uplink_bytes": 111821900,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5456354999999986,
+      "uplink_reduction": 0.8
+    },
+    "elapsed_seconds": 3.5572469234466553,
+    "clustering": {
+      "acc": 0.16176470588235295,
+      "nmi": 0.16184639261184108,
+      "ari": 0.04791754282715887,
+      "confidence": 0.06753750890493393
+    }
+  },
+  {
+    "round": 3,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.6644995371500652,
+      "reconstruction": 0.6625991503397622,
+      "consistency": 0.009501904404411711,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "confidence": 0.06704660231868426,
+      "clustering_weight_scale": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 22364380,
+      "dense_uplink_bytes": 111821900,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.6305521000000001,
+      "uplink_reduction": 0.8
+    },
+    "elapsed_seconds": 4.792171478271484,
+    "clustering": {
+      "acc": 0.13897058823529412,
+      "nmi": 0.1328411725277599,
+      "ari": 0.03830533688124356,
+      "confidence": 0.06795592606067657
+    }
+  },
+  {
+    "round": 4,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.5398547977209092,
+      "reconstruction": 0.5379687637090683,
+      "consistency": 0.009430165744076173,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "confidence": 0.06713800157109896,
+      "clustering_weight_scale": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 22364380,
+      "dense_uplink_bytes": 111821900,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5485363999999988,
+      "uplink_reduction": 0.8
+    },
+    "elapsed_seconds": 5.890173435211182,
+    "clustering": {
+      "acc": 0.14338235294117646,
+      "nmi": 0.13362401194512796,
+      "ari": 0.03557915174880168,
+      "confidence": 0.06786992400884628
+    }
+  },
+  {
+    "round": 5,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.4603031575679779,
+      "reconstruction": 0.4584320724010468,
+      "consistency": 0.009355423599481582,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "confidence": 0.06749421407779058,
+      "clustering_weight_scale": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 22364380,
+      "dense_uplink_bytes": 111821900,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5681303000000018,
+      "uplink_reduction": 0.8
+    },
+    "elapsed_seconds": 7.217740297317505,
+    "clustering": {
+      "acc": 0.13161764705882353,
+      "nmi": 0.12003434506060796,
+      "ari": 0.021892400494235485,
+      "confidence": 0.0676879733800888
+    }
+  },
+  {
+    "round": 6,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.409704406062762,
+      "reconstruction": 0.40784484346707667,
+      "consistency": 0.0092978208946685,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "confidence": 0.0679393636683623,
+      "clustering_weight_scale": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 22364380,
+      "dense_uplink_bytes": 111821900,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.542763299999999,
+      "uplink_reduction": 0.8
+    },
+    "elapsed_seconds": 8.35115933418274,
+    "clustering": {
+      "acc": 0.13455882352941176,
+      "nmi": 0.12187162560950437,
+      "ari": 0.022363911541866476,
+      "confidence": 0.06750587373971939
+    }
+  },
+  {
+    "round": 7,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.37087116936842596,
+      "reconstruction": 0.36903315881888077,
+      "consistency": 0.009190051319698491,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "confidence": 0.06808924476305644,
+      "clustering_weight_scale": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 22364380,
+      "dense_uplink_bytes": 111821900,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5418634999999998,
+      "uplink_reduction": 0.8
+    },
+    "elapsed_seconds": 9.544403076171875,
+    "clustering": {
+      "acc": 0.13676470588235295,
+      "nmi": 0.11346922791961025,
+      "ari": 0.02123766581234608,
+      "confidence": 0.06741445511579514
+    }
+  },
+  {
+    "round": 8,
+    "phase": "pretraining",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.37628110448519386,
+      "reconstruction": 0.36622586150964104,
+      "consistency": 0.009188935191680988,
+      "clustering": 0.016336645962049565,
+      "balance": 0.0009826418633262317,
+      "confidence": 0.08312148029605547,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22408640,
+      "dense_uplink_bytes": 111866440,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 44200,
+      "compression_seconds": 0.5591689000000013,
+      "uplink_reduction": 0.7996839802893522
+    },
+    "elapsed_seconds": 11.421593189239502,
+    "clustering": {
+      "acc": 0.4610294117647059,
+      "nmi": 0.49306028830295545,
+      "ari": 0.3031208280027691,
+      "confidence": 0.08269874006509781
+    }
+  },
+  {
+    "round": 9,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.38839750488599134,
+      "reconstruction": 0.37843418717384336,
+      "consistency": 0.009152182253698507,
+      "clustering": 0.01618119723473986,
+      "balance": 0.000845631390499572,
+      "confidence": 0.0828530840575695,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5709502999999998,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 12.846817970275879,
+    "clustering": {
+      "acc": 0.45955882352941174,
+      "nmi": 0.4912564410190149,
+      "ari": 0.30124088567680185,
+      "confidence": 0.08217678964138031
+    }
+  },
+  {
+    "round": 10,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.40617694060007736,
+      "reconstruction": 0.39670815467834475,
+      "consistency": 0.009140468357751765,
+      "clustering": 0.015198220685124395,
+      "balance": 0.0008315878027739623,
+      "confidence": 0.08206246544917423,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5340724000000012,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 14.139951705932617,
+    "clustering": {
+      "acc": 0.4573529411764706,
+      "nmi": 0.4901456250492819,
+      "ari": 0.2996166835075838,
+      "confidence": 0.0817689523100853
+    }
+  },
+  {
+    "round": 11,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.4131771157185236,
+      "reconstruction": 0.4037328084309895,
+      "consistency": 0.009133257685850065,
+      "clustering": 0.015137980878353122,
+      "balance": 0.0009732855949550867,
+      "confidence": 0.08191035464406013,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.523365400000003,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 15.326170921325684,
+    "clustering": {
+      "acc": 0.45808823529411763,
+      "nmi": 0.48885228964736477,
+      "ari": 0.2989036944419561,
+      "confidence": 0.08145967125892639
+    }
+  },
+  {
+    "round": 12,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.4204315712054571,
+      "reconstruction": 0.4112572441498438,
+      "consistency": 0.009128476462016503,
+      "clustering": 0.014592912979424,
+      "balance": 0.001043547480367124,
+      "confidence": 0.08130106230576832,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5394233000000028,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 16.645525217056274,
+    "clustering": {
+      "acc": 0.45808823529411763,
+      "nmi": 0.4886829138302269,
+      "ari": 0.29855926931879095,
+      "confidence": 0.08123082667589188
+    }
+  },
+  {
+    "round": 13,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.4268366416295369,
+      "reconstruction": 0.41770770947138475,
+      "consistency": 0.009132318664342165,
+      "clustering": 0.01451432363440593,
+      "balance": 0.0009061410518673559,
+      "confidence": 0.08129752352833748,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5240670999999999,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 17.822001457214355,
+    "clustering": {
+      "acc": 0.4573529411764706,
+      "nmi": 0.4875900510920391,
+      "ari": 0.2977255005603121,
+      "confidence": 0.08108863979578018
+    }
+  },
+  {
+    "round": 14,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.423164110382398,
+      "reconstruction": 0.41426333685715994,
+      "consistency": 0.009130422770977021,
+      "clustering": 0.01406047868852814,
+      "balance": 0.0008889282975966731,
+      "confidence": 0.08093630746006966,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5588031000000022,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 19.238494396209717,
+    "clustering": {
+      "acc": 0.4573529411764706,
+      "nmi": 0.4875900510920391,
+      "ari": 0.2977255005603121,
+      "confidence": 0.08100038766860962
+    }
+  },
+  {
+    "round": 15,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.4154614994923274,
+      "reconstruction": 0.40647890369097395,
+      "consistency": 0.009140955749899149,
+      "clustering": 0.01421167046452562,
+      "balance": 0.0009713342840162415,
+      "confidence": 0.08112158253788948,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5826201999999974,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 20.69243025779724,
+    "clustering": {
+      "acc": 0.45808823529411763,
+      "nmi": 0.4883667322581377,
+      "ari": 0.2985335151772199,
+      "confidence": 0.08096040785312653
+    }
+  },
+  {
+    "round": 16,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.41591614882151284,
+      "reconstruction": 0.4070591161648432,
+      "consistency": 0.00913230599835515,
+      "clustering": 0.013968716065088909,
+      "balance": 0.0009243175659018259,
+      "confidence": 0.08079256340861322,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5250201000000025,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 21.846941471099854,
+    "clustering": {
+      "acc": 0.4573529411764706,
+      "nmi": 0.48808080958138234,
+      "ari": 0.2982121375367852,
+      "confidence": 0.08095131814479828
+    }
+  },
+  {
+    "round": 17,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.4166186203559239,
+      "reconstruction": 0.40758275985717785,
+      "consistency": 0.009123488205174604,
+      "clustering": 0.014324638433754444,
+      "balance": 0.000976874524106582,
+      "confidence": 0.0812272553642591,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5342035000000038,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 23.18418836593628,
+    "clustering": {
+      "acc": 0.4573529411764706,
+      "nmi": 0.48808080958138234,
+      "ari": 0.2982121375367852,
+      "confidence": 0.08094336837530136
+    }
+  },
+  {
+    "round": 18,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.4151674697796504,
+      "reconstruction": 0.40627590517203016,
+      "consistency": 0.009116029584159455,
+      "clustering": 0.014043658661345642,
+      "balance": 0.0009305453898074727,
+      "confidence": 0.08082570483287176,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.48408950000000317,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 24.342973709106445,
+    "clustering": {
+      "acc": 0.4573529411764706,
+      "nmi": 0.48808080958138234,
+      "ari": 0.2982121375367852,
+      "confidence": 0.08093781769275665
+    }
+  },
+  {
+    "round": 19,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.41767534613609325,
+      "reconstruction": 0.4087389340003332,
+      "consistency": 0.009115563922872147,
+      "clustering": 0.014124397157380977,
+      "balance": 0.0010220065868149202,
+      "confidence": 0.08103232905268669,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5518332999999984,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 25.645029544830322,
+    "clustering": {
+      "acc": 0.4573529411764706,
+      "nmi": 0.48808080958138234,
+      "ari": 0.2982121375367852,
+      "confidence": 0.08093410730361938
+    }
+  },
+  {
+    "round": 20,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.41004759470621743,
+      "reconstruction": 0.40110823611418406,
+      "consistency": 0.009131669035802285,
+      "clustering": 0.014148560166358948,
+      "balance": 0.0007749852413932483,
+      "confidence": 0.08091975847880047,
+      "clustering_weight_scale": 1.0
+    },
+    "communication": {
+      "uplink_bytes": 22364440,
+      "dense_uplink_bytes": 111822240,
+      "downlink_bytes": 111821900,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.5787167999999951,
+      "uplink_reduction": 0.8000000715421189
+    },
+    "elapsed_seconds": 26.985706567764282,
+    "clustering": {
+      "acc": 0.4566176470588235,
+      "nmi": 0.48813303573499295,
+      "ari": 0.29833617235299953,
+      "confidence": 0.08093081414699554
+    }
+  }
+]

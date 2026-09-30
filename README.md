@@ -9,6 +9,7 @@
 - 聚类头维护可训练中心，使用 Student-t 分布计算软分配。
 - 训练损失由重构损失、跨视图一致性损失、DEC KL 损失和簇均衡损失组成。
 - 服务端对普通参数执行样本数加权 FedAvg，对聚类中心先进行 Hungarian 对齐，再按软簇计数聚合。
+- 可选上行压缩将客户端普通参数更新编码成稀疏索引与数值；聚类中心及软簇计数保持原有聚合方式。
 
 ## 两阶段训练
 
@@ -88,6 +89,14 @@ animal：
 & 'C:\Users\29101\.conda\envs\torch_251_118_39\python.exe' system/run_all.py --results-dir results-2阶段
 ```
 
+固定上行字节预算运行 Stage＋误差反馈与 Top-k_ef，并生成正式结果和同预算对比：
+
+```powershell
+& 'C:\Users\29101\.conda\envs\torch_251_118_39\python.exe' system/run_compression.py --results-dir results-压缩 --budget-ratio 0.5
+```
+
+默认以 `stage_ef`（阶段感知整包评分＋客户端误差反馈）作为七个数据集统一正式方案，并与相同实际编码上行预算的 `topk_ef` 对照；已有匹配结果直接复用。这里的正式选定是研究方案选择，不是按平均 NMI 事后选优。旧的自动统一选优或逐数据集选优仍可分别用 `--selection uniform`、`--selection per-dataset` 复现，但会覆盖正式结果，应使用独立的 `--results-dir`。其他候选包括 `none`、`topk`、`paper`、`stage`、`stage_task`。单数据集可用 `system/main.py --config Mfeat --override compression.method="stage" --override compression.error_feedback=true --override compression.budget_ratio=0.5`。方案和边界见 [`模型优化/模型压缩.md`](模型优化/模型压缩.md)。
+
 临时覆盖参数：
 
 ```powershell
@@ -118,7 +127,9 @@ animal：
 - 汇总表：`results-2阶段/summary.md`。
 - 参数选择记录：`results-2阶段/tuning_summary.md`。
 - 候选实验：`results-2阶段/tuning/`。
+- 压缩正式结果：`results-压缩/<dataset>/{summary.json,history.json}`；[`summary.md`](results-压缩/summary.md) 按两阶段结果样式汇总当前 Stage＋误差反馈性能，[`tuning_summary.md`](results-压缩/tuning_summary.md) 仅对比同预算 Top-k_ef。
+- 候选原始结果与早期探索报告保留在 `results-压缩/tuning/`；传输量是单进程模拟中的模型载荷字节，不是实测网络速率。
 
-所有正式结果均固定 `seed=42`，选择指标为 NMI。稳定性要求为最佳轮到末轮的 `|ΔACC|`、`|ΔNMI|`、`|ΔARI|` 均不超过 0.01。当前七个数据集均满足该要求。
+所有正式结果均固定 `seed=42`，选择指标为 NMI。稳定性要求为最佳轮到末轮的 `|ΔACC|`、`|ΔNMI|`、`|ΔARI|` 均不超过 0.01。当前七个数据集均满足该要求；正式论文仍需独立种子或验证集确认。
 
 当前七个正式配置中的重构、一致性、聚类和均衡损失权重均大于 0。NUSWIDE 的一致性权重经调参设为 0.02，Scene-15 和 animal 的均衡权重设为 0.05。

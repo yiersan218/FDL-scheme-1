@@ -1,0 +1,99 @@
+{
+  "dataset": "Mfeat",
+  "samples": 2000,
+  "view_dims": [
+    216,
+    76,
+    64,
+    6,
+    240,
+    47
+  ],
+  "num_clusters": 10,
+  "metrics": {
+    "acc": 0.958,
+    "nmi": 0.9115030823593823,
+    "ari": 0.9088617732649306,
+    "confidence": 0.14386042952537537
+  },
+  "best_round": 22,
+  "selection_metric": "nmi",
+  "communication": {
+    "uplink_bytes": 225300400,
+    "dense_uplink_bytes": 450575920,
+    "downlink_bytes": 450546720,
+    "compression_seconds": 2.874985600000457,
+    "uplink_reduction": 0.49997239089030765
+  },
+  "config": {
+    "dataset": {
+      "name": "Mfeat",
+      "file": "dataset/Mfeat.mat",
+      "num_clusters": 10,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 128,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0
+    },
+    "training": {
+      "rounds": 24,
+      "pretrain_rounds": 9,
+      "center_init_round": 8,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-05,
+      "clustering_learning_rate": 1e-05,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.5,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-压缩\\tuning\\topk-b50",
+      "save_model": true
+    },
+    "tuning": {
+      "best_round": 23,
+      "acc": 0.9585,
+      "nmi": 0.9127539689342437,
+      "ari": 0.9103300024700572,
+      "last_round_acc": 0.958,
+      "last_round_nmi": 0.910903433904533,
+      "last_round_ari": 0.9090407395972177
+    },
+    "compression": {
+      "method": "topk",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": false
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Mfeat.json"
+  }
+}

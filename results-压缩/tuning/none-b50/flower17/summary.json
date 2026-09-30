@@ -1,0 +1,100 @@
+{
+  "dataset": "flower17",
+  "samples": 1360,
+  "view_dims": [
+    1360,
+    1360,
+    1360,
+    1360,
+    1360,
+    1360,
+    1360
+  ],
+  "num_clusters": 17,
+  "metrics": {
+    "acc": 0.5051470588235294,
+    "nmi": 0.5482555702744353,
+    "ari": 0.3706597424575538,
+    "confidence": 0.0820682942867279
+  },
+  "best_round": 9,
+  "selection_metric": "nmi",
+  "communication": {
+    "uplink_bytes": 2236486620,
+    "dense_uplink_bytes": 2236486620,
+    "downlink_bytes": 2236438000,
+    "compression_seconds": 0.0,
+    "uplink_reduction": 0.0
+  },
+  "config": {
+    "dataset": {
+      "name": "flower17",
+      "file": "dataset/flower17.mat",
+      "num_clusters": 17,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 128,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0
+    },
+    "training": {
+      "rounds": 20,
+      "pretrain_rounds": 8,
+      "center_init_round": 7,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.5,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-压缩\\tuning\\none-b50",
+      "save_model": true
+    },
+    "tuning": {
+      "best_round": 9,
+      "acc": 0.5051470588235294,
+      "nmi": 0.5482555702744353,
+      "ari": 0.3706597424575538,
+      "last_round_acc": 0.5044117647058823,
+      "last_round_nmi": 0.546482656640013,
+      "last_round_ari": 0.36952559139639674
+    },
+    "compression": {
+      "method": "none",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": false
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\flower17.json"
+  }
+}

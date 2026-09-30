@@ -1,0 +1,97 @@
+{
+  "dataset": "Scene-15",
+  "samples": 4485,
+  "view_dims": [
+    20,
+    59,
+    40
+  ],
+  "num_clusters": 15,
+  "metrics": {
+    "acc": 0.4709030100334448,
+    "nmi": 0.45764107628335965,
+    "ari": 0.28740827883329934,
+    "confidence": 0.09263544529676437
+  },
+  "best_round": 23,
+  "selection_metric": "nmi",
+  "communication": {
+    "uplink_bytes": 37804560,
+    "dense_uplink_bytes": 188949000,
+    "downlink_bytes": 188924400,
+    "compression_seconds": 1.3557856000000017,
+    "uplink_reduction": 0.7999218836828985
+  },
+  "config": {
+    "dataset": {
+      "name": "Scene-15",
+      "file": "dataset/Scene-15.mat",
+      "num_clusters": 15,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0
+    },
+    "training": {
+      "rounds": 30,
+      "pretrain_rounds": 22,
+      "center_init_round": 14,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 3,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 5e-08,
+      "clustering_learning_rate": 5e-08,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99875,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 43,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.05,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-压缩\\tuning\\b20-seed43\\topk_ef",
+      "save_model": true
+    },
+    "tuning": {
+      "best_round": 23,
+      "acc": 0.44905239687848386,
+      "nmi": 0.437947014589343,
+      "ari": 0.28240599224205803,
+      "last_round_acc": 0.44905239687848386,
+      "last_round_nmi": 0.437947014589343,
+      "last_round_ari": 0.28240599224205803
+    },
+    "compression": {
+      "method": "topk",
+      "budget_ratio": 0.2,
+      "calibration_size": 64,
+      "candidates": 4,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "stage_margin": 0.0,
+      "error_feedback": true
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Scene-15.json"
+  }
+}
