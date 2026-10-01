@@ -69,6 +69,13 @@ def load_config(config_name_or_path):
     compression.setdefault("view_weight", 0.1)
     compression.setdefault("pair_weight", 0.1)
     compression.setdefault("error_feedback", False)
+    config.setdefault("missing", {})
+    missing = config["missing"]
+    missing.setdefault("enabled", False)
+    missing.setdefault("rate", 0.0)
+    missing.setdefault("method", "attention")
+    missing.setdefault("heads", 4)
+    missing.setdefault("anchor_size", 256)
     config["config_path"] = str(path.resolve())
     _validate_config(config)
     return config
@@ -145,6 +152,24 @@ def _validate_config(config):
             raise ValueError(f"compression.{name} must be nonnegative")
     if not isinstance(compression.get("error_feedback", False), bool):
         raise ValueError("compression.error_feedback must be boolean")
+    missing = config.get("missing", {})
+    if not isinstance(missing.get("enabled", False), bool):
+        raise ValueError("missing.enabled must be boolean")
+    if missing.get("method", "attention") != "attention":
+        raise ValueError("missing.method must be attention")
+    if not 0 <= float(missing.get("rate", 0.0)) < 1:
+        raise ValueError("missing.rate must be in [0, 1)")
+    if int(missing.get("heads", 4)) <= 0:
+        raise ValueError("missing.heads must be positive")
+    if int(missing.get("anchor_size", 256)) <= 0:
+        raise ValueError("missing.anchor_size must be positive")
+    if {"imputation_weight", "projector"}.intersection(missing):
+        raise ValueError("Gated completion options are no longer supported")
+    if missing.get("enabled", False):
+        if int(config["model"]["embedding_dim"]) % int(missing["heads"]):
+            raise ValueError("model.embedding_dim must be divisible by missing.heads")
+        if compression["method"] != "stage" or not compression["error_feedback"]:
+            raise ValueError("Missing-view runs require stage compression with error feedback")
 
 
 def resolve_project_path(path_value):

@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import hashlib
 from pathlib import Path
 
 import numpy as np
@@ -27,8 +28,28 @@ class MultiViewData:
 
 
 class MultiViewSubset(Dataset):
-    def __init__(self, data, indices):
-        self.views = [torch.from_numpy(view[indices]) for view in data.views]
+    def __init__(self, data, indices, mask=None, normalization=None):
+        indices = np.asarray(indices, dtype=np.int64)
+        if mask is None:
+            self.views = [torch.from_numpy(view[indices]) for view in data.views]
+            self.mask = None
+        else:
+            mask = np.asarray(mask, dtype=np.bool_)
+            expected = (len(indices), len(data.views))
+            if mask.shape != expected or not mask.any(axis=1).all():
+                raise ValueError(f"Invalid view mask shape or empty sample: {mask.shape}, expected {expected}")
+            if normalization is None:
+                raise ValueError("Observed-only normalization must be explicit for masked data")
+            self.views = []
+            for view_index, source in enumerate(data.views):
+                observed = mask[:, view_index]
+                if not observed.any():
+                    raise ValueError(f"View {view_index} has no observed samples on this client")
+                # Never include a hidden value in preprocessing or the tensor seen by the model.
+                local = np.zeros((len(indices), source.shape[1]), dtype=np.float32)
+                local[observed] = _normalize_view(source[indices[observed]], normalization)
+                self.views.append(torch.from_numpy(local))
+            self.mask = torch.from_numpy(mask.copy())
         self.labels = torch.from_numpy(data.labels[indices]).long()
         self.indices = torch.as_tensor(indices, dtype=torch.long)
 
@@ -36,7 +57,24 @@ class MultiViewSubset(Dataset):
         return len(self.labels)
 
     def __getitem__(self, index):
-        return tuple(view[index] for view in self.views), self.labels[index], self.indices[index]
+        base = (tuple(view[index] for view in self.views), self.labels[index], self.indices[index])
+        return base if self.mask is None else (*base, self.mask[index])
+
+
+def fixed_missing_mask(num_samples, num_views, rate, seed, client_id, dataset_name):
+    """Mask one random view on a fixed fraction of local samples, without labels."""
+    if num_views < 2 or not 0 <= rate < 1:
+        raise ValueError("Missing-view experiments need >=2 views and rate in [0, 1)")
+    digest = hashlib.sha256(
+        f"{dataset_name}|{int(seed)}|{int(client_id)}|{float(rate):.8f}".encode("utf-8")
+    ).digest()
+    rng = np.random.default_rng(int.from_bytes(digest[:8], "little"))
+    mask = np.ones((num_samples, num_views), dtype=np.bool_)
+    missing_count = round(float(rate) * num_samples)
+    positions = rng.choice(num_samples, size=missing_count, replace=False)
+    missing_views = rng.integers(0, num_views, size=missing_count)
+    mask[positions, missing_views] = False
+    return mask
 
 
 def load_multiview_mat(path, name=None, normalization="standard"):

@@ -1,0 +1,127 @@
+{
+  "dataset": "Mfeat",
+  "samples": 2000,
+  "view_dims": [
+    216,
+    76,
+    64,
+    6,
+    240,
+    47
+  ],
+  "num_clusters": 10,
+  "metrics": {
+    "acc": 0.9505,
+    "nmi": 0.899420167865815,
+    "ari": 0.893647353464816,
+    "confidence": 0.13758975267410278
+  },
+  "best_round": 10,
+  "selection_metric": "nmi",
+  "communication": {
+    "uplink_bytes": 237096880,
+    "dense_uplink_bytes": 474168880,
+    "downlink_bytes": 474139680,
+    "compression_seconds": 35.88987730000025,
+    "uplink_reduction": 0.4999737646215837
+  },
+  "config": {
+    "dataset": {
+      "name": "Mfeat",
+      "file": "dataset/Mfeat.mat",
+      "num_clusters": 10,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 128,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0
+    },
+    "training": {
+      "rounds": 24,
+      "pretrain_rounds": 9,
+      "center_init_round": 8,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-05,
+      "clustering_learning_rate": 1e-05,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.5,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-缺失\\attention_stage_ef\\rate-0p3\\seed-42",
+      "save_model": true
+    },
+    "tuning": {
+      "best_round": 23,
+      "acc": 0.9585,
+      "nmi": 0.9127539689342437,
+      "ari": 0.9103300024700572,
+      "last_round_acc": 0.958,
+      "last_round_nmi": 0.910903433904533,
+      "last_round_ari": 0.9090407395972177
+    },
+    "compression": {
+      "method": "stage",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 4,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": true
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.3,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Mfeat.json"
+  },
+  "missing": {
+    "nominal_rate": 0.3,
+    "incomplete_sample_rate": 0.3,
+    "missing_cell_rate": 0.05,
+    "observed_per_view": [
+      1904,
+      1901,
+      1888,
+      1899,
+      1913,
+      1895
+    ],
+    "complete_per_client": [
+      280,
+      280,
+      280,
+      280,
+      280
+    ],
+    "mask_sha256": "c467437457f96a673b30f3ce0b34bce2e1e8b037a3a07f06d7aa77bfea7c148a"
+  }
+}

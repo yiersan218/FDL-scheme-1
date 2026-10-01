@@ -1,0 +1,119 @@
+{
+  "dataset": "animal",
+  "samples": 10158,
+  "view_dims": [
+    4096,
+    4096
+  ],
+  "num_clusters": 50,
+  "metrics": {
+    "acc": 0.30094506792675724,
+    "nmi": 0.4687723187921933,
+    "ari": 0.1982986025545658,
+    "confidence": 0.02993345633149147
+  },
+  "best_round": 14,
+  "selection_metric": "nmi",
+  "communication": {
+    "uplink_bytes": 877382720,
+    "dense_uplink_bytes": 1754699800,
+    "downlink_bytes": 1754624800,
+    "compression_seconds": 67.38733920000072,
+    "uplink_reduction": 0.49998129594589347
+  },
+  "config": {
+    "dataset": {
+      "name": "animal",
+      "file": "dataset/animal.mat",
+      "num_clusters": 50,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0
+    },
+    "training": {
+      "rounds": 20,
+      "pretrain_rounds": 12,
+      "center_init_round": 11,
+      "local_epochs": 1,
+      "pretraining_local_epochs": 1,
+      "clustering_local_epochs": 1,
+      "batch_size": 256,
+      "eval_batch_size": 512,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 10,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.05,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-缺失\\attention_stage_ef\\rate-0p7\\seed-42",
+      "save_model": true
+    },
+    "tuning": {
+      "best_round": 17,
+      "acc": 0.6268950580822996,
+      "nmi": 0.6868044158402079,
+      "ari": 0.5178013842352764,
+      "last_round_acc": 0.625812167749557,
+      "last_round_nmi": 0.6861966904901589,
+      "last_round_ari": 0.5166175636803556
+    },
+    "compression": {
+      "method": "stage",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 4,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": true
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.7,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\backup\\animal.json"
+  },
+  "missing": {
+    "nominal_rate": 0.7,
+    "incomplete_sample_rate": 0.6999409332545776,
+    "missing_cell_rate": 0.3499704666272888,
+    "observed_per_view": [
+      6593,
+      6613
+    ],
+    "complete_per_client": [
+      610,
+      610,
+      610,
+      609,
+      609
+    ],
+    "mask_sha256": "bf2cb501de7f8f8d5bad5bbba10823e3b8e77e60b804973e283267c8bc28231b"
+  }
+}

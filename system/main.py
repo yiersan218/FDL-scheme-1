@@ -35,7 +35,10 @@ def run(config):
     data = load_multiview_mat(
         dataset_path,
         name=dataset_config["name"],
-        normalization=dataset_config.get("normalization", "standard"),
+        normalization=(
+            "none" if config.get("missing", {}).get("enabled", False)
+            else dataset_config.get("normalization", "standard")
+        ),
     )
     if data.num_clusters != int(dataset_config["num_clusters"]):
         raise ValueError(

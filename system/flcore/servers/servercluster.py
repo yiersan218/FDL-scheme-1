@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 import random
 import time
@@ -62,6 +63,7 @@ class FederatedMultiViewClusteringServer:
             embedding_dim=int(model["embedding_dim"]),
             dropout=float(model.get("dropout", 0.0)),
             alpha=float(model.get("student_t_alpha", 1.0)),
+            completion=config.get("missing") if config.get("missing", {}).get("enabled", False) else None,
         ).to(device)
         self.history = []
         self.centers_initialized = False
@@ -157,21 +159,33 @@ class FederatedMultiViewClusteringServer:
     @torch.no_grad()
     def evaluate(self):
         self.global_model.eval()
-        dataset = MultiViewSubset(self.data, np.arange(self.data.num_samples))
-        loader = DataLoader(
-            dataset,
-            batch_size=int(self.training.get("eval_batch_size", self.training["batch_size"])),
-            shuffle=False,
-            num_workers=int(self.training.get("num_workers", 0)),
-            pin_memory=self.device.type == "cuda",
-        )
         predictions, labels, confidences = [], [], []
-        for views, batch_labels, _indices in loader:
-            views = tuple(view.to(self.device, non_blocking=True) for view in views)
-            assignments = self.global_model(views)["assignments"]
-            predictions.append(assignments.argmax(dim=1).cpu().numpy())
-            confidences.append(assignments.max(dim=1).values.cpu().numpy())
-            labels.append(batch_labels.numpy())
+        datasets = (
+            [client.dataset for client in self.clients]
+            if self.config.get("missing", {}).get("enabled", False)
+            else [MultiViewSubset(self.data, np.arange(self.data.num_samples))]
+        )
+        for client_index, dataset in enumerate(datasets):
+            anchors = (
+                self.clients[client_index].anchor_bank(self.global_model)
+                if self.config.get("missing", {}).get("enabled", False) else None
+            )
+            loader = DataLoader(
+                dataset,
+                batch_size=int(self.training.get("eval_batch_size", self.training["batch_size"])),
+                shuffle=False,
+                num_workers=int(self.training.get("num_workers", 0)),
+                pin_memory=self.device.type == "cuda",
+            )
+            for batch in loader:
+                views, batch_labels, _indices, mask = FederatedClusteringClient._unpack(batch)
+                views = tuple(view.to(self.device, non_blocking=True) for view in views)
+                if mask is not None:
+                    mask = mask.to(self.device, non_blocking=True)
+                assignments = self.global_model(views, mask=mask, anchors=anchors)["assignments"]
+                predictions.append(assignments.argmax(dim=1).cpu().numpy())
+                confidences.append(assignments.max(dim=1).values.cpu().numpy())
+                labels.append(batch_labels.numpy())
         metrics = evaluate_clustering(np.concatenate(labels), np.concatenate(predictions))
         metrics["confidence"] = float(np.concatenate(confidences).mean())
         return metrics
@@ -309,6 +323,17 @@ class FederatedMultiViewClusteringServer:
             },
             "config": self.config,
         }
+        if self.config.get("missing", {}).get("enabled", False):
+            masks = [client.dataset.mask.numpy() for client in self.clients]
+            joined = np.concatenate(masks, axis=0)
+            summary["missing"] = {
+                "nominal_rate": float(self.config["missing"]["rate"]),
+                "incomplete_sample_rate": float((~joined.all(axis=1)).mean()),
+                "missing_cell_rate": float((~joined).mean()),
+                "observed_per_view": joined.sum(axis=0).astype(int).tolist(),
+                "complete_per_client": [int(mask.all(axis=1).sum()) for mask in masks],
+                "mask_sha256": hashlib.sha256(joined.tobytes()).hexdigest(),
+            }
         summary["communication"]["uplink_reduction"] = (
             1.0 - summary["communication"]["uplink_bytes"]
             / summary["communication"]["dense_uplink_bytes"]

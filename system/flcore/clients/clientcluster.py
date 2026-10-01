@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 
 from flcore.compression import compress_client_update
 from flcore.trainmodel.multiview import clustering_objective, target_distribution
-from utils.mat_data import MultiViewSubset
+from utils.mat_data import MultiViewSubset, fixed_missing_mask
 
 
 class FederatedClusteringClient:
@@ -20,8 +20,48 @@ class FederatedClusteringClient:
         self.indices = np.asarray(indices, dtype=np.int64)
         self.config = config
         self.device = device
-        self.dataset = MultiViewSubset(data, self.indices)
+        missing = config.get("missing", {})
+        if missing.get("enabled", False):
+            mask = fixed_missing_mask(
+                len(self.indices), len(data.views), float(missing["rate"]),
+                int(config["training"]["seed"]), self.id, data.name,
+            )
+            self.dataset = MultiViewSubset(
+                data, self.indices, mask=mask,
+                normalization=config["dataset"].get("normalization", "standard"),
+            )
+        else:
+            self.dataset = MultiViewSubset(data, self.indices)
         self.compression_residual = None
+
+    @staticmethod
+    def _unpack(batch):
+        if len(batch) == 3:
+            views, labels, indices = batch
+            return views, labels, indices, None
+        views, labels, indices, mask = batch
+        return views, labels, indices, mask
+
+    @torch.no_grad()
+    def anchor_bank(self, model):
+        if self.dataset.mask is None or model.completion_mode != "attention":
+            return None
+        complete = torch.nonzero(self.dataset.mask.all(dim=1), as_tuple=True)[0]
+        if len(complete) == 0:
+            return None
+        maximum = int(self.config["missing"]["anchor_size"])
+        if len(complete) > maximum:
+            generator = torch.Generator().manual_seed(
+                int(self.config["training"]["seed"]) + self.id * 1009 + 17011
+            )
+            complete = complete[torch.randperm(len(complete), generator=generator)[:maximum]]
+        was_training = model.training
+        model.eval()
+        views = tuple(view[complete].to(self.device) for view in self.dataset.views)
+        mask = self.dataset.mask[complete].to(self.device)
+        _embeddings, anchors = model.observed_fusion(views, mask)
+        model.train(was_training)
+        return anchors.detach()
 
     @property
     def num_samples(self):
@@ -52,7 +92,8 @@ class FederatedClusteringClient:
         if phase not in {"pretraining", "clustering"}:
             raise ValueError(f"Unknown training phase: {phase}")
         model = copy.deepcopy(global_model).to(self.device)
-        target_cache = self.local_target_cache(model) if clustering_enabled else None
+        anchors = self.anchor_bank(model)
+        target_cache = self.local_target_cache(model, anchors) if clustering_enabled else None
         model.train()
         training = self.config["training"]
         learning_rate = float(training["learning_rate"])
@@ -84,15 +125,18 @@ class FederatedClusteringClient:
         steps = 0
         for local_epoch in range(local_epochs):
             loader = self._loader(True, round_index * 97 + local_epoch)
-            for views, _labels, indices in loader:
+            for batch in loader:
+                views, _labels, indices, mask = self._unpack(batch)
                 views = tuple(view.to(self.device, non_blocking=True) for view in views)
+                if mask is not None:
+                    mask = mask.to(self.device, non_blocking=True)
                 targets = (
                     target_cache[indices].to(self.device, non_blocking=True)
                     if target_cache is not None
                     else None
                 )
                 optimizer.zero_grad(set_to_none=True)
-                outputs = model(views)
+                outputs = model(views, mask=mask, anchors=anchors)
                 loss, metrics = clustering_objective(
                     outputs,
                     views,
@@ -100,6 +144,7 @@ class FederatedClusteringClient:
                     clustering_enabled=clustering_enabled,
                     clustering_weight_scale=clustering_weight_scale,
                     target_assignments=targets,
+                    mask=mask,
                 )
                 if not torch.isfinite(loss):
                     raise FloatingPointError(f"Client {self.id} produced a non-finite loss")
@@ -117,14 +162,14 @@ class FederatedClusteringClient:
             "metrics": {key: value / max(steps, 1) for key, value in totals.items()},
         }
         if clustering_enabled:
-            result["cluster_counts"] = self.soft_cluster_counts(model)
+            result["cluster_counts"] = self.soft_cluster_counts(model, anchors)
         compression = self.config.get("compression", {"method": "none"})
         if compression["method"] == "none":
             result["state_dict"] = {
                 key: value.detach().cpu() for key, value in model.state_dict().items()
             }
         else:
-            views, targets = None, None
+            views, targets, calibration_mask = None, None, None
             if compression["method"] in {"paper", "stage"}:
                 rng = np.random.default_rng(
                     int(training["seed"]) + self.id * 1009 + round_index * 7919 + 17
@@ -135,6 +180,8 @@ class FederatedClusteringClient:
                     replace=False,
                 ))
                 views = tuple(view[positions].to(self.device) for view in self.dataset.views)
+                if self.dataset.mask is not None:
+                    calibration_mask = self.dataset.mask[positions].to(self.device)
                 if target_cache is not None:
                     targets = target_cache[self.dataset.indices[positions]].to(self.device)
             packet = compress_client_update(
@@ -143,6 +190,8 @@ class FederatedClusteringClient:
                 {**compression, "loss_weights": self.config["loss_weights"]},
                 views=views,
                 targets=targets,
+                mask=calibration_mask,
+                anchors=anchors,
                 centers_enabled=clustering_enabled,
                 clustering_scale=clustering_weight_scale,
                 residual=self.compression_residual if compression["error_feedback"] else None,
@@ -157,14 +206,17 @@ class FederatedClusteringClient:
         return result
 
     @torch.no_grad()
-    def local_target_cache(self, model):
+    def local_target_cache(self, model, anchors=None):
         """Build one full-local-data DEC target and keep it fixed this round."""
         model.eval()
         assignments = []
         indices = []
-        for views, _labels, batch_indices in self._loader(False):
+        for batch in self._loader(False):
+            views, _labels, batch_indices, mask = self._unpack(batch)
             views = tuple(view.to(self.device, non_blocking=True) for view in views)
-            _view_embeddings, fused = model.encode(views)
+            if mask is not None:
+                mask = mask.to(self.device, non_blocking=True)
+            _view_embeddings, fused = model.encode(views, mask=mask, anchors=anchors)
             assignments.append(model.cluster_head(fused))
             indices.append(batch_indices)
         local_assignments = torch.cat(assignments, dim=0)
@@ -178,13 +230,16 @@ class FederatedClusteringClient:
         return cache
 
     @torch.no_grad()
-    def soft_cluster_counts(self, model):
+    def soft_cluster_counts(self, model, anchors=None):
         """Return per-cluster soft counts without exposing sample assignments."""
         model.eval()
         counts = None
-        for views, _labels, _indices in self._loader(False):
+        for batch in self._loader(False):
+            views, _labels, _indices, mask = self._unpack(batch)
             views = tuple(view.to(self.device, non_blocking=True) for view in views)
-            _view_embeddings, fused = model.encode(views)
+            if mask is not None:
+                mask = mask.to(self.device, non_blocking=True)
+            _view_embeddings, fused = model.encode(views, mask=mask, anchors=anchors)
             batch_counts = model.cluster_head(fused).sum(dim=0)
             counts = batch_counts if counts is None else counts + batch_counts
         return counts.detach().cpu()
@@ -194,10 +249,14 @@ class FederatedClusteringClient:
         """Return local KMeans centers and counts; raw embeddings never leave the client."""
         model = copy.deepcopy(model).to(self.device)
         model.eval()
+        anchors = self.anchor_bank(model)
         embeddings = []
-        for views, _labels, _indices in self._loader(False):
+        for batch in self._loader(False):
+            views, _labels, _indices, mask = self._unpack(batch)
             views = tuple(view.to(self.device, non_blocking=True) for view in views)
-            embeddings.append(model.encode(views)[1].cpu().numpy())
+            if mask is not None:
+                mask = mask.to(self.device, non_blocking=True)
+            embeddings.append(model.encode(views, mask=mask, anchors=anchors)[1].cpu().numpy())
         embeddings = np.concatenate(embeddings, axis=0)
         num_clusters = int(self.config["dataset"]["num_clusters"])
         kmeans = KMeans(

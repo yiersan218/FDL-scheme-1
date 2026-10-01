@@ -104,7 +104,7 @@ def _top_indices(scores, count):
     return torch.topk(scores, count, sorted=False).indices
 
 
-def activation_scores(model, views, flat_update, keys):
+def activation_scores(model, views, flat_update, keys, mask=None, anchors=None):
     """ICLR-2026 linear-layer score; magnitude fallback for non-linear parameters."""
     energies = {}
     hooks = []
@@ -117,7 +117,7 @@ def activation_scores(model, views, flat_update, keys):
     try:
         with torch.no_grad():
             model.eval()
-            model(views)
+            model(views, mask=mask, anchors=anchors)
     finally:
         for hook in hooks:
             hook.remove()
@@ -199,15 +199,20 @@ def _normalized_distance(first, second):
     return ((first - second).square().sum() / first.square().sum().clamp_min(1e-8)).item()
 
 
-def _calibration_outputs(model, views, targets, loss_weights, centers_enabled, scale):
+def _calibration_outputs(model, views, targets, loss_weights, centers_enabled, scale,
+                         mask=None, anchors=None):
     model.eval()
     with torch.no_grad():
-        outputs = model(views)
+        outputs = model(views, mask=mask, anchors=anchors)
         loss, _ = clustering_objective(
             outputs, views, loss_weights, clustering_enabled=centers_enabled,
-            clustering_weight_scale=scale, target_assignments=targets,
+            clustering_weight_scale=scale, target_assignments=targets, mask=mask,
         )
-        relations = [_relation(value) for value in outputs["view_embeddings"]]
+        relations = [
+            _relation(value if mask is None else value[mask[:, index]])
+            if mask is None or mask[:, index].any() else None
+            for index, value in enumerate(outputs["view_embeddings"])
+        ]
         relations.append(_relation(outputs["embedding"]))
         pair = outputs["assignments"] @ outputs["assignments"].T if centers_enabled else None
     return loss.detach(), relations, pair
@@ -217,13 +222,18 @@ def semantic_score(reference, candidate, view_weight, pair_weight, scale):
     ref_loss, ref_relations, ref_pair = reference
     loss, relations, pair = candidate
     task = max(0.0, (loss - ref_loss).item()) / (abs(ref_loss.item()) + 1e-8)
-    view = sum(_normalized_distance(a, b) for a, b in zip(ref_relations, relations)) / len(relations)
+    valid = [(a, b) for a, b in zip(ref_relations, relations) if a is not None]
+    view = (
+        sum(_normalized_distance(a, b) for a, b in valid) / len(valid)
+        if valid else 0.0
+    )
     cluster = _normalized_distance(ref_pair, pair) if ref_pair is not None else 0.0
     return task + view_weight * view + scale * pair_weight * cluster
 
 
 def compress_client_update(local_model, global_model, config, views=None, targets=None,
-                           centers_enabled=False, clustering_scale=0.0, residual=None):
+                           centers_enabled=False, clustering_scale=0.0, residual=None,
+                           mask=None, anchors=None):
     """Return actual compact model-update bytes and local-only diagnostics."""
     started = time.perf_counter()
     keys = ordinary_keys(global_model)
@@ -248,7 +258,9 @@ def compress_client_update(local_model, global_model, config, views=None, target
     else:
         if views is None:
             raise ValueError("Calibration views are required for paper/stage compression")
-        paper_scores = activation_scores(local_model, views, delta, keys)
+        paper_scores = activation_scores(
+            local_model, views, delta, keys, mask=mask, anchors=anchors
+        )
         if method == "paper":
             selected = _top_indices(paper_scores, count)
             score = None
@@ -258,21 +270,25 @@ def compress_client_update(local_model, global_model, config, views=None, target
                 full_model.load_state_dict(state_from_flat_update(global_model, delta, centers))
             reference = _calibration_outputs(
                 full_model, views, targets, config["loss_weights"], centers_enabled, clustering_scale,
+                mask=mask, anchors=anchors,
             )
             probe = copy.deepcopy(local_model)
             score = float("inf")
             selected = None
-            for mask in candidate_masks(local_model, delta, paper_scores, count, config["candidates"]):
-                packet = encode_sparse(delta, mask)
+            for candidate_mask in candidate_masks(
+                local_model, delta, paper_scores, count, config["candidates"]
+            ):
+                packet = encode_sparse(delta, candidate_mask)
                 probe.load_state_dict(reconstruct_state(global_model, packet, centers))
                 candidate = _calibration_outputs(
                     probe, views, targets, config["loss_weights"], centers_enabled, clustering_scale,
+                    mask=mask, anchors=anchors,
                 )
                 value = semantic_score(
                     reference, candidate, config["view_weight"], config["pair_weight"], clustering_scale,
                 )
                 if np.isfinite(value) and value < score:
-                    score, selected = value, mask
+                    score, selected = value, candidate_mask
             if selected is None:
                 selected = _top_indices(paper_scores, count)
                 score = None

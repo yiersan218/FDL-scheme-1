@@ -1,0 +1,123 @@
+{
+  "dataset": "Scene-15",
+  "samples": 4485,
+  "view_dims": [
+    20,
+    59,
+    40
+  ],
+  "num_clusters": 15,
+  "metrics": {
+    "acc": 0.44659977703455966,
+    "nmi": 0.41924895062942974,
+    "ari": 0.2722473700335509,
+    "confidence": 0.08867278695106506
+  },
+  "best_round": 30,
+  "selection_metric": "nmi",
+  "communication": {
+    "uplink_bytes": 98170640,
+    "dense_uplink_bytes": 196321800,
+    "downlink_bytes": 196297200,
+    "compression_seconds": 17.548658599999726,
+    "uplink_reduction": 0.49995038757794596
+  },
+  "config": {
+    "dataset": {
+      "name": "Scene-15",
+      "file": "dataset/Scene-15.mat",
+      "num_clusters": 15,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0
+    },
+    "training": {
+      "rounds": 30,
+      "pretrain_rounds": 22,
+      "center_init_round": 14,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 3,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 5e-08,
+      "clustering_learning_rate": 5e-08,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99875,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 43,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.05,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-缺失\\attention_stage_ef\\rate-0p3\\seed-43",
+      "save_model": true
+    },
+    "tuning": {
+      "best_round": 23,
+      "acc": 0.44905239687848386,
+      "nmi": 0.437947014589343,
+      "ari": 0.28240599224205803,
+      "last_round_acc": 0.44905239687848386,
+      "last_round_nmi": 0.437947014589343,
+      "last_round_ari": 0.28240599224205803
+    },
+    "compression": {
+      "method": "stage",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 4,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": true
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.3,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256,
+      "imputation_weight": 0.1,
+      "projector": false
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Scene-15.json"
+  },
+  "missing": {
+    "nominal_rate": 0.3,
+    "incomplete_sample_rate": 0.29988851727982163,
+    "missing_cell_rate": 0.09996283909327387,
+    "observed_per_view": [
+      4032,
+      4074,
+      4004
+    ],
+    "complete_per_client": [
+      628,
+      628,
+      628,
+      628,
+      628
+    ],
+    "mask_sha256": "d3adb1a0c8c22f64350ec6b7e895d4855813e18bb0d44b38aa88b31376ea1a71"
+  }
+}
