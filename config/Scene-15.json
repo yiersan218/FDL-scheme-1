@@ -1,7 +1,7 @@
 {
   "dataset": {"name": "Scene-15", "file": "dataset/Scene-15.mat", "num_clusters": 15, "num_clients": 5, "normalization": "standard"},
   "model": {"hidden_dims": [256, 128], "embedding_dim": 64, "dropout": 0.0, "student_t_alpha": 1.0},
-  "training": {"rounds": 30, "pretrain_rounds": 22, "center_init_round": 14, "local_epochs": 2, "pretraining_local_epochs": 2, "clustering_local_epochs": 3, "batch_size": 128, "eval_batch_size": 1024, "learning_rate": 0.001, "pretraining_end_learning_rate": 0.00000005, "clustering_learning_rate": 0.00000005, "cluster_head_learning_rate_multiplier": 1.0, "center_momentum": 0.99875, "weight_decay": 0.00001, "join_ratio": 1.0, "eval_gap": 1, "selection_metric": "nmi", "center_init_n_init": 20, "gradient_clip": 5.0, "num_workers": 0, "seed": 42, "device": "cuda"},
+  "training": {"rounds": 30, "pretrain_rounds": 22, "center_init_round": 14, "local_epochs": 2, "pretraining_local_epochs": 2, "clustering_local_epochs": 3, "batch_size": 128, "eval_batch_size": 1024, "learning_rate": 0.001, "pretraining_end_learning_rate": 0.0001, "clustering_learning_rate": 0.0001, "cluster_head_learning_rate_multiplier": 1.0, "center_momentum": 0.99875, "weight_decay": 0.00001, "join_ratio": 1.0, "eval_gap": 1, "selection_metric": "nmi", "center_init_n_init": 20, "gradient_clip": 5.0, "num_workers": 0, "seed": 42, "device": "cuda"},
   "loss_weights": {"reconstruction": 1.0, "consistency": 0.2, "clustering": 0.05, "balance": 0.05},
   "output": {"directory": "results", "save_model": true},
   "tuning": {"best_round": 23, "acc": 0.44905239687848386, "nmi": 0.437947014589343, "ari": 0.28240599224205803, "last_round_acc": 0.44905239687848386, "last_round_nmi": 0.437947014589343, "last_round_ari": 0.28240599224205803}

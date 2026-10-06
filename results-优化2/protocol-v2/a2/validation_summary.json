@@ -1,0 +1,999 @@
+{
+  "protocol_version": "a2-only-prototype-v1",
+  "stage": "A2",
+  "expected_validation_seeds": [
+    42,
+    2024,
+    2025
+  ],
+  "scenarios": {
+    "full": {
+      "missing_rate": 0.0,
+      "datasets": {
+        "ALOI_100": {
+          "role": "screening",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.7502469135802469,
+              "std": 0.004656710916677098
+            },
+            "nmi": {
+              "mean": 0.8651585408868194,
+              "std": 0.003895329769603203
+            },
+            "ari": {
+              "mean": 0.6666474004294285,
+              "std": 0.014021772370747289
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.7502777777777778,
+              "std": 0.004709496287418357
+            },
+            "nmi": {
+              "mean": 0.8651755037975454,
+              "std": 0.003919265996960612
+            },
+            "ari": {
+              "mean": 0.6666594011401384,
+              "std": 0.014034255969038414
+            }
+          }
+        },
+        "flower17": {
+          "role": "extrapolation",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.4823529411764706,
+              "std": 0.03275155507547069
+            },
+            "nmi": {
+              "mean": 0.5089891792714856,
+              "std": 0.019903511845745684
+            },
+            "ari": {
+              "mean": 0.33832033524944255,
+              "std": 0.022090334414134744
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.4818627450980392,
+              "std": 0.03282026566808445
+            },
+            "nmi": {
+              "mean": 0.5104160787837355,
+              "std": 0.020722224790603004
+            },
+            "ari": {
+              "mean": 0.33876151951720257,
+              "std": 0.02274704544895936
+            }
+          }
+        },
+        "LandUse_21": {
+          "role": "extrapolation",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.266984126984127,
+              "std": 0.013951107802576943
+            },
+            "nmi": {
+              "mean": 0.3162192626651026,
+              "std": 0.011674364967370373
+            },
+            "ari": {
+              "mean": 0.13437336873348077,
+              "std": 0.001763073354968321
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.2671428571428571,
+              "std": 0.013776643944275658
+            },
+            "nmi": {
+              "mean": 0.3163271410756519,
+              "std": 0.011636099660867885
+            },
+            "ari": {
+              "mean": 0.13447170713230527,
+              "std": 0.0017139102390203082
+            }
+          }
+        },
+        "Mfeat": {
+          "role": "screening",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.9628333333333333,
+              "std": 0.0014433756729740977
+            },
+            "nmi": {
+              "mean": 0.9200217068312485,
+              "std": 0.0018302198691564928
+            },
+            "ari": {
+              "mean": 0.9193976098903826,
+              "std": 0.003051869364601626
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.964,
+              "std": 0.0013228756555322754
+            },
+            "nmi": {
+              "mean": 0.9222401205496752,
+              "std": 0.0009959714177823333
+            },
+            "ari": {
+              "mean": 0.9218680647868136,
+              "std": 0.0028622679886737457
+            }
+          }
+        },
+        "NUSWIDE": {
+          "role": "extrapolation",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.5954666666666667,
+              "std": 0.016952089350087032
+            },
+            "nmi": {
+              "mean": 0.28455707055494484,
+              "std": 0.01399716502184701
+            },
+            "ari": {
+              "mean": 0.2751402392189349,
+              "std": 0.017039148673413718
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.5966,
+              "std": 0.017485994395515486
+            },
+            "nmi": {
+              "mean": 0.28665775503464114,
+              "std": 0.015280256102849532
+            },
+            "ari": {
+              "mean": 0.2770218580217321,
+              "std": 0.0180258998891278
+            }
+          }
+        },
+        "Scene-15": {
+          "role": "screening",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.4367892976588629,
+              "std": 0.019891466603960697
+            },
+            "nmi": {
+              "mean": 0.4477666185863496,
+              "std": 0.016284630360601685
+            },
+            "ari": {
+              "mean": 0.2794240959245199,
+              "std": 0.0007044365362109376
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.43701226309921964,
+              "std": 0.02027760052337675
+            },
+            "nmi": {
+              "mean": 0.44865049578350336,
+              "std": 0.015538149296042579
+            },
+            "ari": {
+              "mean": 0.28038775956832546,
+              "std": 0.0015844228430776624
+            }
+          }
+        },
+        "animal": {
+          "role": "screening",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.6065826606287327,
+              "std": 0.014742492924096184
+            },
+            "nmi": {
+              "mean": 0.6881046410669911,
+              "std": 0.011441229877532324
+            },
+            "ari": {
+              "mean": 0.5121903142339539,
+              "std": 0.013178399297178327
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.6076327361029074,
+              "std": 0.014672645797745429
+            },
+            "nmi": {
+              "mean": 0.6890360921119983,
+              "std": 0.01117780853628871
+            },
+            "ari": {
+              "mean": 0.5138113450750698,
+              "std": 0.012555854235837488
+            }
+          }
+        }
+      },
+      "aggregate": {
+        "complete": true,
+        "all_validation_stable": true,
+        "completed_datasets": 7,
+        "expected_datasets": 7,
+        "macro_last_metrics": {
+          "acc": 0.5858937057183485,
+          "nmi": 0.575831002837563,
+          "ari": 0.44649905195430617
+        }
+      },
+      "records": [
+        {
+          "dataset": "ALOI_100",
+          "seed": 42,
+          "summary_path": "validation/full/selected/seed_42/ALOI_100/summary.json",
+          "history_path": "validation/full/selected/seed_42/ALOI_100/history.json",
+          "summary_sha256": "bedc5b2eab5b725876dc0a28c5c433eb758a494d5acab5c4e7958bf703260cb4",
+          "history_sha256": "2ff6ff97462caa2e78e26fab68468d7cf5af8395aa44519ec06673585d96686b",
+          "best_round": 16,
+          "rounds": 16
+        },
+        {
+          "dataset": "ALOI_100",
+          "seed": 2024,
+          "summary_path": "validation/full/selected/seed_2024/ALOI_100/summary.json",
+          "history_path": "validation/full/selected/seed_2024/ALOI_100/history.json",
+          "summary_sha256": "91535fc2c3ce9ed359eaee5eb628dd52645f80cfd8db6df0749f99fb141f35b7",
+          "history_sha256": "97f7fec438dde1ebd42d80cf743d115b8fb77c106191b713a36d5bda69fd8eaf",
+          "best_round": 16,
+          "rounds": 16
+        },
+        {
+          "dataset": "ALOI_100",
+          "seed": 2025,
+          "summary_path": "validation/full/selected/seed_2025/ALOI_100/summary.json",
+          "history_path": "validation/full/selected/seed_2025/ALOI_100/history.json",
+          "summary_sha256": "4542df5ccbf68c2f979201c9e9552e2699a317b63af1cf74a4c63c1f1739dd3b",
+          "history_sha256": "d0ab01276b74625c7679ccff143b96e876639616f12df419f585787a9ac223c0",
+          "best_round": 15,
+          "rounds": 16
+        },
+        {
+          "dataset": "flower17",
+          "seed": 42,
+          "summary_path": "validation/full/selected/seed_42/flower17/summary.json",
+          "history_path": "validation/full/selected/seed_42/flower17/history.json",
+          "summary_sha256": "fbcc5a5333bd2b9b25b999767703d74896874c4f1754ae87d05de6f0af8359f1",
+          "history_sha256": "78db86b1b7963dc1a4e6440a691ab07ba4fbde711ccae0d0adb68f21bc4f5fa5",
+          "best_round": 10,
+          "rounds": 20
+        },
+        {
+          "dataset": "flower17",
+          "seed": 2024,
+          "summary_path": "validation/full/selected/seed_2024/flower17/summary.json",
+          "history_path": "validation/full/selected/seed_2024/flower17/history.json",
+          "summary_sha256": "376de9c6ffb247d8d76026cfaf680eda1fb582b40f5f3afa4b5cd595dc10657d",
+          "history_sha256": "5ec7c46a5bca59e00f07488514796aee1ffe6b51cfc455b6738cadf4d2c455d9",
+          "best_round": 9,
+          "rounds": 20
+        },
+        {
+          "dataset": "flower17",
+          "seed": 2025,
+          "summary_path": "validation/full/selected/seed_2025/flower17/summary.json",
+          "history_path": "validation/full/selected/seed_2025/flower17/history.json",
+          "summary_sha256": "3d9181f829c2900a233bfd030f4cd130c51b0d6028d9863266e1fa5ca92c96e4",
+          "history_sha256": "a3b7e34c85545e2f1590138202a029dd6e3c14ae6624b001755a1f7646dec1cc",
+          "best_round": 13,
+          "rounds": 20
+        },
+        {
+          "dataset": "LandUse_21",
+          "seed": 42,
+          "summary_path": "validation/full/selected/seed_42/LandUse_21/summary.json",
+          "history_path": "validation/full/selected/seed_42/LandUse_21/history.json",
+          "summary_sha256": "ff53cf02ec68a4dccef5ee52071c9a8e54a86cbc935220fa279e5ab2e41a4fb8",
+          "history_sha256": "1b133d2fb92878e18f6208a3d2a318aa9bbc85791e0fd0452bdf61cfe10879ba",
+          "best_round": 14,
+          "rounds": 16
+        },
+        {
+          "dataset": "LandUse_21",
+          "seed": 2024,
+          "summary_path": "validation/full/selected/seed_2024/LandUse_21/summary.json",
+          "history_path": "validation/full/selected/seed_2024/LandUse_21/history.json",
+          "summary_sha256": "7b7b15996630c41c970971446bf7689b71100116cdad90f69d0e70a840d8e33e",
+          "history_sha256": "270d3e73158044b01249806c3f1f05fbea691d0acd34570004becb4aa891793d",
+          "best_round": 15,
+          "rounds": 16
+        },
+        {
+          "dataset": "LandUse_21",
+          "seed": 2025,
+          "summary_path": "validation/full/selected/seed_2025/LandUse_21/summary.json",
+          "history_path": "validation/full/selected/seed_2025/LandUse_21/history.json",
+          "summary_sha256": "0692f43251cbd6ecdf01e5f187fbf26c7d9aa06b7475101a5f03d3cbd0dc02f0",
+          "history_sha256": "5cd7e5f562603a5516aa9aa659d20ee7102eb6b7c1ce912553d58a6b144a4db6",
+          "best_round": 15,
+          "rounds": 16
+        },
+        {
+          "dataset": "Mfeat",
+          "seed": 42,
+          "summary_path": "validation/full/selected/seed_42/Mfeat/summary.json",
+          "history_path": "validation/full/selected/seed_42/Mfeat/history.json",
+          "summary_sha256": "ca8fcb97f5607c43f6e7acc8efd8edce0b8182d19b18a005ec15302579f0f3f3",
+          "history_sha256": "e3dc627b154c35c02eb48b01e3e39c0c5505983ce420f970e740ed9f96617b78",
+          "best_round": 10,
+          "rounds": 24
+        },
+        {
+          "dataset": "Mfeat",
+          "seed": 2024,
+          "summary_path": "validation/full/selected/seed_2024/Mfeat/summary.json",
+          "history_path": "validation/full/selected/seed_2024/Mfeat/history.json",
+          "summary_sha256": "2775517a5ff54140d34f801f9f3ba69f97d32daa1c194f771ea6f9f64eb3be5b",
+          "history_sha256": "6516f4a4125fd0fb782e804b7a93cf2ef052ab33197cd4c3b0503e2e510223b2",
+          "best_round": 10,
+          "rounds": 24
+        },
+        {
+          "dataset": "Mfeat",
+          "seed": 2025,
+          "summary_path": "validation/full/selected/seed_2025/Mfeat/summary.json",
+          "history_path": "validation/full/selected/seed_2025/Mfeat/history.json",
+          "summary_sha256": "0e26846473f044c45a15cf35eccf092450dc54f8a231095bef402ae08e0ecba9",
+          "history_sha256": "1bf130cd30684f70222d2effb71f46f8f0f487d04c9003cab0e45d70fdb706cb",
+          "best_round": 10,
+          "rounds": 24
+        },
+        {
+          "dataset": "NUSWIDE",
+          "seed": 42,
+          "summary_path": "validation/full/selected/seed_42/NUSWIDE/summary.json",
+          "history_path": "validation/full/selected/seed_42/NUSWIDE/history.json",
+          "summary_sha256": "c05b8dc9c29a9751e12d1017616983279f2c1b95c88923dc6a3a359d2eefd40a",
+          "history_sha256": "95b78b6631afa61736ba02ea49c563db6840a1066130505a8b9e99827b5cad84",
+          "best_round": 9,
+          "rounds": 20
+        },
+        {
+          "dataset": "NUSWIDE",
+          "seed": 2024,
+          "summary_path": "validation/full/selected/seed_2024/NUSWIDE/summary.json",
+          "history_path": "validation/full/selected/seed_2024/NUSWIDE/history.json",
+          "summary_sha256": "3b0ce02d04264c3b8f676f25dc30d4a561c3cfd7dce5bce1fcd719d2aeef9f51",
+          "history_sha256": "1d36288cba504a7591449de41bb591e984bb21024b16aec3eecb8d3eb53dd239",
+          "best_round": 15,
+          "rounds": 20
+        },
+        {
+          "dataset": "NUSWIDE",
+          "seed": 2025,
+          "summary_path": "validation/full/selected/seed_2025/NUSWIDE/summary.json",
+          "history_path": "validation/full/selected/seed_2025/NUSWIDE/history.json",
+          "summary_sha256": "7cb4fc2529d05d0dc008e30a3c5db503614682e22af9be13cda41f95a6f8311f",
+          "history_sha256": "f45a0abef72676db831dc8b3860a092943b9aabf14e4e35e0d4467ab1d509085",
+          "best_round": 13,
+          "rounds": 20
+        },
+        {
+          "dataset": "Scene-15",
+          "seed": 42,
+          "summary_path": "validation/full/selected/seed_42/Scene-15/summary.json",
+          "history_path": "validation/full/selected/seed_42/Scene-15/history.json",
+          "summary_sha256": "bf2920744c9a34d3cfdb7fb111365210607342cef9b43111e8dc68802cbde89d",
+          "history_sha256": "47cc6f80799190458abad5693e263b8f7f1af86a35e377442bcc0122d93b0bc7",
+          "best_round": 23,
+          "rounds": 30
+        },
+        {
+          "dataset": "Scene-15",
+          "seed": 2024,
+          "summary_path": "validation/full/selected/seed_2024/Scene-15/summary.json",
+          "history_path": "validation/full/selected/seed_2024/Scene-15/history.json",
+          "summary_sha256": "b25e23318e313ae3d3b85b76f29cb9e1d4c7bfb23b3f152bb8324501a76cf2a5",
+          "history_sha256": "ffc64aeb8dc8b004d8e19f0c7909e76134074394948440749e0f5121bdc45c01",
+          "best_round": 28,
+          "rounds": 30
+        },
+        {
+          "dataset": "Scene-15",
+          "seed": 2025,
+          "summary_path": "validation/full/selected/seed_2025/Scene-15/summary.json",
+          "history_path": "validation/full/selected/seed_2025/Scene-15/history.json",
+          "summary_sha256": "774856ca99c3143001de7f22870daf8eaf3fb843a7ec2db4ad6f67e0ccbe278b",
+          "history_sha256": "16024f47e5d989f5f59d952cf22be735b6307018867a2ed7c9f8af53b524b92b",
+          "best_round": 30,
+          "rounds": 30
+        },
+        {
+          "dataset": "animal",
+          "seed": 42,
+          "summary_path": "validation/full/selected/seed_42/animal/summary.json",
+          "history_path": "validation/full/selected/seed_42/animal/history.json",
+          "summary_sha256": "22a9891edfba7e4e572530e244cdb7a064f9fedbf5c58424a47677d588d615a5",
+          "history_sha256": "30db94ec92d71cd3129be0ae8999e26b9c828786b4ac4a519f84537b519f17dd",
+          "best_round": 15,
+          "rounds": 20
+        },
+        {
+          "dataset": "animal",
+          "seed": 2024,
+          "summary_path": "validation/full/selected/seed_2024/animal/summary.json",
+          "history_path": "validation/full/selected/seed_2024/animal/history.json",
+          "summary_sha256": "04f16db1bcef2a01a736caa448a1867e5289cb47f1f6683e2a65810e458bfbdb",
+          "history_sha256": "919eb44c6dcb78afa3b9309d5eebafa41884d0d353e30bee5c9a30f06b238f15",
+          "best_round": 13,
+          "rounds": 20
+        },
+        {
+          "dataset": "animal",
+          "seed": 2025,
+          "summary_path": "validation/full/selected/seed_2025/animal/summary.json",
+          "history_path": "validation/full/selected/seed_2025/animal/history.json",
+          "summary_sha256": "6d11428a4087c5a8e8bb3dea53a1a90cf8b1802eb38191a9e9c66b5f6dd37ad0",
+          "history_sha256": "ab5ab3d1115d644aaf35d70cf58ed8e850a5a0bb2b506deeaa1ccd17cf72f81b",
+          "best_round": 13,
+          "rounds": 20
+        }
+      ]
+    },
+    "missing_0p3": {
+      "missing_rate": 0.3,
+      "datasets": {
+        "ALOI_100": {
+          "role": "screening",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.7166358024691358,
+              "std": 0.0355490847378284
+            },
+            "nmi": {
+              "mean": 0.8390866843954546,
+              "std": 0.010917996534299557
+            },
+            "ari": {
+              "mean": 0.6217259553391077,
+              "std": 0.03228814679105082
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.7167592592592592,
+              "std": 0.035470577463149244
+            },
+            "nmi": {
+              "mean": 0.8396732349729363,
+              "std": 0.011353464223387014
+            },
+            "ari": {
+              "mean": 0.6215703661311824,
+              "std": 0.032758525141157596
+            }
+          }
+        },
+        "flower17": {
+          "role": "extrapolation",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.46715686274509804,
+              "std": 0.01619873690378265
+            },
+            "nmi": {
+              "mean": 0.4788005015400489,
+              "std": 0.010329389020711168
+            },
+            "ari": {
+              "mean": 0.3125278634762461,
+              "std": 0.010113111077448517
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.46838235294117647,
+              "std": 0.016654046548391355
+            },
+            "nmi": {
+              "mean": 0.4801806466597939,
+              "std": 0.010268779478592274
+            },
+            "ari": {
+              "mean": 0.313323256120833,
+              "std": 0.00995438687079474
+            }
+          }
+        },
+        "LandUse_21": {
+          "role": "extrapolation",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.26317460317460317,
+              "std": 0.018912217153786003
+            },
+            "nmi": {
+              "mean": 0.29560446928355777,
+              "std": 0.0232763967646431
+            },
+            "ari": {
+              "mean": 0.12455092039851516,
+              "std": 0.013894437768712605
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.26301587301587304,
+              "std": 0.019013858970640455
+            },
+            "nmi": {
+              "mean": 0.29569612452264815,
+              "std": 0.023259198980506456
+            },
+            "ari": {
+              "mean": 0.12453247142292523,
+              "std": 0.01390508810144429
+            }
+          }
+        },
+        "Mfeat": {
+          "role": "screening",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.958,
+              "std": 0.007211102550927985
+            },
+            "nmi": {
+              "mean": 0.9123485304637701,
+              "std": 0.01025804723347067
+            },
+            "ari": {
+              "mean": 0.9097097855542767,
+              "std": 0.014200409941546118
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.9593333333333334,
+              "std": 0.005530220007679021
+            },
+            "nmi": {
+              "mean": 0.9139653857091019,
+              "std": 0.009005655798661085
+            },
+            "ari": {
+              "mean": 0.9122786892442312,
+              "std": 0.011062195087689696
+            }
+          }
+        },
+        "NUSWIDE": {
+          "role": "extrapolation",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.5571333333333334,
+              "std": 0.05091535459302363
+            },
+            "nmi": {
+              "mean": 0.2599920064676217,
+              "std": 0.0352250890447187
+            },
+            "ari": {
+              "mean": 0.24326439877436548,
+              "std": 0.04875577654615985
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.5578666666666667,
+              "std": 0.052180200587323665
+            },
+            "nmi": {
+              "mean": 0.2610651139078094,
+              "std": 0.035976675784976174
+            },
+            "ari": {
+              "mean": 0.24430448647181058,
+              "std": 0.04998005272785125
+            }
+          }
+        },
+        "Scene-15": {
+          "role": "screening",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.4335934596804162,
+              "std": 0.01896167810801277
+            },
+            "nmi": {
+              "mean": 0.43195523810594066,
+              "std": 0.004972705564488391
+            },
+            "ari": {
+              "mean": 0.26873821300332035,
+              "std": 0.0071580469866988775
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.43351913786696394,
+              "std": 0.01936635938944269
+            },
+            "nmi": {
+              "mean": 0.432348570491407,
+              "std": 0.005245255603185393
+            },
+            "ari": {
+              "mean": 0.26903992831927104,
+              "std": 0.0076249865297356775
+            }
+          }
+        },
+        "animal": {
+          "role": "screening",
+          "seeds": [
+            42,
+            2024,
+            2025
+          ],
+          "complete": true,
+          "all_stable": true,
+          "last_metrics": {
+            "acc": {
+              "mean": 0.5563102973026186,
+              "std": 0.03406907772932633
+            },
+            "nmi": {
+              "mean": 0.6290449875610045,
+              "std": 0.011971720516895094
+            },
+            "ari": {
+              "mean": 0.4491368223313943,
+              "std": 0.014253914702081726
+            }
+          },
+          "best_metrics": {
+            "acc": {
+              "mean": 0.5567697053225701,
+              "std": 0.033550155969826016
+            },
+            "nmi": {
+              "mean": 0.6293993043139323,
+              "std": 0.012035671417001436
+            },
+            "ari": {
+              "mean": 0.44962084009299585,
+              "std": 0.013913039529315168
+            }
+          }
+        }
+      },
+      "aggregate": {
+        "complete": true,
+        "all_validation_stable": true,
+        "completed_datasets": 7,
+        "expected_datasets": 7,
+        "macro_last_metrics": {
+          "acc": 0.5645720512436008,
+          "nmi": 0.5495474882596283,
+          "ari": 0.418521994125318
+        }
+      },
+      "records": [
+        {
+          "dataset": "ALOI_100",
+          "seed": 42,
+          "summary_path": "validation/missing_0p3/selected/seed_42/ALOI_100/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_42/ALOI_100/history.json",
+          "summary_sha256": "6553f8e979ccb792bbbc57432eac6c93cbb60e0ad1c3676129bc6f2f1e505237",
+          "history_sha256": "38913fa47417e2bbe520a5b6bcc5fee6315b5f07665f395e93cee43fb2dc57c6",
+          "best_round": 13,
+          "rounds": 16
+        },
+        {
+          "dataset": "ALOI_100",
+          "seed": 2024,
+          "summary_path": "validation/missing_0p3/selected/seed_2024/ALOI_100/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2024/ALOI_100/history.json",
+          "summary_sha256": "c910190768e3db4520edd7e6d18e7fa6452373414f57402b5dae04d1e2fe2161",
+          "history_sha256": "924af76410ccc118c01bd5cc13ac98d6aa4b33aef9f58dbe832e280414749499",
+          "best_round": 14,
+          "rounds": 16
+        },
+        {
+          "dataset": "ALOI_100",
+          "seed": 2025,
+          "summary_path": "validation/missing_0p3/selected/seed_2025/ALOI_100/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2025/ALOI_100/history.json",
+          "summary_sha256": "9b797e1bac8aeab4d33fb27324e6bc4805a00259e12b8004cab79183293b2191",
+          "history_sha256": "78cc109659d99cf5c659491fa4720c980531ff42e624a721bf56964bd4d031c0",
+          "best_round": 16,
+          "rounds": 16
+        },
+        {
+          "dataset": "flower17",
+          "seed": 42,
+          "summary_path": "validation/missing_0p3/selected/seed_42/flower17/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_42/flower17/history.json",
+          "summary_sha256": "653000d08fed402dbe078cc036e969306cac6495de4c9d820386694622a3c967",
+          "history_sha256": "f7ddd338fb9cc0b67289d7f28c13041031248221c0f58aa310158c24b236ab6f",
+          "best_round": 12,
+          "rounds": 20
+        },
+        {
+          "dataset": "flower17",
+          "seed": 2024,
+          "summary_path": "validation/missing_0p3/selected/seed_2024/flower17/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2024/flower17/history.json",
+          "summary_sha256": "7a8f2d67123e0358c9df6bff355a2b3b59275ddbbabf98be89dace70e64ac61e",
+          "history_sha256": "91011b0bd205f34ab220cc18ca25bb017d9fe664f0d367b2fdc5c04ec27f3f79",
+          "best_round": 9,
+          "rounds": 20
+        },
+        {
+          "dataset": "flower17",
+          "seed": 2025,
+          "summary_path": "validation/missing_0p3/selected/seed_2025/flower17/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2025/flower17/history.json",
+          "summary_sha256": "bfc1e2f42800241628eea22f5ba99740eaae7d59e94f4aac2714aa1a2fd40e43",
+          "history_sha256": "a626292e395b43a93ac9bb1c92ba7590c51bc8d1a8b464442f70fa137f36bbeb",
+          "best_round": 10,
+          "rounds": 20
+        },
+        {
+          "dataset": "LandUse_21",
+          "seed": 42,
+          "summary_path": "validation/missing_0p3/selected/seed_42/LandUse_21/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_42/LandUse_21/history.json",
+          "summary_sha256": "6253fa8ee9606a4f453d7bf6a53c19f32a526c240096db12d7a354af669215b6",
+          "history_sha256": "a99b4774a2556fe1d5f2457239838b0a78f727a1ebe5447a41375f6af20d6394",
+          "best_round": 15,
+          "rounds": 16
+        },
+        {
+          "dataset": "LandUse_21",
+          "seed": 2024,
+          "summary_path": "validation/missing_0p3/selected/seed_2024/LandUse_21/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2024/LandUse_21/history.json",
+          "summary_sha256": "7426bf7f71ed567923e477949cd3c742fbf12b374d2b24357ee7bf37ba3b0ae8",
+          "history_sha256": "a7b9b0b23594ad8daf9efdf7b98658a4514aadbe71c202e71c1ff8a46007a368",
+          "best_round": 14,
+          "rounds": 16
+        },
+        {
+          "dataset": "LandUse_21",
+          "seed": 2025,
+          "summary_path": "validation/missing_0p3/selected/seed_2025/LandUse_21/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2025/LandUse_21/history.json",
+          "summary_sha256": "79cb3f31e0e618e60d89f18b0df5f01a5086dda8c7026d0f20ef2315ab98a489",
+          "history_sha256": "72b1aa21804679e38137753c17a7f35e9d7fd62e94da4c7165b2a69c2f69809f",
+          "best_round": 16,
+          "rounds": 16
+        },
+        {
+          "dataset": "Mfeat",
+          "seed": 42,
+          "summary_path": "validation/missing_0p3/selected/seed_42/Mfeat/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_42/Mfeat/history.json",
+          "summary_sha256": "9400f9ce3e02c5472b554b56f3b0d97985532defd69ebb7a6c6842320b0dc177",
+          "history_sha256": "3688df4200eaf8e6bac9dd1bd9bc9a7117f2af64c3a9ba1e5af8e2a44f15ac8e",
+          "best_round": 17,
+          "rounds": 24
+        },
+        {
+          "dataset": "Mfeat",
+          "seed": 2024,
+          "summary_path": "validation/missing_0p3/selected/seed_2024/Mfeat/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2024/Mfeat/history.json",
+          "summary_sha256": "e9f913ac02b3739e69a9555a08d1d6901d9f1982ed860f85be016b09651e2e39",
+          "history_sha256": "3ac3ffbea607b1f2b6a2210920426b0e316b68037ec97a53c59ed65be0fef1c9",
+          "best_round": 15,
+          "rounds": 24
+        },
+        {
+          "dataset": "Mfeat",
+          "seed": 2025,
+          "summary_path": "validation/missing_0p3/selected/seed_2025/Mfeat/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2025/Mfeat/history.json",
+          "summary_sha256": "3bbdf4e9bc5d0bdcb439ca22ea92d78ba3b8f2673be566d06950e959f9d3644e",
+          "history_sha256": "f515bdb849d279e91035a28039337da40f2f5d347a0de238bcfcf27ddd32fd5d",
+          "best_round": 10,
+          "rounds": 24
+        },
+        {
+          "dataset": "NUSWIDE",
+          "seed": 42,
+          "summary_path": "validation/missing_0p3/selected/seed_42/NUSWIDE/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_42/NUSWIDE/history.json",
+          "summary_sha256": "1ca49fa3e8b406f92d62234353bc29fea77233d25e3e16832a965f75a907432e",
+          "history_sha256": "20f41b2173af8942d119776387d1429b804d9cdff61bb600d96dabb6c1f7901d",
+          "best_round": 18,
+          "rounds": 20
+        },
+        {
+          "dataset": "NUSWIDE",
+          "seed": 2024,
+          "summary_path": "validation/missing_0p3/selected/seed_2024/NUSWIDE/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2024/NUSWIDE/history.json",
+          "summary_sha256": "397bd806f830fc2846160db48402663f937db0f7f4451564cf522746d32f4433",
+          "history_sha256": "1499f78b230b73e6c7f960688daa30f7980809c9db7096fbde6da742d3253f89",
+          "best_round": 18,
+          "rounds": 20
+        },
+        {
+          "dataset": "NUSWIDE",
+          "seed": 2025,
+          "summary_path": "validation/missing_0p3/selected/seed_2025/NUSWIDE/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2025/NUSWIDE/history.json",
+          "summary_sha256": "920798f75ae0bec23f0b266fc7cbf68aa6b7e9ed0f118f93c23c3483938fa15a",
+          "history_sha256": "226b267802c510c943bf5dccef037c1c3143aff29e24d0e1c9d0ce5fbffbc0b5",
+          "best_round": 13,
+          "rounds": 20
+        },
+        {
+          "dataset": "Scene-15",
+          "seed": 42,
+          "summary_path": "validation/missing_0p3/selected/seed_42/Scene-15/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_42/Scene-15/history.json",
+          "summary_sha256": "c07ff9b99f4d1aa2def8b0d101535b1457d570fe32bd2a9e937e8ce07f17300f",
+          "history_sha256": "1993f7e27d94b3d6575dd3e7e850f8f59ab18b8843550d1efbc34cdcd2155441",
+          "best_round": 30,
+          "rounds": 30
+        },
+        {
+          "dataset": "Scene-15",
+          "seed": 2024,
+          "summary_path": "validation/missing_0p3/selected/seed_2024/Scene-15/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2024/Scene-15/history.json",
+          "summary_sha256": "fc685ff1013095212eb54d2069bdb34b69e04dc23be80689ab5dabe7211381a3",
+          "history_sha256": "67735f6a5c2328d998512b0dd5a4f7654e00a73ac540ae1a417b871716d08930",
+          "best_round": 26,
+          "rounds": 30
+        },
+        {
+          "dataset": "Scene-15",
+          "seed": 2025,
+          "summary_path": "validation/missing_0p3/selected/seed_2025/Scene-15/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2025/Scene-15/history.json",
+          "summary_sha256": "577fd1d23525b33d64e53d6032ce18dc45c4f307d32150214f061dac6b225817",
+          "history_sha256": "3bfb65baa17eea2d01c7427d980fc3aa5c159aae52de086e62d4df40907f5088",
+          "best_round": 28,
+          "rounds": 30
+        },
+        {
+          "dataset": "animal",
+          "seed": 42,
+          "summary_path": "validation/missing_0p3/selected/seed_42/animal/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_42/animal/history.json",
+          "summary_sha256": "c4f7d0606bd60e6f881e424940a9d08acc9b3cd80d4021ff21e1a89a24a3ee13",
+          "history_sha256": "56b3a1d065a1d8f599e8248248cefbbcc104c77627cae03936f6f088018cef34",
+          "best_round": 19,
+          "rounds": 20
+        },
+        {
+          "dataset": "animal",
+          "seed": 2024,
+          "summary_path": "validation/missing_0p3/selected/seed_2024/animal/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2024/animal/history.json",
+          "summary_sha256": "4b35d35c3a20cccde8ddd1bd108ff7161bdaa9a24191a645de0985d588297f3f",
+          "history_sha256": "82093e57a56f699948c8fe4e5a573358f9cab7c7dd62e7a679d6d00a4fd563fd",
+          "best_round": 14,
+          "rounds": 20
+        },
+        {
+          "dataset": "animal",
+          "seed": 2025,
+          "summary_path": "validation/missing_0p3/selected/seed_2025/animal/summary.json",
+          "history_path": "validation/missing_0p3/selected/seed_2025/animal/history.json",
+          "summary_sha256": "6ab7ebbb03931fae5fbf9e667ef9563a4d8ddb629d69fcba82e534e0f6183dc3",
+          "history_sha256": "5885cc3a56f1ae81f7439a560d2bab8fae40ed6e7782d1968cda5d9397b2a09d",
+          "best_round": 17,
+          "rounds": 20
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "dataset": "Scene-15",
+  "samples": 4485,
+  "view_dims": [
+    20,
+    59,
+    40
+  ],
+  "num_clusters": 15,
+  "metrics": {
+    "acc": 0.4593088071348941,
+    "nmi": 0.4404727984025555,
+    "ari": 0.28543259387523673,
+    "confidence": 0.0888289213180542
+  },
+  "best_round": 29,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.4593088071348941,
+    "nmi": 0.4402134562993058,
+    "ari": 0.2852924999184503,
+    "confidence": 0.08879692107439041
+  },
+  "stability": {
+    "acc": 0.0,
+    "nmi": -0.0002593421032496823,
+    "ari": -0.00014009395678643566
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 329082,
+    "elapsed_seconds": 86.36591815948486,
+    "peak_cuda_memory_bytes": 29790208
+  },
+  "diagnostics": {
+    "normalized_entropy": 0.9951658808130254,
+    "top1_top2_margin": 0.00665906211361289,
+    "effective_clusters": 14.990550994873047,
+    "min_cluster_occupancy": 0.06254409998655319,
+    "max_cluster_occupancy": 0.07114104181528091,
+    "prototype_soft_counts": [
+      308.4413757324219,
+      289.6502990722656,
+      288.5993347167969,
+      307.1365661621094,
+      280.5101623535156,
+      304.93402099609375,
+      285.18402099609375,
+      298.8676452636719,
+      296.8711853027344,
+      294.7920227050781,
+      289.9270935058594,
+      313.5284729003906,
+      301.6990051269531,
+      319.06744384765625,
+      305.7894287109375
+    ]
+  },
+  "communication": {
+    "uplink_bytes": 98790840,
+    "dense_uplink_bytes": 197523120,
+    "downlink_bytes": 197449200,
+    "compression_seconds": 27.490490599991972,
+    "uplink_reduction": 0.49985176418841504
+  },
+  "config": {
+    "dataset": {
+      "name": "Scene-15",
+      "file": "dataset/Scene-15.mat",
+      "num_clusters": 15,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "cluster_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "cosine_temperature": 0.1,
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t",
+      "per_view_temperature": 0.1
+    },
+    "training": {
+      "rounds": 30,
+      "pretrain_rounds": 22,
+      "center_init_round": 14,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 3,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 3e-05,
+      "clustering_learning_rate": 3e-05,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99875,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.05,
+      "balance": 0.05,
+      "view_semantic": 0.0
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-性能统计\\A2\\rate-0p1\\seed-42",
+      "save_model": false
+    },
+    "tuning": {
+      "best_round": 23,
+      "acc": 0.44905239687848386,
+      "nmi": 0.437947014589343,
+      "ari": 0.28240599224205803,
+      "last_round_acc": 0.44905239687848386,
+      "last_round_nmi": 0.437947014589343,
+      "last_round_ari": 0.28240599224205803
+    },
+    "compression": {
+      "method": "stage",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": true
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.1,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Scene-15.json",
+    "experiment": {
+      "protocol_version": "a0-a2-missing-matrix-v1",
+      "method": "A2",
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "dataset": "Scene-15",
+      "nominal_missing_rate": 0.1,
+      "seed": 42,
+      "source_scenario": "missing_0p3",
+      "metric_source": "summary.metrics (clustering NMI-best checkpoint)",
+      "source_sha256": "b4eeb5a148d698f55c481b6c1814908d3d05d274428f24931585f08edcb9ab13",
+      "data_sha256": "ec33b5e1f53eea04ccacc8b7bdfc6091ed490b04214eb41fd83c05a0a173221f",
+      "environment": {
+        "python_version": "3.9.23",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "numpy_version": "2.0.1",
+        "sklearn_version": "1.6.1",
+        "torch_version": "2.5.1",
+        "requested_device": "cuda",
+        "cuda_available": true,
+        "torch_cuda_version": "11.8",
+        "cudnn_version": 90100,
+        "gpu_inventory": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 4070 SUPER",
+            "compute_capability": [
+              8,
+              9
+            ],
+            "total_memory_bytes": 12878086144
+          }
+        ],
+        "sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8"
+      },
+      "environment_sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8",
+      "fingerprint": "f59a43512183b8551020dfecf793b296fc7d6a6d610c6981651458b510dfc731",
+      "prototype_resolution": {
+        "requested_mode": "per_view",
+        "resolved_mode": "per_view",
+        "client_cluster_support": 59.8,
+        "min_client_cluster_support": 40.0
+      }
+    }
+  },
+  "missing": {
+    "nominal_rate": 0.1,
+    "incomplete_sample_rate": 0.10033444816053512,
+    "missing_cell_rate": 0.033444816053511704,
+    "observed_per_view": [
+      4336,
+      4326,
+      4343
+    ],
+    "complete_per_client": [
+      807,
+      807,
+      807,
+      807,
+      807
+    ],
+    "mask_sha256": "5ec8100291ac984326477ad1525eee953680b8aff0ebfda6fc867c71d25bb845"
+  }
+}

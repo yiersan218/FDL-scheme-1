@@ -14,11 +14,19 @@ from flcore.trainmodel.multiview import clustering_objective
 
 _HEADER = struct.Struct("<4sII")
 _MAGIC = b"FMC1"
-_CENTER_KEY = "cluster_head.centers"
+
+
+def center_keys(model):
+    """Return the A2 per-view prototype tensors carried outside sparse updates."""
+    keys = tuple(model.prototype_center_keys())
+    if not keys:
+        raise ValueError("A2 requires at least one per-view prototype tensor")
+    return keys
 
 
 def ordinary_keys(model):
-    return [key for key in model.state_dict() if key != _CENTER_KEY]
+    centers = set(center_keys(model))
+    return [key for key in model.state_dict() if key not in centers]
 
 
 def flatten_update(local_model, global_model, keys):
@@ -34,7 +42,7 @@ def dense_uplink_bytes(model, centers_enabled):
     state = model.state_dict()
     total = sum(value.numel() * value.element_size() for value in state.values())
     if centers_enabled:
-        total += state[_CENTER_KEY].shape[0] * 4  # soft cluster counts
+        total += sum(state[key].shape[0] * 4 for key in center_keys(model))
     return total
 
 
@@ -89,10 +97,18 @@ def state_from_flat_update(global_model, flat, centers=None):
         count = reference.numel()
         result[key] = reference + flat[offset:offset + count].reshape(reference.shape).to(reference.dtype)
         offset += count
-    result[_CENTER_KEY] = (
-        state[_CENTER_KEY].detach().cpu().clone()
-        if centers is None else centers.detach().cpu().clone()
-    )
+    keys_with_centers = center_keys(global_model)
+    if centers is None:
+        supplied = {}
+    elif isinstance(centers, dict):
+        supplied = centers
+    elif len(keys_with_centers) == 1:
+        supplied = {keys_with_centers[0]: centers}
+    else:
+        raise ValueError("Per-view compressed updates require keyed prototype centers")
+    for key in keys_with_centers:
+        value = supplied.get(key, state[key])
+        result[key] = value.detach().cpu().clone()
     return result
 
 
@@ -104,7 +120,7 @@ def _top_indices(scores, count):
     return torch.topk(scores, count, sorted=False).indices
 
 
-def activation_scores(model, views, flat_update, keys, mask=None, anchors=None):
+def activation_scores(model, views, flat_update, keys, mask=None):
     """ICLR-2026 linear-layer score; magnitude fallback for non-linear parameters."""
     energies = {}
     hooks = []
@@ -117,7 +133,7 @@ def activation_scores(model, views, flat_update, keys, mask=None, anchors=None):
     try:
         with torch.no_grad():
             model.eval()
-            model(views, mask=mask, anchors=anchors)
+            model(views, mask=mask)
     finally:
         for hook in hooks:
             hook.remove()
@@ -200,10 +216,10 @@ def _normalized_distance(first, second):
 
 
 def _calibration_outputs(model, views, targets, loss_weights, centers_enabled, scale,
-                         mask=None, anchors=None):
+                         mask=None):
     model.eval()
     with torch.no_grad():
-        outputs = model(views, mask=mask, anchors=anchors)
+        outputs = model(views, mask=mask)
         loss, _ = clustering_objective(
             outputs, views, loss_weights, clustering_enabled=centers_enabled,
             clustering_weight_scale=scale, target_assignments=targets, mask=mask,
@@ -233,7 +249,7 @@ def semantic_score(reference, candidate, view_weight, pair_weight, scale):
 
 def compress_client_update(local_model, global_model, config, views=None, targets=None,
                            centers_enabled=False, clustering_scale=0.0, residual=None,
-                           mask=None, anchors=None):
+                           mask=None):
     """Return actual compact model-update bytes and local-only diagnostics."""
     started = time.perf_counter()
     keys = ordinary_keys(global_model)
@@ -242,10 +258,26 @@ def compress_client_update(local_model, global_model, config, views=None, target
         if residual.shape != delta.shape:
             raise ValueError("Error-feedback residual shape changed")
         delta = delta + residual
-    centers = local_model.cluster_head.centers.detach().cpu().clone() if centers_enabled else None
-    fixed_bytes = _HEADER.size + (centers.numel() * centers.element_size() if centers is not None else 0)
+    keys_with_centers = center_keys(local_model)
+    if centers_enabled and len(keys_with_centers) == 1:
+        centers = local_model.state_dict()[keys_with_centers[0]].detach().cpu().clone()
+    elif centers_enabled:
+        centers = {
+            key: local_model.state_dict()[key].detach().cpu().clone()
+            for key in keys_with_centers
+        }
+    else:
+        centers = None
+    center_values = (
+        [] if centers is None
+        else list(centers.values()) if isinstance(centers, dict)
+        else [centers]
+    )
+    center_bytes = sum(value.numel() * value.element_size() for value in center_values)
+    count_bytes = sum(value.shape[0] * 4 for value in center_values)
+    fixed_bytes = _HEADER.size + center_bytes
     if centers_enabled:
-        fixed_bytes += centers.shape[0] * 4
+        fixed_bytes += count_bytes
     dense_bytes = dense_uplink_bytes(global_model, centers_enabled)
     budget = int(dense_bytes * float(config["budget_ratio"]))
     count = min(delta.numel(), max(0, (budget - fixed_bytes) // 8))
@@ -258,9 +290,7 @@ def compress_client_update(local_model, global_model, config, views=None, target
     else:
         if views is None:
             raise ValueError("Calibration views are required for paper/stage compression")
-        paper_scores = activation_scores(
-            local_model, views, delta, keys, mask=mask, anchors=anchors
-        )
+        paper_scores = activation_scores(local_model, views, delta, keys, mask=mask)
         if method == "paper":
             selected = _top_indices(paper_scores, count)
             score = None
@@ -270,7 +300,7 @@ def compress_client_update(local_model, global_model, config, views=None, target
                 full_model.load_state_dict(state_from_flat_update(global_model, delta, centers))
             reference = _calibration_outputs(
                 full_model, views, targets, config["loss_weights"], centers_enabled, clustering_scale,
-                mask=mask, anchors=anchors,
+                mask=mask,
             )
             probe = copy.deepcopy(local_model)
             score = float("inf")
@@ -282,7 +312,7 @@ def compress_client_update(local_model, global_model, config, views=None, target
                 probe.load_state_dict(reconstruct_state(global_model, packet, centers))
                 candidate = _calibration_outputs(
                     probe, views, targets, config["loss_weights"], centers_enabled, clustering_scale,
-                    mask=mask, anchors=anchors,
+                    mask=mask,
                 )
                 value = semantic_score(
                     reference, candidate, config["view_weight"], config["pair_weight"], clustering_scale,
@@ -300,8 +330,7 @@ def compress_client_update(local_model, global_model, config, views=None, target
     return {
         "payload": payload,
         "centers": centers,
-        "bytes": len(payload) + (centers.numel() * centers.element_size() if centers is not None else 0)
-                 + (centers.shape[0] * 4 if centers is not None else 0),
+        "bytes": len(payload) + center_bytes + count_bytes,
         "dense_bytes": dense_bytes,
         "kept": int(selected.numel()),
         "parameters": int(delta.numel()),

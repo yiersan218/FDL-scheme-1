@@ -1,0 +1,224 @@
+{
+  "dataset": "flower17",
+  "samples": 1360,
+  "view_dims": [
+    1360,
+    1360,
+    1360,
+    1360,
+    1360,
+    1360,
+    1360
+  ],
+  "num_clusters": 17,
+  "metrics": {
+    "acc": 0.45294117647058824,
+    "nmi": 0.4683391405410001,
+    "ari": 0.30187472200006504,
+    "confidence": 0.0786050409078598
+  },
+  "best_round": 12,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.4514705882352941,
+    "nmi": 0.4669669394782129,
+    "ari": 0.3008972406537447,
+    "confidence": 0.0785784125328064
+  },
+  "stability": {
+    "acc": -0.0014705882352941124,
+    "nmi": -0.0013722010627872372,
+    "ari": -0.0009774813463203635
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 5653303,
+    "elapsed_seconds": 162.40537548065186,
+    "peak_cuda_memory_bytes": 186754048
+  },
+  "diagnostics": {
+    "normalized_entropy": 0.9955883630236841,
+    "top1_top2_margin": 0.005764930043369532,
+    "effective_clusters": 16.989206314086914,
+    "min_cluster_occupancy": 0.05522477999329567,
+    "max_cluster_occupancy": 0.06266003847122192,
+    "prototype_soft_counts": [
+      83.44648742675781,
+      80.17280578613281,
+      77.13304901123047,
+      79.34004974365234,
+      81.9796142578125,
+      78.2530288696289,
+      82.92733001708984,
+      81.21560668945312,
+      78.7801513671875,
+      75.105712890625,
+      75.40774536132812,
+      77.42557525634766,
+      77.55550384521484,
+      85.21766662597656,
+      82.58954620361328,
+      80.88322448730469,
+      82.56707763671875
+    ]
+  },
+  "communication": {
+    "uplink_bytes": 1130985420,
+    "dense_uplink_bytes": 2261661820,
+    "downlink_bytes": 2261321200,
+    "compression_seconds": 120.97972169999957,
+    "uplink_reduction": 0.4999316829781386
+  },
+  "config": {
+    "dataset": {
+      "name": "flower17",
+      "file": "dataset/flower17.mat",
+      "num_clusters": 17,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 128,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "cluster_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "cosine_temperature": 0.1,
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t",
+      "per_view_temperature": 0.1
+    },
+    "training": {
+      "rounds": 20,
+      "pretrain_rounds": 8,
+      "center_init_round": 7,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.5,
+      "balance": 0.05,
+      "view_semantic": 0.0
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化2\\protocol-v2\\a2\\validation\\missing_0p3\\selected\\seed_42",
+      "save_model": false
+    },
+    "tuning": {
+      "best_round": 9,
+      "acc": 0.5051470588235294,
+      "nmi": 0.5482555702744353,
+      "ari": 0.3706597424575538,
+      "last_round_acc": 0.5044117647058823,
+      "last_round_nmi": 0.546482656640013,
+      "last_round_ari": 0.36952559139639674
+    },
+    "compression": {
+      "method": "stage",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": true
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.3,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\flower17.json",
+    "experiment": {
+      "protocol_version": "global-per-view-prototype-v2-a2",
+      "variant": "A2",
+      "candidate": "selected",
+      "candidate_rule": {
+        "variant": "A2",
+        "prototype_mode": "per_view",
+        "per_view_head_type": "student_t",
+        "student_t_distance_scale": 1.0,
+        "per_view_temperature": 0.1,
+        "view_semantic_weight": 0.0
+      },
+      "track": "validation",
+      "scenario": "missing_0p3",
+      "missing_rate": 0.3,
+      "source_sha256": "fdc4829cbf2a8e03ca110d0361fa8e6d558f7e4bf36cf3024a71ed330057c7af",
+      "data_sha256": "51ae9c1d0cd15e16d79414ff2049d56eb851073d2d4152d9e05f0e1488ff78ee",
+      "environment": {
+        "python_version": "3.9.23",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "numpy_version": "2.0.1",
+        "sklearn_version": "1.6.1",
+        "torch_version": "2.5.1",
+        "requested_device": "cuda",
+        "cuda_available": true,
+        "torch_cuda_version": "11.8",
+        "cudnn_version": 90100,
+        "gpu_inventory": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 4070 SUPER",
+            "compute_capability": [
+              8,
+              9
+            ],
+            "total_memory_bytes": 12878086144
+          }
+        ],
+        "sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8"
+      },
+      "environment_sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8",
+      "fingerprint": "850b00cae778dbdbf4f07cfa7dbaeed11ffa2f81727056678c5db28ea7751349"
+    }
+  },
+  "missing": {
+    "nominal_rate": 0.3,
+    "incomplete_sample_rate": 0.3014705882352941,
+    "missing_cell_rate": 0.0430672268907563,
+    "observed_per_view": [
+      1295,
+      1297,
+      1310,
+      1301,
+      1305,
+      1309,
+      1293
+    ],
+    "complete_per_client": [
+      190,
+      190,
+      190,
+      190,
+      190
+    ],
+    "mask_sha256": "6754fc998ecf2a530fc43f872de95d4f0e340661b41b7bb33ecd80ec534cc714"
+  }
+}

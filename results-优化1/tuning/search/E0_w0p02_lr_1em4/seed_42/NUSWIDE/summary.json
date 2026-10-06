@@ -1,0 +1,150 @@
+{
+  "dataset": "NUSWIDE",
+  "samples": 5000,
+  "view_dims": [
+    65,
+    226,
+    145,
+    74,
+    129
+  ],
+  "num_clusters": 5,
+  "metrics": {
+    "acc": 0.5792,
+    "nmi": 0.2641112211823276,
+    "ari": 0.25691964438300596,
+    "confidence": 0.2368980050086975
+  },
+  "best_round": 15,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.5762,
+    "nmi": 0.2638301063683543,
+    "ari": 0.2548050046184303,
+    "confidence": 0.23973140120506287
+  },
+  "stability": {
+    "acc": -0.0030000000000000027,
+    "nmi": -0.0002811148139733044,
+    "ari": -0.0021146397645756543
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 749572,
+    "elapsed_seconds": 20.93159031867981,
+    "peak_cuda_memory_bytes": 36068352
+  },
+  "communication": {
+    "uplink_bytes": 299836700,
+    "dense_uplink_bytes": 299836700,
+    "downlink_bytes": 299828800,
+    "compression_seconds": 0.0,
+    "uplink_reduction": 0.0
+  },
+  "config": {
+    "dataset": {
+      "name": "NUSWIDE",
+      "file": "dataset/NUSWIDE.mat",
+      "num_clusters": 5,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "semantic_projection": {
+        "enabled": false,
+        "bottleneck_dim": 0
+      },
+      "sample_fusion": {
+        "enabled": false,
+        "hidden_dim": 0,
+        "bound": 1.0,
+        "floor": 0.05
+      }
+    },
+    "training": {
+      "rounds": 20,
+      "pretrain_rounds": 8,
+      "center_init_round": 7,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 0.0001,
+      "clustering_learning_rate": 0.0001,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda",
+      "diagnostics": true
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.02,
+      "clustering": 0.5,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\search\\E0_w0p02_lr_1em4\\seed_42",
+      "save_model": false
+    },
+    "tuning": {
+      "best_round": 20,
+      "acc": 0.5786,
+      "nmi": 0.26285372878227975,
+      "ari": 0.25543153780572664,
+      "last_round_acc": 0.5786,
+      "last_round_nmi": 0.26285372878227975,
+      "last_round_ari": 0.25543153780572664
+    },
+    "objective": {
+      "consistency": "mse",
+      "temperature": 0.2,
+      "negative_weight": 0.0,
+      "completion_contrastive": true
+    },
+    "compression": {
+      "method": "none",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": false
+    },
+    "missing": {
+      "enabled": false,
+      "rate": 0.0,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\NUSWIDE.json",
+    "experiment": {
+      "variant": "E0",
+      "candidate": "E0_w0p02_lr_1em4",
+      "track": "tuning/search",
+      "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+      "data_sha256": "0a875f23711076e0503dbb399871ff8d3f0ca056e46533f0196698aeb43094d2",
+      "torch_version": "2.5.1",
+      "fingerprint": "f97e96b2658157837c22454274b24ff776cc15bddbce0298ba9c77a6f38554a9"
+    }
+  }
+}

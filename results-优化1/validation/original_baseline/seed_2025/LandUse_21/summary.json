@@ -1,0 +1,148 @@
+{
+  "dataset": "LandUse_21",
+  "samples": 2100,
+  "view_dims": [
+    20,
+    59,
+    40
+  ],
+  "num_clusters": 21,
+  "metrics": {
+    "acc": 0.2776190476190476,
+    "nmi": 0.3168783117690113,
+    "ari": 0.13331088911200137,
+    "confidence": 0.06776271015405655
+  },
+  "best_round": 14,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.2780952380952381,
+    "nmi": 0.31670493616476586,
+    "ari": 0.1332783142215385,
+    "confidence": 0.06776535511016846
+  },
+  "stability": {
+    "acc": 0.0004761904761905189,
+    "nmi": -0.0001733756042454626,
+    "ari": -3.257489046287754e-05
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 315258,
+    "elapsed_seconds": 5.978794813156128,
+    "peak_cuda_memory_bytes": 32077824
+  },
+  "communication": {
+    "uplink_bytes": 141276744,
+    "dense_uplink_bytes": 141276744,
+    "downlink_bytes": 141235584,
+    "compression_seconds": 0.0,
+    "uplink_reduction": 0.0
+  },
+  "config": {
+    "dataset": {
+      "name": "LandUse_21",
+      "file": "dataset/LandUse_21.mat",
+      "num_clusters": 21,
+      "num_clients": 7,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "semantic_projection": {
+        "enabled": false,
+        "bottleneck_dim": 0
+      },
+      "sample_fusion": {
+        "enabled": false,
+        "hidden_dim": 0,
+        "bound": 1.0,
+        "floor": 0.05
+      }
+    },
+    "training": {
+      "rounds": 16,
+      "pretrain_rounds": 13,
+      "center_init_round": 12,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 2025,
+      "device": "cuda",
+      "diagnostics": true
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.5,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\validation\\original_baseline\\seed_2025",
+      "save_model": false
+    },
+    "tuning": {
+      "best_round": 16,
+      "acc": 0.2876190476190476,
+      "nmi": 0.33610204343835953,
+      "ari": 0.14295063392523574,
+      "last_round_acc": 0.2876190476190476,
+      "last_round_nmi": 0.33610204343835953,
+      "last_round_ari": 0.14295063392523574
+    },
+    "objective": {
+      "consistency": "mse",
+      "temperature": 0.2,
+      "negative_weight": 0.0,
+      "completion_contrastive": true
+    },
+    "compression": {
+      "method": "none",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": false
+    },
+    "missing": {
+      "enabled": false,
+      "rate": 0.0,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\LandUse_21.json",
+    "experiment": {
+      "variant": "E0",
+      "candidate": "original_baseline",
+      "track": "validation",
+      "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+      "data_sha256": "6441fc42e84a83729e5a6436f4c1544dcc3fe115558458495b165677a732b67f",
+      "torch_version": "2.5.1",
+      "fingerprint": "bd088d06ad0a9c1ffeb8431ba22af3c83f6caa2ad9917b0a48374523aa941ce8"
+    }
+  }
+}

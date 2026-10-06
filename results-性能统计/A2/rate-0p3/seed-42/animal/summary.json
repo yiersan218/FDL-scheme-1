@@ -1,0 +1,248 @@
+{
+  "dataset": "animal",
+  "samples": 10158,
+  "view_dims": [
+    4096,
+    4096
+  ],
+  "num_clusters": 50,
+  "metrics": {
+    "acc": 0.5650718645402638,
+    "nmi": 0.6283869068486658,
+    "ari": 0.4453255669854541,
+    "confidence": 0.028178764507174492
+  },
+  "best_round": 13,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.5650718645402638,
+    "nmi": 0.628311458736103,
+    "ari": 0.4455518406157609,
+    "confidence": 0.02817399986088276
+  },
+  "stability": {
+    "acc": 0.0,
+    "nmi": -7.544811256288142e-05,
+    "ari": 0.0002262736303068058
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 4389762,
+    "elapsed_seconds": 104.8209228515625,
+    "peak_cuda_memory_bytes": 165331968
+  },
+  "diagnostics": {
+    "normalized_entropy": 0.9980117433697099,
+    "top1_top2_margin": 0.002420752076432109,
+    "effective_clusters": 49.92444610595703,
+    "min_cluster_occupancy": 0.016631102189421654,
+    "max_cluster_occupancy": 0.02183947153389454,
+    "prototype_soft_counts": [
+      217.84580993652344,
+      203.83807373046875,
+      213.47528076171875,
+      189.76316833496094,
+      210.5000457763672,
+      187.30340576171875,
+      194.95022583007812,
+      209.6041717529297,
+      202.13490295410156,
+      192.05313110351562,
+      196.57235717773438,
+      196.18357849121094,
+      190.39865112304688,
+      206.81996154785156,
+      201.53997802734375,
+      168.93878173828125,
+      194.1019744873047,
+      188.73826599121094,
+      186.22337341308594,
+      204.6016387939453,
+      201.48899841308594,
+      206.1516876220703,
+      189.8229217529297,
+      198.15213012695312,
+      184.5836639404297,
+      206.06236267089844,
+      221.8454132080078,
+      192.25941467285156,
+      196.5321044921875,
+      213.12420654296875,
+      202.60946655273438,
+      210.09481811523438,
+      217.3111114501953,
+      213.95654296875,
+      219.9251708984375,
+      211.9088134765625,
+      203.25047302246094,
+      206.12698364257812,
+      211.49798583984375,
+      215.58717346191406,
+      199.80462646484375,
+      219.34739685058594,
+      189.48086547851562,
+      210.1220245361328,
+      210.69174194335938,
+      206.1028289794922,
+      209.78318786621094,
+      214.22190856933594,
+      202.19589233398438,
+      218.37396240234375
+    ]
+  },
+  "communication": {
+    "uplink_bytes": 878093480,
+    "dense_uplink_bytes": 1756054880,
+    "downlink_bytes": 1755904800,
+    "compression_seconds": 75.79825379999966,
+    "uplink_reduction": 0.499962392974871
+  },
+  "config": {
+    "dataset": {
+      "name": "animal",
+      "file": "dataset/animal.mat",
+      "num_clusters": 50,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "cluster_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "cosine_temperature": 0.1,
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t",
+      "per_view_temperature": 0.1
+    },
+    "training": {
+      "rounds": 20,
+      "pretrain_rounds": 12,
+      "center_init_round": 11,
+      "local_epochs": 1,
+      "pretraining_local_epochs": 1,
+      "clustering_local_epochs": 1,
+      "batch_size": 256,
+      "eval_batch_size": 512,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 10,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.05,
+      "balance": 0.05,
+      "view_semantic": 0.0
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-性能统计\\A2\\rate-0p3\\seed-42",
+      "save_model": false
+    },
+    "tuning": {
+      "best_round": 17,
+      "acc": 0.6268950580822996,
+      "nmi": 0.6868044158402079,
+      "ari": 0.5178013842352764,
+      "last_round_acc": 0.625812167749557,
+      "last_round_nmi": 0.6861966904901589,
+      "last_round_ari": 0.5166175636803556
+    },
+    "compression": {
+      "method": "stage",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": true
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.3,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\backup\\animal.json",
+    "experiment": {
+      "protocol_version": "a0-a2-missing-matrix-v1",
+      "method": "A2",
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "dataset": "animal",
+      "nominal_missing_rate": 0.3,
+      "seed": 42,
+      "source_scenario": "missing_0p3",
+      "metric_source": "summary.metrics (clustering NMI-best checkpoint)",
+      "source_sha256": "b4eeb5a148d698f55c481b6c1814908d3d05d274428f24931585f08edcb9ab13",
+      "data_sha256": "3cbe9e7a9dedc92498b4724fe198260404ed65644c2dcb180b11150e6a6b01d2",
+      "environment": {
+        "python_version": "3.9.23",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "numpy_version": "2.0.1",
+        "sklearn_version": "1.6.1",
+        "torch_version": "2.5.1",
+        "requested_device": "cuda",
+        "cuda_available": true,
+        "torch_cuda_version": "11.8",
+        "cudnn_version": 90100,
+        "gpu_inventory": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 4070 SUPER",
+            "compute_capability": [
+              8,
+              9
+            ],
+            "total_memory_bytes": 12878086144
+          }
+        ],
+        "sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8"
+      },
+      "environment_sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8",
+      "fingerprint": "4cb55bb357ff0d1839a68cec4914b86589b50231e42258bc1f4ae1cb4b376c4c",
+      "prototype_resolution": {
+        "requested_mode": "per_view",
+        "resolved_mode": "per_view",
+        "client_cluster_support": 40.632,
+        "min_client_cluster_support": 40.0
+      }
+    }
+  },
+  "missing": {
+    "nominal_rate": 0.3,
+    "incomplete_sample_rate": 0.3000590667454223,
+    "missing_cell_rate": 0.15002953337271116,
+    "observed_per_view": [
+      8622,
+      8646
+    ],
+    "complete_per_client": [
+      1422,
+      1422,
+      1422,
+      1422,
+      1422
+    ],
+    "mask_sha256": "cbd7c3039fd6942ef0f5d23dcddc55cfb9b3cf571592ca9625b7d1a5ab3c3acf"
+  }
+}

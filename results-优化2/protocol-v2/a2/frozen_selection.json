@@ -1,0 +1,221 @@
+{
+  "protocol_version": "a2-only-prototype-v1",
+  "stage": "A2",
+  "candidate": {
+    "variant": "A2",
+    "prototype_mode": "per_view",
+    "per_view_head_type": "student_t",
+    "student_t_distance_scale": 1.0,
+    "per_view_temperature": 0.1,
+    "view_semantic_weight": 0.0
+  },
+  "selection_rule": "one global A2 rule across four representative datasets and full/missing-0.3; rank by all-run stability, stable-run count, macro last NMI, then macro oracle NMI",
+  "screening_seed": 42,
+  "representative_datasets": [
+    "ALOI_100",
+    "animal",
+    "Mfeat",
+    "Scene-15"
+  ],
+  "extrapolation_datasets": [
+    "flower17",
+    "LandUse_21",
+    "NUSWIDE"
+  ],
+  "screening_scenarios": [
+    "full",
+    "missing_0p3"
+  ],
+  "validation_seeds": [
+    42,
+    2024,
+    2025
+  ],
+  "candidate_ranking": [
+    {
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "per_view_temperature": 0.1,
+      "view_semantic_weight": 0.0,
+      "screening_cells": 8,
+      "expected_screening_cells": 8,
+      "stable_runs": 8,
+      "all_screening_runs_stable": true,
+      "macro_last_nmi": 0.7195549825429488,
+      "macro_oracle_nmi": 0.7202942361392763
+    },
+    {
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "per_view_temperature": 0.1,
+      "view_semantic_weight": 0.1,
+      "screening_cells": 8,
+      "expected_screening_cells": 8,
+      "stable_runs": 8,
+      "all_screening_runs_stable": true,
+      "macro_last_nmi": 0.719516632001194,
+      "macro_oracle_nmi": 0.7202567511649267
+    },
+    {
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t",
+      "student_t_distance_scale": 2.0,
+      "per_view_temperature": 0.1,
+      "view_semantic_weight": 0.1,
+      "screening_cells": 8,
+      "expected_screening_cells": 8,
+      "stable_runs": 8,
+      "all_screening_runs_stable": true,
+      "macro_last_nmi": 0.7186059270129194,
+      "macro_oracle_nmi": 0.7192542132151255
+    },
+    {
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "per_view_head_type": "cosine",
+      "student_t_distance_scale": 1.0,
+      "per_view_temperature": 0.1,
+      "view_semantic_weight": 0.1,
+      "screening_cells": 8,
+      "expected_screening_cells": 8,
+      "stable_runs": 7,
+      "all_screening_runs_stable": false,
+      "macro_last_nmi": 0.7016019442341366,
+      "macro_oracle_nmi": 0.7050485863913909
+    }
+  ],
+  "datasets": {
+    "ALOI_100": {
+      "role": "screening",
+      "scenarios": {
+        "full": {
+          "missing_rate": 0.0,
+          "config_path": "configs/ALOI_100__full__selected.json",
+          "config_sha256": "f7041fd161ce354380a3fbc6c0929a49e832cc9aa24d489a968d2b1b53fcd74b",
+          "validation_path": "validation/full/selected",
+          "screening_source": "tuning/search/full/A2_st_1_sem_0/seed_42/ALOI_100/summary.json"
+        },
+        "missing_0p3": {
+          "missing_rate": 0.3,
+          "config_path": "configs/ALOI_100__missing_0p3__selected.json",
+          "config_sha256": "2cd5597d894bae8a0c922c3310570b644bfc23905227606104c9a72310d15aa0",
+          "validation_path": "validation/missing_0p3/selected",
+          "screening_source": "tuning/search/missing_0p3/A2_st_1_sem_0/seed_42/ALOI_100/summary.json"
+        }
+      }
+    },
+    "flower17": {
+      "role": "extrapolation",
+      "scenarios": {
+        "full": {
+          "missing_rate": 0.0,
+          "config_path": "configs/flower17__full__selected.json",
+          "config_sha256": "85cab1a8059518d6253d0bf5cd9dbe2e0844fcecd9ccf3ac2eadad467f9c3ea4",
+          "validation_path": "validation/full/selected"
+        },
+        "missing_0p3": {
+          "missing_rate": 0.3,
+          "config_path": "configs/flower17__missing_0p3__selected.json",
+          "config_sha256": "5b2c4f976dda813ca170a492e7b2c4f2be8db1d74c1e3e1f0d83769b3c19d5f5",
+          "validation_path": "validation/missing_0p3/selected"
+        }
+      }
+    },
+    "LandUse_21": {
+      "role": "extrapolation",
+      "scenarios": {
+        "full": {
+          "missing_rate": 0.0,
+          "config_path": "configs/LandUse_21__full__selected.json",
+          "config_sha256": "55f78f1f9aa85437150c95e5acf57068443154cd667918b2faf54f3804ae4cac",
+          "validation_path": "validation/full/selected"
+        },
+        "missing_0p3": {
+          "missing_rate": 0.3,
+          "config_path": "configs/LandUse_21__missing_0p3__selected.json",
+          "config_sha256": "fdd44e7bc538f40bbc231e24fd94c1ce502e10bae3f4b3f68aba555f5cd32f7f",
+          "validation_path": "validation/missing_0p3/selected"
+        }
+      }
+    },
+    "Mfeat": {
+      "role": "screening",
+      "scenarios": {
+        "full": {
+          "missing_rate": 0.0,
+          "config_path": "configs/Mfeat__full__selected.json",
+          "config_sha256": "2078b4755878458adae92c74c1b52618796a9c8d0040ec9746cd0cd0ffc46604",
+          "validation_path": "validation/full/selected",
+          "screening_source": "tuning/search/full/A2_st_1_sem_0/seed_42/Mfeat/summary.json"
+        },
+        "missing_0p3": {
+          "missing_rate": 0.3,
+          "config_path": "configs/Mfeat__missing_0p3__selected.json",
+          "config_sha256": "b4205e9751887ff9432ee46cd9de0c5fb536cd4fe3e734d8857012f195dd2888",
+          "validation_path": "validation/missing_0p3/selected",
+          "screening_source": "tuning/search/missing_0p3/A2_st_1_sem_0/seed_42/Mfeat/summary.json"
+        }
+      }
+    },
+    "NUSWIDE": {
+      "role": "extrapolation",
+      "scenarios": {
+        "full": {
+          "missing_rate": 0.0,
+          "config_path": "configs/NUSWIDE__full__selected.json",
+          "config_sha256": "dd15d35d94ac0ddd11d6bb2a213f74ec668c2a899dab36382db85c5e6878c445",
+          "validation_path": "validation/full/selected"
+        },
+        "missing_0p3": {
+          "missing_rate": 0.3,
+          "config_path": "configs/NUSWIDE__missing_0p3__selected.json",
+          "config_sha256": "87a21be566ba288b14ad4022dce6ceba194da00aba590814402e16f96cb068e7",
+          "validation_path": "validation/missing_0p3/selected"
+        }
+      }
+    },
+    "Scene-15": {
+      "role": "screening",
+      "scenarios": {
+        "full": {
+          "missing_rate": 0.0,
+          "config_path": "configs/Scene-15__full__selected.json",
+          "config_sha256": "f5d7fe56b8bb2a902d5a66f708662a9338aba5f678c3cae8077fbd7ee9d4f002",
+          "validation_path": "validation/full/selected",
+          "screening_source": "tuning/search/full/A2_st_1_sem_0/seed_42/Scene-15/summary.json"
+        },
+        "missing_0p3": {
+          "missing_rate": 0.3,
+          "config_path": "configs/Scene-15__missing_0p3__selected.json",
+          "config_sha256": "80ac3151b24cc24aaf8cccfdecc47bb3223ef364187eb75f13b55538be50edaa",
+          "validation_path": "validation/missing_0p3/selected",
+          "screening_source": "tuning/search/missing_0p3/A2_st_1_sem_0/seed_42/Scene-15/summary.json"
+        }
+      }
+    },
+    "animal": {
+      "role": "screening",
+      "scenarios": {
+        "full": {
+          "missing_rate": 0.0,
+          "config_path": "configs/animal__full__selected.json",
+          "config_sha256": "577161100d59aaa1bc1e72366dd2372568377d0835ec488410e9e060b2c19d83",
+          "validation_path": "validation/full/selected",
+          "screening_source": "tuning/search/full/A2_st_1_sem_0/seed_42/animal/summary.json"
+        },
+        "missing_0p3": {
+          "missing_rate": 0.3,
+          "config_path": "configs/animal__missing_0p3__selected.json",
+          "config_sha256": "d842831cefa3c6abb5de99c50e9b96a04eee969accc063cc2429e2f1803904b6",
+          "validation_path": "validation/missing_0p3/selected",
+          "screening_source": "tuning/search/missing_0p3/A2_st_1_sem_0/seed_42/animal/summary.json"
+        }
+      }
+    }
+  }
+}

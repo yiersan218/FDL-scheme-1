@@ -1,0 +1,223 @@
+{
+  "dataset": "LandUse_21",
+  "samples": 2100,
+  "view_dims": [
+    20,
+    59,
+    40
+  ],
+  "num_clusters": 21,
+  "metrics": {
+    "acc": 0.2580952380952381,
+    "nmi": 0.29869992951893076,
+    "ari": 0.12552776152666453,
+    "confidence": 0.06511929631233215
+  },
+  "best_round": 14,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.25761904761904764,
+    "nmi": 0.298526643070529,
+    "ari": 0.12543124675791764,
+    "confidence": 0.06511908024549484
+  },
+  "stability": {
+    "acc": -0.0004761904761904634,
+    "nmi": -0.0001732864484017549,
+    "ari": -9.651476874689147e-05
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 330234,
+    "elapsed_seconds": 33.63236403465271,
+    "peak_cuda_memory_bytes": 31171072
+  },
+  "diagnostics": {
+    "normalized_entropy": 0.9958594301560607,
+    "top1_top2_margin": 0.005715546663850546,
+    "effective_clusters": 20.939138412475586,
+    "min_cluster_occupancy": 0.03980433568358421,
+    "max_cluster_occupancy": 0.051754169166088104,
+    "prototype_soft_counts": [
+      108.22022247314453,
+      105.26971435546875,
+      93.27974700927734,
+      96.02892303466797,
+      103.50531005859375,
+      85.03524780273438,
+      90.07537078857422,
+      91.88179016113281,
+      103.68743133544922,
+      101.8485107421875,
+      105.09939575195312,
+      105.58853912353516,
+      92.44859313964844,
+      83.589111328125,
+      103.49698638916016,
+      106.89698028564453,
+      105.558837890625,
+      107.45873260498047,
+      103.37100982666016,
+      108.68376922607422,
+      98.97600555419922
+    ]
+  },
+  "communication": {
+    "uplink_bytes": 74092480,
+    "dense_uplink_bytes": 148068480,
+    "downlink_bytes": 147944832,
+    "compression_seconds": 19.457713200001763,
+    "uplink_reduction": 0.49960666848204294
+  },
+  "config": {
+    "dataset": {
+      "name": "LandUse_21",
+      "file": "dataset/LandUse_21.mat",
+      "num_clusters": 21,
+      "num_clients": 7,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "cluster_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "cosine_temperature": 0.1,
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t",
+      "per_view_temperature": 0.1
+    },
+    "training": {
+      "rounds": 16,
+      "pretrain_rounds": 13,
+      "center_init_round": 12,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.5,
+      "balance": 0.05,
+      "view_semantic": 0.0
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-性能统计\\A2\\rate-0p1\\seed-42",
+      "save_model": false
+    },
+    "tuning": {
+      "best_round": 16,
+      "acc": 0.2876190476190476,
+      "nmi": 0.33610204343835953,
+      "ari": 0.14295063392523574,
+      "last_round_acc": 0.2876190476190476,
+      "last_round_nmi": 0.33610204343835953,
+      "last_round_ari": 0.14295063392523574
+    },
+    "compression": {
+      "method": "stage",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": true
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.1,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\LandUse_21.json",
+    "experiment": {
+      "protocol_version": "a0-a2-missing-matrix-v1",
+      "method": "A2",
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "dataset": "LandUse_21",
+      "nominal_missing_rate": 0.1,
+      "seed": 42,
+      "source_scenario": "missing_0p3",
+      "metric_source": "summary.metrics (clustering NMI-best checkpoint)",
+      "source_sha256": "b4eeb5a148d698f55c481b6c1814908d3d05d274428f24931585f08edcb9ab13",
+      "data_sha256": "6441fc42e84a83729e5a6436f4c1544dcc3fe115558458495b165677a732b67f",
+      "environment": {
+        "python_version": "3.9.23",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "numpy_version": "2.0.1",
+        "sklearn_version": "1.6.1",
+        "torch_version": "2.5.1",
+        "requested_device": "cuda",
+        "cuda_available": true,
+        "torch_cuda_version": "11.8",
+        "cudnn_version": 90100,
+        "gpu_inventory": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 4070 SUPER",
+            "compute_capability": [
+              8,
+              9
+            ],
+            "total_memory_bytes": 12878086144
+          }
+        ],
+        "sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8"
+      },
+      "environment_sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8",
+      "fingerprint": "a4518bf850cab801211a5c6dc2d6092562d27347e15d7f8f057d27a981ec4278",
+      "prototype_resolution": {
+        "requested_mode": "per_view",
+        "resolved_mode": "per_view",
+        "client_cluster_support": 14.285714285714286,
+        "min_client_cluster_support": 40.0
+      }
+    }
+  },
+  "missing": {
+    "nominal_rate": 0.1,
+    "incomplete_sample_rate": 0.1,
+    "missing_cell_rate": 0.03333333333333333,
+    "observed_per_view": [
+      2035,
+      2032,
+      2023
+    ],
+    "complete_per_client": [
+      270,
+      270,
+      270,
+      270,
+      270,
+      270,
+      270
+    ],
+    "mask_sha256": "97bfa3dd5c372557c45f93c999458710aee8aa2eef7886e807563247a13d84c1"
+  }
+}

@@ -11,7 +11,7 @@ from scipy.optimize import linear_sum_assignment
 from sklearn.cluster import KMeans
 from torch.utils.data import DataLoader
 
-from flcore.clients.clientcluster import FederatedClusteringClient
+from flcore.clients.clientcluster import FederatedClusteringClient, spherical_kmeans
 from flcore.compression import dense_uplink_bytes, reconstruct_state
 from flcore.trainmodel.multiview import MultiViewClusteringModel
 from utils.clustering_metrics import evaluate_clustering
@@ -63,7 +63,16 @@ class FederatedMultiViewClusteringServer:
             embedding_dim=int(model["embedding_dim"]),
             dropout=float(model.get("dropout", 0.0)),
             alpha=float(model.get("student_t_alpha", 1.0)),
-            completion=config.get("missing") if config.get("missing", {}).get("enabled", False) else None,
+            cluster_head_type=model.get("cluster_head_type", "student_t"),
+            student_t_distance_scale=float(model.get("student_t_distance_scale", 1.0)),
+            cosine_temperature=float(model.get("cosine_temperature", 0.1)),
+            prototype_mode="per_view",
+            per_view_temperature=float(
+                model.get("per_view_temperature", model.get("cosine_temperature", 0.1))
+            ),
+            per_view_head_type=model.get(
+                "per_view_head_type", model.get("cluster_head_type", "student_t")
+            ),
         ).to(device)
         self.history = []
         self.centers_initialized = False
@@ -78,56 +87,142 @@ class FederatedMultiViewClusteringServer:
 
     def _initialize_centers(self):
         summaries = [client.cluster_summary(self.global_model) for client in self.clients]
-        self.initialization_bytes = sum(center.nbytes + count.nbytes for center, count in summaries)
-        centers = np.concatenate([item[0] for item in summaries], axis=0)
-        counts = np.concatenate([item[1] for item in summaries], axis=0)
-        kmeans = KMeans(
-            n_clusters=int(self.config["dataset"]["num_clusters"]),
-            n_init=int(self.training.get("center_init_n_init", 10)),
-            random_state=self.seed,
-        ).fit(centers, sample_weight=np.maximum(counts, 1.0))
-        with torch.no_grad():
-            value = torch.from_numpy(kmeans.cluster_centers_.astype(np.float32)).to(self.device)
-            self.global_model.cluster_head.centers.copy_(value)
+        self._initialize_per_view_centers(summaries)
         self.centers_initialized = True
 
-    @staticmethod
-    def _align_centers(state_dict, reference_centers, cluster_counts=None):
-        key = "cluster_head.centers"
-        centers = state_dict[key].numpy()
-        reference = reference_centers.numpy()
-        distances = ((centers[:, None, :] - reference[None, :, :]) ** 2).sum(axis=2)
-        rows, columns = linear_sum_assignment(distances)
-        aligned = np.empty_like(centers)
-        aligned[columns] = centers[rows]
-        state_dict[key] = torch.from_numpy(aligned)
+    def _initialize_per_view_centers(self, summaries):
+        """Initialize all view heads in one shared semantic slot order."""
+        if not summaries or any(item.get("mode") != "per_view" for item in summaries):
+            raise ValueError("Per-view initialization requires aggregate prototype summaries")
+        num_views = len(self.global_model.prototype_heads)
+        num_clusters = int(self.config["dataset"]["num_clusters"])
+        expected = (num_views, num_clusters, self.global_model.embedding_dim)
+        for item in summaries:
+            if item["centers"].shape != expected or item["counts"].shape != expected[:2]:
+                raise ValueError("Invalid per-view prototype summary shape")
+            if item["coverage"].shape != (num_views,):
+                raise ValueError("Invalid per-view coverage summary shape")
+        self.initialization_bytes = sum(
+            item["centers"].nbytes + item["counts"].nbytes + item["coverage"].nbytes
+            for item in summaries
+        )
+        coverage = np.stack([item["coverage"] for item in summaries]).sum(axis=0)
+        self.prototype_reference_view = int(np.argmax(coverage))
+        reference_view = self.prototype_reference_view
+        local_reference = np.concatenate(
+            [item["centers"][reference_view] for item in summaries], axis=0
+        )
+        local_counts = np.concatenate(
+            [item["counts"][reference_view] for item in summaries], axis=0
+        )
+        head_type = self.global_model.prototype_heads[0].head_type
+        if head_type == "cosine":
+            global_reference, _labels = spherical_kmeans(
+                local_reference,
+                num_clusters,
+                n_init=int(self.training.get("center_init_n_init", 10)),
+                max_iter=int(self.training.get("center_init_max_iter", 300)),
+                random_state=self.seed,
+                sample_weight=np.maximum(local_counts, 1e-6),
+            )
+        else:
+            fitted = KMeans(
+                n_clusters=num_clusters,
+                n_init=int(self.training.get("center_init_n_init", 10)),
+                random_state=self.seed,
+            ).fit(local_reference, sample_weight=np.maximum(local_counts, 1e-6))
+            global_reference = fitted.cluster_centers_.astype(np.float32)
+
+        aligned_centers = []
+        aligned_counts = []
+        for item in summaries:
+            local = item["centers"][reference_view]
+            if head_type == "cosine":
+                cost = 1.0 - local @ global_reference.T
+            else:
+                cost = ((local[:, None, :] - global_reference[None, :, :]) ** 2).sum(axis=2)
+            rows, columns = linear_sum_assignment(cost)
+            centers = np.empty_like(item["centers"])
+            counts = np.empty_like(item["counts"])
+            # One reference-view permutation is applied to every view. This is
+            # the invariant that keeps row k semantically identical across heads.
+            centers[:, columns, :] = item["centers"][:, rows, :]
+            counts[:, columns] = item["counts"][:, rows]
+            aligned_centers.append(centers)
+            aligned_counts.append(counts)
+
+        previous = [
+            head.centers.detach().cpu().numpy().copy()
+            for head in self.global_model.prototype_heads
+        ]
+        initialized = []
+        for view_index in range(num_views):
+            numerator = np.zeros_like(previous[view_index], dtype=np.float64)
+            denominator = np.zeros(num_clusters, dtype=np.float64)
+            for centers, counts in zip(aligned_centers, aligned_counts):
+                weight = counts[view_index]
+                numerator += centers[view_index] * weight[:, None]
+                denominator += weight
+            value = numerator / np.maximum(denominator[:, None], 1e-12)
+            empty = denominator <= 1e-12
+            value[empty] = previous[view_index][empty]
+            initialized.append(value.astype(np.float32))
+        with torch.no_grad():
+            for head, value in zip(self.global_model.prototype_heads, initialized):
+                head.centers.copy_(torch.from_numpy(value).to(self.device))
+            self.global_model.project_cluster_centers_()
+
+    def _aggregate(self, updates):
+        self._aggregate_per_view(updates)
+
+    def _align_per_view_prototypes(self, state_dict, references, cluster_counts=None):
+        keys = self.global_model.prototype_center_keys()
+        reference_view = int(getattr(self, "prototype_reference_view", 0))
+        centers = state_dict[keys[reference_view]].numpy()
+        reference = references[reference_view].numpy()
+        if self.global_model.prototype_heads[reference_view].head_type == "cosine":
+            cost = 1.0 - centers @ reference.T
+        else:
+            cost = ((centers[:, None, :] - reference[None, :, :]) ** 2).sum(axis=2)
+        rows, columns = linear_sum_assignment(cost)
+        for key in keys:
+            local = state_dict[key].numpy()
+            aligned = np.empty_like(local)
+            aligned[columns] = local[rows]
+            state_dict[key] = torch.from_numpy(aligned)
         if cluster_counts is None:
             return None
         counts = cluster_counts.numpy()
+        if counts.shape != (len(keys), centers.shape[0]):
+            raise ValueError("Per-view cluster counts have an invalid shape")
         aligned_counts = np.empty_like(counts)
-        aligned_counts[columns] = counts[rows]
+        aligned_counts[:, columns] = counts[:, rows]
         return torch.from_numpy(aligned_counts)
 
-    def _aggregate(self, updates):
-        center_key = "cluster_head.centers"
+    def _aggregate_per_view(self, updates):
         for update in updates:
             if "payload" in update:
                 update["state_dict"] = reconstruct_state(
                     self.global_model, update["payload"], update.get("centers")
                 )
-        reference = self.global_model.state_dict()[center_key].detach().cpu()
+        center_keys = self.global_model.prototype_center_keys()
+        references = tuple(
+            self.global_model.state_dict()[key].detach().cpu()
+            for key in center_keys
+        )
         if self.centers_initialized:
             for update in updates:
-                update["cluster_counts"] = self._align_centers(
-                    update["state_dict"],
-                    reference,
-                    update.get("cluster_counts"),
+                update["cluster_counts"] = self._align_per_view_prototypes(
+                    update["state_dict"], references, update.get("cluster_counts")
                 )
+
         total_samples = sum(update["num_samples"] for update in updates)
         result = {}
+        center_indices = {key: index for index, key in enumerate(center_keys)}
         for key, reference_value in self.global_model.state_dict().items():
             values = [update["state_dict"][key] for update in updates]
-            if key == center_key and self.centers_initialized:
+            if key in center_indices and self.centers_initialized:
+                view_index = center_indices[key]
                 numerator = torch.zeros_like(values[0])
                 denominator = torch.zeros(values[0].shape[0], dtype=values[0].dtype)
                 for update, value in zip(updates, values):
@@ -137,14 +232,18 @@ class FederatedMultiViewClusteringServer:
                             denominator,
                             float(update["num_samples"]) / denominator.numel(),
                         )
-                    counts = counts.to(dtype=values[0].dtype)
+                    else:
+                        counts = counts[view_index].to(dtype=values[0].dtype)
                     numerator.add_(value * counts.unsqueeze(1))
                     denominator.add_(counts)
                 aggregated = numerator / denominator.clamp_min(1e-12).unsqueeze(1)
-                empty_clusters = denominator <= 1e-12
-                aggregated[empty_clusters] = reference[empty_clusters]
+                empty = denominator <= 1e-12
+                aggregated[empty] = references[view_index][empty]
                 momentum = float(self.training.get("center_momentum", 0.0))
-                result[key] = momentum * reference + (1.0 - momentum) * aggregated
+                result[key] = (
+                    momentum * references[view_index]
+                    + (1.0 - momentum) * aggregated
+                )
                 continue
             if reference_value.is_floating_point():
                 aggregated = torch.zeros_like(values[0])
@@ -154,22 +253,21 @@ class FederatedMultiViewClusteringServer:
             else:
                 result[key] = values[0]
         self.global_model.load_state_dict(result)
+        self.global_model.project_cluster_centers_(
+            tuple(reference.to(self.device) for reference in references)
+        )
         self.global_model.to(self.device)
 
     @torch.no_grad()
     def evaluate(self):
         self.global_model.eval()
-        predictions, labels, confidences = [], [], []
+        predictions, labels, probabilities = [], [], []
         datasets = (
             [client.dataset for client in self.clients]
             if self.config.get("missing", {}).get("enabled", False)
             else [MultiViewSubset(self.data, np.arange(self.data.num_samples))]
         )
-        for client_index, dataset in enumerate(datasets):
-            anchors = (
-                self.clients[client_index].anchor_bank(self.global_model)
-                if self.config.get("missing", {}).get("enabled", False) else None
-            )
+        for dataset in datasets:
             loader = DataLoader(
                 dataset,
                 batch_size=int(self.training.get("eval_batch_size", self.training["batch_size"])),
@@ -182,12 +280,27 @@ class FederatedMultiViewClusteringServer:
                 views = tuple(view.to(self.device, non_blocking=True) for view in views)
                 if mask is not None:
                     mask = mask.to(self.device, non_blocking=True)
-                assignments = self.global_model(views, mask=mask, anchors=anchors)["assignments"]
+                assignments = self.global_model(views, mask=mask)["assignments"]
                 predictions.append(assignments.argmax(dim=1).cpu().numpy())
-                confidences.append(assignments.max(dim=1).values.cpu().numpy())
+                probabilities.append(assignments.cpu().numpy())
                 labels.append(batch_labels.numpy())
+        probabilities = np.concatenate(probabilities)
         metrics = evaluate_clustering(np.concatenate(labels), np.concatenate(predictions))
-        metrics["confidence"] = float(np.concatenate(confidences).mean())
+        metrics["confidence"] = float(probabilities.max(axis=1).mean())
+        entropy = -(probabilities * np.log(np.maximum(probabilities, 1e-12))).sum(axis=1)
+        top_two = np.partition(probabilities, -2, axis=1)[:, -2:]
+        soft_counts = probabilities.sum(axis=0)
+        mean_assignment = soft_counts / max(float(soft_counts.sum()), 1e-12)
+        self.last_diagnostics = {
+            "normalized_entropy": float(entropy.mean() / np.log(probabilities.shape[1])),
+            "top1_top2_margin": float((top_two[:, 1] - top_two[:, 0]).mean()),
+            "effective_clusters": float(np.exp(
+                -(mean_assignment * np.log(np.maximum(mean_assignment, 1e-12))).sum()
+            )),
+            "min_cluster_occupancy": float(mean_assignment.min()),
+            "max_cluster_occupancy": float(mean_assignment.max()),
+            "prototype_soft_counts": soft_counts.tolist(),
+        }
         return metrics
 
     def train(self):
@@ -197,6 +310,8 @@ class FederatedMultiViewClusteringServer:
         eval_gap = int(self.training.get("eval_gap", 1))
         report_gap = progress_report_gap(rounds)
         started = time.time()
+        if self.device.type == "cuda":
+            torch.cuda.reset_peak_memory_stats(self.device)
         for round_index in range(rounds):
             center_initialization_bytes = 0
             if round_index == center_init_round and not self.centers_initialized:
@@ -261,6 +376,7 @@ class FederatedMultiViewClusteringServer:
             }
             if (round_index + 1) % eval_gap == 0 or round_index + 1 == rounds:
                 record["clustering"] = self.evaluate()
+                record["diagnostics"] = copy.deepcopy(self.last_diagnostics)
                 self._update_best(record["clustering"], round_index + 1, phase)
             self.history.append(record)
             if round_number % report_gap == 0 or round_number == rounds:
@@ -315,6 +431,23 @@ class FederatedMultiViewClusteringServer:
             "metrics": final_metrics,
             "best_round": self.best_round,
             "selection_metric": self.training.get("selection_metric", "nmi"),
+            "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+            "last_metrics": self.history[-1]["clustering"],
+            "stability": {
+                key: self.history[-1]["clustering"][key] - final_metrics[key]
+                for key in ("acc", "nmi", "ari")
+            },
+            "runtime": {
+                "device": str(self.device),
+                "torch_version": str(torch.__version__),
+                "parameters": sum(parameter.numel() for parameter in self.global_model.parameters()),
+                "elapsed_seconds": self.history[-1]["elapsed_seconds"],
+                "peak_cuda_memory_bytes": (
+                    int(torch.cuda.max_memory_allocated(self.device))
+                    if self.device.type == "cuda" else 0
+                ),
+            },
+            "diagnostics": copy.deepcopy(self.last_diagnostics),
             "communication": {
                 "uplink_bytes": sum(item["communication"]["uplink_bytes"] for item in self.history),
                 "dense_uplink_bytes": sum(item["communication"]["dense_uplink_bytes"] for item in self.history),

@@ -42,6 +42,15 @@ def load_config(config_name_or_path):
         config = json.load(handle)
 
     config = ExperimentConfig(copy.deepcopy(config))
+    model = config.get("model", {})
+    model.setdefault("cluster_head_type", "student_t")
+    model.setdefault("student_t_distance_scale", 1.0)
+    model.setdefault("cosine_temperature", 0.1)
+    # A2 is the sole supported prototype topology. Keep the explicit value in
+    # saved configurations so result files remain self-describing.
+    model.setdefault("prototype_mode", "per_view")
+    model.setdefault("per_view_head_type", model["cluster_head_type"])
+    model.setdefault("per_view_temperature", model["cosine_temperature"])
     training = config.get("training", {})
     training.setdefault("center_init_round", 1)
     if "local_epochs" in training:
@@ -73,9 +82,6 @@ def load_config(config_name_or_path):
     missing = config["missing"]
     missing.setdefault("enabled", False)
     missing.setdefault("rate", 0.0)
-    missing.setdefault("method", "attention")
-    missing.setdefault("heads", 4)
-    missing.setdefault("anchor_size", 256)
     config["config_path"] = str(path.resolve())
     _validate_config(config)
     return config
@@ -91,6 +97,22 @@ def _validate_config(config):
     for key in ("name", "file", "num_clusters", "num_clients"):
         if key not in dataset:
             raise ValueError(f"Missing dataset.{key}")
+    model = config["model"]
+    if model.get("cluster_head_type") not in {"student_t", "cosine"}:
+        raise ValueError("model.cluster_head_type must be student_t or cosine")
+    if model.get("prototype_mode", "per_view") != "per_view":
+        raise ValueError("model.prototype_mode only supports per_view (A2)")
+    if model.get("per_view_head_type", model["cluster_head_type"]) not in {
+        "student_t", "cosine"
+    }:
+        raise ValueError("model.per_view_head_type must be student_t or cosine")
+    for key in (
+        "student_t_alpha", "student_t_distance_scale", "cosine_temperature",
+        "per_view_temperature",
+    ):
+        value = float(model.get(key, 1.0))
+        if not 0 < value < float("inf"):
+            raise ValueError(f"model.{key} must be finite and positive")
     training = config["training"]
     for key in ("rounds", "pretrain_rounds", "local_epochs", "batch_size", "learning_rate"):
         if key not in training:
@@ -138,6 +160,10 @@ def _validate_config(config):
     missing_losses = required_losses.difference(loss_weights)
     if missing_losses:
         raise ValueError(f"Missing loss weights: {sorted(missing_losses)}")
+    if "view_semantic" in loss_weights:
+        value = float(loss_weights["view_semantic"])
+        if not 0 <= value < float("inf"):
+            raise ValueError("loss_weights.view_semantic must be finite and nonnegative")
     compression = config.get("compression", {})
     if compression.get("method", "none") not in {"none", "topk", "paper", "stage"}:
         raise ValueError("compression.method must be none, topk, paper, or stage")
@@ -155,19 +181,9 @@ def _validate_config(config):
     missing = config.get("missing", {})
     if not isinstance(missing.get("enabled", False), bool):
         raise ValueError("missing.enabled must be boolean")
-    if missing.get("method", "attention") != "attention":
-        raise ValueError("missing.method must be attention")
     if not 0 <= float(missing.get("rate", 0.0)) < 1:
         raise ValueError("missing.rate must be in [0, 1)")
-    if int(missing.get("heads", 4)) <= 0:
-        raise ValueError("missing.heads must be positive")
-    if int(missing.get("anchor_size", 256)) <= 0:
-        raise ValueError("missing.anchor_size must be positive")
-    if {"imputation_weight", "projector"}.intersection(missing):
-        raise ValueError("Gated completion options are no longer supported")
     if missing.get("enabled", False):
-        if int(config["model"]["embedding_dim"]) % int(missing["heads"]):
-            raise ValueError("model.embedding_dim must be divisible by missing.heads")
         if compression["method"] != "stage" or not compression["error_feedback"]:
             raise ValueError("Missing-view runs require stage compression with error feedback")
 

@@ -1,0 +1,29 @@
+{
+  "protocol_version": "a2-only-prototype-v1",
+  "stage": "A2",
+  "prototype_mode": "per_view",
+  "screening_seed": 42,
+  "representative_datasets": [
+    "ALOI_100",
+    "animal",
+    "Mfeat",
+    "Scene-15"
+  ],
+  "extrapolation_datasets": [
+    "flower17",
+    "LandUse_21",
+    "NUSWIDE"
+  ],
+  "screening_missing_rates": [
+    0.0,
+    0.3
+  ],
+  "validation_seeds": [
+    42,
+    2024,
+    2025
+  ],
+  "selection_unit": "one global A2 rule selected jointly over every representative dataset and both full/missing-0.3 scenarios",
+  "raw_result_policy": "A2 tuning and selected validation records are retained below protocol-v2/a2; non-A2 records are not part of this protocol",
+  "loss_accounting": "view_semantic is an internal clustering coefficient; four top-level losses remain reconstruction, consistency, clustering, and balance"
+}

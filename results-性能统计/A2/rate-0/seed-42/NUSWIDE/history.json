@@ -1,0 +1,1142 @@
+[
+  {
+    "round": 1,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.7644789654761552,
+      "reconstruction": 0.7641412034630776,
+      "consistency": 0.016888162796385588,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "weighted_reconstruction": 0.7641412034630776,
+      "weighted_consistency": 0.0003377632481715409,
+      "weighted_clustering": 0.0,
+      "weighted_balance": 0.0,
+      "confidence": 0.20933516286313533,
+      "clustering_weight_scale": 0.0,
+      "fused_clustering": 0.0,
+      "view_semantic": 0.0,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017040,
+      "dense_uplink_bytes": 15017040,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 0.9954128265380859,
+    "clustering": {
+      "acc": 0.2854,
+      "nmi": 0.04456667855095284,
+      "ari": 0.025533013407085484,
+      "confidence": 0.2099286913871765
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.99956278999022,
+      "top1_top2_margin": 0.0054820687510073185,
+      "effective_clusters": 4.998498439788818,
+      "min_cluster_occupancy": 0.19163838028907776,
+      "max_cluster_occupancy": 0.2063288539648056,
+      "prototype_soft_counts": [
+        1031.6441650390625,
+        958.1917724609375,
+        1002.1405639648438,
+        1014.1441040039062,
+        993.8790283203125
+      ]
+    }
+  },
+  {
+    "round": 2,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.481743935495615,
+      "reconstruction": 0.4814004063606262,
+      "consistency": 0.017176473373547198,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "weighted_reconstruction": 0.4814004063606262,
+      "weighted_consistency": 0.0003435294587688986,
+      "weighted_clustering": 0.0,
+      "weighted_balance": 0.0,
+      "confidence": 0.21051896438002587,
+      "clustering_weight_scale": 0.0,
+      "fused_clustering": 0.0,
+      "view_semantic": 0.0,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017040,
+      "dense_uplink_bytes": 15017040,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 2.105024576187134,
+    "clustering": {
+      "acc": 0.2838,
+      "nmi": 0.04686669855667834,
+      "ari": 0.02225409533217431,
+      "confidence": 0.21073052287101746
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9995026460465689,
+      "top1_top2_margin": 0.006111945956945419,
+      "effective_clusters": 4.997977256774902,
+      "min_cluster_occupancy": 0.19091863930225372,
+      "max_cluster_occupancy": 0.20823733508586884,
+      "prototype_soft_counts": [
+        1041.186767578125,
+        954.59326171875,
+        1002.876708984375,
+        1012.2625732421875,
+        989.0809936523438
+      ]
+    }
+  },
+  {
+    "round": 3,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.3871207978576422,
+      "reconstruction": 0.38677378967404363,
+      "consistency": 0.01735036598984152,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "weighted_reconstruction": 0.38677378967404363,
+      "weighted_consistency": 0.00034700731266639194,
+      "weighted_clustering": 0.0,
+      "weighted_balance": 0.0,
+      "confidence": 0.21074582412838935,
+      "clustering_weight_scale": 0.0,
+      "fused_clustering": 0.0,
+      "view_semantic": 0.0,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017040,
+      "dense_uplink_bytes": 15017040,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 3.3278088569641113,
+    "clustering": {
+      "acc": 0.2892,
+      "nmi": 0.053121747783892205,
+      "ari": 0.026097663743079782,
+      "confidence": 0.2109123021364212
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9995052384579332,
+      "top1_top2_margin": 0.006391255185008049,
+      "effective_clusters": 4.998067378997803,
+      "min_cluster_occupancy": 0.19141674041748047,
+      "max_cluster_occupancy": 0.20867663621902466,
+      "prototype_soft_counts": [
+        1043.382568359375,
+        957.0831298828125,
+        1006.2703857421875,
+        1002.9927368164062,
+        990.2684326171875
+      ]
+    }
+  },
+  {
+    "round": 4,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.3387276388704777,
+      "reconstruction": 0.33837966471910474,
+      "consistency": 0.01739874449558556,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "weighted_reconstruction": 0.33837966471910474,
+      "weighted_consistency": 0.000347974881879054,
+      "weighted_clustering": 0.0,
+      "weighted_balance": 0.0,
+      "confidence": 0.21088921185582876,
+      "clustering_weight_scale": 0.0,
+      "fused_clustering": 0.0,
+      "view_semantic": 0.0,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017040,
+      "dense_uplink_bytes": 15017040,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 4.534199953079224,
+    "clustering": {
+      "acc": 0.2814,
+      "nmi": 0.05045614892326613,
+      "ari": 0.02650319841016252,
+      "confidence": 0.21095551550388336
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9994932392967615,
+      "top1_top2_margin": 0.006337495520710945,
+      "effective_clusters": 4.997971534729004,
+      "min_cluster_occupancy": 0.1908554881811142,
+      "max_cluster_occupancy": 0.20850291848182678,
+      "prototype_soft_counts": [
+        1042.514404296875,
+        954.2772827148438,
+        1006.4812622070312,
+        1005.56298828125,
+        991.1629638671875
+      ]
+    }
+  },
+  {
+    "round": 5,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.3058684779331088,
+      "reconstruction": 0.30551954861730335,
+      "consistency": 0.017446500761434437,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "weighted_reconstruction": 0.30551954861730335,
+      "weighted_consistency": 0.0003489300077490043,
+      "weighted_clustering": 0.0,
+      "weighted_balance": 0.0,
+      "confidence": 0.21100658867508174,
+      "clustering_weight_scale": 0.0,
+      "fused_clustering": 0.0,
+      "view_semantic": 0.0,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017040,
+      "dense_uplink_bytes": 15017040,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 5.770160675048828,
+    "clustering": {
+      "acc": 0.2822,
+      "nmi": 0.0542533424396656,
+      "ari": 0.02652886458334119,
+      "confidence": 0.21119724214076996
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9994719815235744,
+      "top1_top2_margin": 0.0064948503859341145,
+      "effective_clusters": 4.997799396514893,
+      "min_cluster_occupancy": 0.19055500626564026,
+      "max_cluster_occupancy": 0.20903395116329193,
+      "prototype_soft_counts": [
+        1045.16845703125,
+        952.7738037109375,
+        1007.3966064453125,
+        1002.6673583984375,
+        991.9874877929688
+      ]
+    }
+  },
+  {
+    "round": 6,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.28887149058282374,
+      "reconstruction": 0.28852303568273785,
+      "consistency": 0.017422720161266624,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "weighted_reconstruction": 0.28852303568273785,
+      "weighted_consistency": 0.000348454394043074,
+      "weighted_clustering": 0.0,
+      "weighted_balance": 0.0,
+      "confidence": 0.2110167531296611,
+      "clustering_weight_scale": 0.0,
+      "fused_clustering": 0.0,
+      "view_semantic": 0.0,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017040,
+      "dense_uplink_bytes": 15017040,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 6.892759799957275,
+    "clustering": {
+      "acc": 0.2854,
+      "nmi": 0.05649371230743159,
+      "ari": 0.02555175449087899,
+      "confidence": 0.21130341291427612
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9994630932560398,
+      "top1_top2_margin": 0.006552999839186668,
+      "effective_clusters": 4.997777938842773,
+      "min_cluster_occupancy": 0.19067923724651337,
+      "max_cluster_occupancy": 0.2092181146144867,
+      "prototype_soft_counts": [
+        1046.0904541015625,
+        953.3961181640625,
+        1007.9542846679688,
+        1001.5999145507812,
+        990.9585571289062
+      ]
+    }
+  },
+  {
+    "round": 7,
+    "phase": "pretraining",
+    "center_initialized": false,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.26676687244325875,
+      "reconstruction": 0.2664179679006338,
+      "consistency": 0.01744518515188247,
+      "clustering": 0.0,
+      "balance": 0.0,
+      "weighted_reconstruction": 0.2664179679006338,
+      "weighted_consistency": 0.0003489036938844947,
+      "weighted_clustering": 0.0,
+      "weighted_balance": 0.0,
+      "confidence": 0.21131921894848346,
+      "clustering_weight_scale": 0.0,
+      "fused_clustering": 0.0,
+      "view_semantic": 0.0,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017040,
+      "dense_uplink_bytes": 15017040,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 8.111182928085327,
+    "clustering": {
+      "acc": 0.2856,
+      "nmi": 0.05907512003768086,
+      "ari": 0.028484901714713056,
+      "confidence": 0.21143002808094025
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9994565751931811,
+      "top1_top2_margin": 0.00673013087362051,
+      "effective_clusters": 4.997766494750977,
+      "min_cluster_occupancy": 0.19099408388137817,
+      "max_cluster_occupancy": 0.20936086773872375,
+      "prototype_soft_counts": [
+        1046.8043212890625,
+        954.9703979492188,
+        1008.8001708984375,
+        1002.4005126953125,
+        987.02490234375
+      ]
+    }
+  },
+  {
+    "round": 8,
+    "phase": "pretraining",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.23973292987793685,
+      "reconstruction": 0.23741591311991214,
+      "consistency": 0.01744952965527773,
+      "clustering": 0.003921308898134157,
+      "balance": 0.00014743974470547981,
+      "weighted_reconstruction": 0.23741591311991214,
+      "weighted_consistency": 0.0003489905855531106,
+      "weighted_clustering": 0.0019606544490670787,
+      "weighted_balance": 7.371987403814728e-06,
+      "confidence": 0.22622643783688545,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.003921308898134157,
+      "view_semantic": 0.009275007410906255,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15050740,
+      "dense_uplink_bytes": 15050740,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 33200,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 10.7878258228302,
+    "clustering": {
+      "acc": 0.5968,
+      "nmi": 0.2859959989683749,
+      "ari": 0.27253556111366667,
+      "confidence": 0.2262076586484909
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975623372437588,
+      "top1_top2_margin": 0.017889678478240967,
+      "effective_clusters": 4.999427318572998,
+      "min_cluster_occupancy": 0.1951867938041687,
+      "max_cluster_occupancy": 0.20387913286685944,
+      "prototype_soft_counts": [
+        975.9342651367188,
+        1011.1077270507812,
+        992.0359497070312,
+        1001.5277099609375,
+        1019.3959350585938
+      ]
+    }
+  },
+  {
+    "round": 9,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.23537252228707076,
+      "reconstruction": 0.2330594312399626,
+      "consistency": 0.01746423828881234,
+      "clustering": 0.003912338853115216,
+      "balance": 0.00015272518066922203,
+      "weighted_reconstruction": 0.2330594312399626,
+      "weighted_consistency": 0.00034928475797642023,
+      "weighted_clustering": 0.001956169426557608,
+      "weighted_balance": 7.636259122989487e-06,
+      "confidence": 0.22623945493251085,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.003912338853115216,
+      "view_semantic": 0.00923239254625514,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 12.949711084365845,
+    "clustering": {
+      "acc": 0.5986,
+      "nmi": 0.2890388364864907,
+      "ari": 0.27534970730638375,
+      "confidence": 0.22603684663772583
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975870021861674,
+      "top1_top2_margin": 0.01775386556982994,
+      "effective_clusters": 4.9993896484375,
+      "min_cluster_occupancy": 0.1951705813407898,
+      "max_cluster_occupancy": 0.20377136766910553,
+      "prototype_soft_counts": [
+        975.8529052734375,
+        1013.9419555664062,
+        990.732421875,
+        1000.6156616210938,
+        1018.8568725585938
+      ]
+    }
+  },
+  {
+    "round": 10,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.23281897380948066,
+      "reconstruction": 0.23055250514298678,
+      "consistency": 0.017456018133088946,
+      "clustering": 0.0038190747261978688,
+      "balance": 0.00015620583508280106,
+      "weighted_reconstruction": 0.23055250514298678,
+      "weighted_consistency": 0.00034912035407614895,
+      "weighted_clustering": 0.0019095373630989344,
+      "weighted_balance": 7.810291891985344e-06,
+      "confidence": 0.22620827965438367,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.0038190747261978688,
+      "view_semantic": 0.009131107374560087,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 15.062478303909302,
+    "clustering": {
+      "acc": 0.5982,
+      "nmi": 0.2881068008680487,
+      "ari": 0.2747578381461147,
+      "confidence": 0.22605593502521515
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975812248122699,
+      "top1_top2_margin": 0.017742373049259186,
+      "effective_clusters": 4.999377727508545,
+      "min_cluster_occupancy": 0.1950218230485916,
+      "max_cluster_occupancy": 0.20369957387447357,
+      "prototype_soft_counts": [
+        975.1087646484375,
+        1014.154052734375,
+        991.0430297851562,
+        1001.19482421875,
+        1018.4974975585938
+      ]
+    }
+  },
+  {
+    "round": 11,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.22970931585878135,
+      "reconstruction": 0.22743584793061017,
+      "consistency": 0.017449002782814204,
+      "clustering": 0.00383386742323637,
+      "balance": 0.0001510520965894102,
+      "weighted_reconstruction": 0.22743584793061017,
+      "weighted_consistency": 0.00034898004596470853,
+      "weighted_clustering": 0.001916933711618185,
+      "weighted_balance": 7.552604965610499e-06,
+      "confidence": 0.2261958833783865,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.00383386742323637,
+      "view_semantic": 0.009141476161312312,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 17.257601737976074,
+    "clustering": {
+      "acc": 0.5976,
+      "nmi": 0.2878362322780126,
+      "ari": 0.27434937482904864,
+      "confidence": 0.22602875530719757
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975841875681147,
+      "top1_top2_margin": 0.017700400203466415,
+      "effective_clusters": 4.999367713928223,
+      "min_cluster_occupancy": 0.19496726989746094,
+      "max_cluster_occupancy": 0.20364561676979065,
+      "prototype_soft_counts": [
+        974.836669921875,
+        1014.7265014648438,
+        991.1746826171875,
+        1001.0350341796875,
+        1018.2283935546875
+      ]
+    }
+  },
+  {
+    "round": 12,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.22784391641616822,
+      "reconstruction": 0.22557696811854838,
+      "consistency": 0.017440858390182258,
+      "clustering": 0.0038197108573513106,
+      "balance": 0.00016548171861359152,
+      "weighted_reconstruction": 0.22557696811854838,
+      "weighted_consistency": 0.0003488171594653977,
+      "weighted_clustering": 0.0019098554286756553,
+      "weighted_balance": 8.274086066961672e-06,
+      "confidence": 0.22619707006961107,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.0038197108573513106,
+      "view_semantic": 0.009129763091914355,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 19.4638991355896,
+    "clustering": {
+      "acc": 0.5974,
+      "nmi": 0.2879301835174312,
+      "ari": 0.274430244710793,
+      "confidence": 0.2260284423828125
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975824839835039,
+      "top1_top2_margin": 0.017683465033769608,
+      "effective_clusters": 4.999361991882324,
+      "min_cluster_occupancy": 0.19491179287433624,
+      "max_cluster_occupancy": 0.20361019670963287,
+      "prototype_soft_counts": [
+        974.5591430664062,
+        1014.9583129882812,
+        991.3005981445312,
+        1001.1317749023438,
+        1018.0512084960938
+      ]
+    }
+  },
+  {
+    "round": 13,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.22534498181194068,
+      "reconstruction": 0.22307933829724788,
+      "consistency": 0.01742981483694166,
+      "clustering": 0.003817595521104522,
+      "balance": 0.00016495986201334745,
+      "weighted_reconstruction": 0.22307933829724788,
+      "weighted_consistency": 0.00034859628867707216,
+      "weighted_clustering": 0.001908797760552261,
+      "weighted_balance": 8.247993221743855e-06,
+      "confidence": 0.2261949062347412,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.003817595521104522,
+      "view_semantic": 0.009134577272925526,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 21.55487036705017,
+    "clustering": {
+      "acc": 0.598,
+      "nmi": 0.2882830839932613,
+      "ari": 0.2749980256978942,
+      "confidence": 0.22603930532932281
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975801878477242,
+      "top1_top2_margin": 0.01768207922577858,
+      "effective_clusters": 4.999358654022217,
+      "min_cluster_occupancy": 0.19487357139587402,
+      "max_cluster_occupancy": 0.2035735696554184,
+      "prototype_soft_counts": [
+        974.3680419921875,
+        1015.1211547851562,
+        991.3964233398438,
+        1001.2472534179688,
+        1017.8680419921875
+      ]
+    }
+  },
+  {
+    "round": 14,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.22423729877918958,
+      "reconstruction": 0.2219686135649681,
+      "consistency": 0.017420402099378406,
+      "clustering": 0.003824727810570039,
+      "balance": 0.00015826817816559923,
+      "weighted_reconstruction": 0.2219686135649681,
+      "weighted_consistency": 0.0003484080323687522,
+      "weighted_clustering": 0.0019123639052850195,
+      "weighted_balance": 7.913409065452015e-06,
+      "confidence": 0.22619560770690442,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.003824727810570039,
+      "view_semantic": 0.00914413807913661,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 23.763660430908203,
+    "clustering": {
+      "acc": 0.598,
+      "nmi": 0.28780941165091384,
+      "ari": 0.27473572881170344,
+      "confidence": 0.22605258226394653
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975767066096064,
+      "top1_top2_margin": 0.017677050083875656,
+      "effective_clusters": 4.999349594116211,
+      "min_cluster_occupancy": 0.1948109120130539,
+      "max_cluster_occupancy": 0.2035289853811264,
+      "prototype_soft_counts": [
+        974.05419921875,
+        1015.4092407226562,
+        991.4481201171875,
+        1001.442138671875,
+        1017.64453125
+      ]
+    }
+  },
+  {
+    "round": 15,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.22168266158550978,
+      "reconstruction": 0.2194145902991295,
+      "consistency": 0.017412704788148402,
+      "clustering": 0.003823762258980423,
+      "balance": 0.0001587248538271524,
+      "weighted_reconstruction": 0.2194145902991295,
+      "weighted_consistency": 0.0003482540887489449,
+      "weighted_clustering": 0.0019118811294902116,
+      "weighted_balance": 7.936242831618755e-06,
+      "confidence": 0.22620969265699387,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.003823762258980423,
+      "view_semantic": 0.009159870888106525,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 25.913806438446045,
+    "clustering": {
+      "acc": 0.598,
+      "nmi": 0.28785467609675075,
+      "ari": 0.2746662923968067,
+      "confidence": 0.22606196999549866
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975738919915538,
+      "top1_top2_margin": 0.0176723413169384,
+      "effective_clusters": 4.99934720993042,
+      "min_cluster_occupancy": 0.19479797780513763,
+      "max_cluster_occupancy": 0.20351742208003998,
+      "prototype_soft_counts": [
+        973.9906616210938,
+        1015.5389404296875,
+        991.4219360351562,
+        1001.464599609375,
+        1017.587890625
+      ]
+    }
+  },
+  {
+    "round": 16,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.22061705868691206,
+      "reconstruction": 0.2183480728417635,
+      "consistency": 0.017397351562976837,
+      "clustering": 0.003825798598700203,
+      "balance": 0.00016280442250717896,
+      "weighted_reconstruction": 0.2183480728417635,
+      "weighted_consistency": 0.00034794702078215777,
+      "weighted_clustering": 0.0019128992993501016,
+      "weighted_balance": 8.140221247288082e-06,
+      "confidence": 0.2262126775458455,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.003825798598700203,
+      "view_semantic": 0.009170533483847975,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 27.952482223510742,
+    "clustering": {
+      "acc": 0.5978,
+      "nmi": 0.28781225412225536,
+      "ari": 0.27446009501618995,
+      "confidence": 0.22608208656311035
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975705588912284,
+      "top1_top2_margin": 0.017681317403912544,
+      "effective_clusters": 4.999351501464844,
+      "min_cluster_occupancy": 0.19477856159210205,
+      "max_cluster_occupancy": 0.20344097912311554,
+      "prototype_soft_counts": [
+        973.8928833007812,
+        1015.6569213867188,
+        991.7071533203125,
+        1001.538818359375,
+        1017.2050170898438
+      ]
+    }
+  },
+  {
+    "round": 17,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.2188483214005828,
+      "reconstruction": 0.21657748874276878,
+      "consistency": 0.017389568942599,
+      "clustering": 0.0038303158333292233,
+      "balance": 0.00015768072644277708,
+      "weighted_reconstruction": 0.21657748874276878,
+      "weighted_consistency": 0.00034779137204168367,
+      "weighted_clustering": 0.0019151579166646116,
+      "weighted_balance": 7.884036509153703e-06,
+      "confidence": 0.22624387815594674,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.0038303158333292233,
+      "view_semantic": 0.009194571478292345,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 30.09747338294983,
+    "clustering": {
+      "acc": 0.5974,
+      "nmi": 0.2874733859333102,
+      "ari": 0.2738861490264883,
+      "confidence": 0.22608886659145355
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975682627554485,
+      "top1_top2_margin": 0.01767750456929207,
+      "effective_clusters": 4.999345779418945,
+      "min_cluster_occupancy": 0.1947430670261383,
+      "max_cluster_occupancy": 0.20345883071422577,
+      "prototype_soft_counts": [
+        973.71533203125,
+        1015.6119995117188,
+        991.7176513671875,
+        1001.6607055664062,
+        1017.294189453125
+      ]
+    }
+  },
+  {
+    "round": 18,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.21749359890818595,
+      "reconstruction": 0.21522337552160026,
+      "consistency": 0.01737226275727153,
+      "clustering": 0.003829820893588476,
+      "balance": 0.00015736543864477425,
+      "weighted_reconstruction": 0.21522337552160026,
+      "weighted_consistency": 0.00034744524709822143,
+      "weighted_clustering": 0.001914910446794238,
+      "weighted_balance": 7.868272052746762e-06,
+      "confidence": 0.22626473773270844,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.003829820893588476,
+      "view_semantic": 0.009214348369278013,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 32.26555514335632,
+    "clustering": {
+      "acc": 0.5968,
+      "nmi": 0.2865705037705986,
+      "ari": 0.2731779647767067,
+      "confidence": 0.22613407671451569
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975610040036286,
+      "top1_top2_margin": 0.017711525782942772,
+      "effective_clusters": 4.999362945556641,
+      "min_cluster_occupancy": 0.19481348991394043,
+      "max_cluster_occupancy": 0.20336292684078217,
+      "prototype_soft_counts": [
+        974.0670776367188,
+        1015.715576171875,
+        991.8780517578125,
+        1001.52294921875,
+        1016.814208984375
+      ]
+    }
+  },
+  {
+    "round": 19,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.21566197890788316,
+      "reconstruction": 0.2133804362267256,
+      "consistency": 0.017356719449162485,
+      "clustering": 0.0038525519048562273,
+      "balance": 0.0001626251600100659,
+      "weighted_reconstruction": 0.2133804362267256,
+      "weighted_consistency": 0.0003471343810815597,
+      "weighted_clustering": 0.0019262759524281137,
+      "weighted_balance": 8.131258115895435e-06,
+      "confidence": 0.2262991491705179,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.0038525519048562273,
+      "view_semantic": 0.009254264063201845,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 34.31234526634216,
+    "clustering": {
+      "acc": 0.597,
+      "nmi": 0.28671525207862225,
+      "ari": 0.2734059220941304,
+      "confidence": 0.22613918781280518
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975590782123294,
+      "top1_top2_margin": 0.01770382933318615,
+      "effective_clusters": 4.999355792999268,
+      "min_cluster_occupancy": 0.1947825700044632,
+      "max_cluster_occupancy": 0.20334109663963318,
+      "prototype_soft_counts": [
+        973.9129638671875,
+        1015.9917602539062,
+        991.8247680664062,
+        1001.5654296875,
+        1016.70556640625
+      ]
+    }
+  },
+  {
+    "round": 20,
+    "phase": "clustering",
+    "center_initialized": true,
+    "clients": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train": {
+      "loss": 0.21489841397851706,
+      "reconstruction": 0.21261905152350663,
+      "consistency": 0.01734631755389273,
+      "clustering": 0.0038489345461130142,
+      "balance": 0.00015937564530759117,
+      "weighted_reconstruction": 0.21261905152350663,
+      "weighted_consistency": 0.0003469263439910719,
+      "weighted_clustering": 0.0019244672730565071,
+      "weighted_balance": 7.968782382761219e-06,
+      "confidence": 0.22632658146321774,
+      "clustering_weight_scale": 1.0,
+      "fused_clustering": 0.0038489345461130142,
+      "view_semantic": 0.009268876153510065,
+      "view_semantic_weight": 0.0
+    },
+    "communication": {
+      "uplink_bytes": 15017540,
+      "dense_uplink_bytes": 15017540,
+      "downlink_bytes": 15017040,
+      "center_initialization_bytes": 0,
+      "compression_seconds": 0.0,
+      "uplink_reduction": 0.0
+    },
+    "elapsed_seconds": 36.43469834327698,
+    "clustering": {
+      "acc": 0.597,
+      "nmi": 0.28671202407093604,
+      "ari": 0.2733030154054216,
+      "confidence": 0.22618041932582855
+    },
+    "diagnostics": {
+      "normalized_entropy": 0.9975538193207047,
+      "top1_top2_margin": 0.01774570159614086,
+      "effective_clusters": 4.999379634857178,
+      "min_cluster_occupancy": 0.1948799341917038,
+      "max_cluster_occupancy": 0.20325025916099548,
+      "prototype_soft_counts": [
+        974.3997802734375,
+        1015.835693359375,
+        991.91064453125,
+        1001.6031494140625,
+        1016.2514038085938
+      ]
+    }
+  }
+]

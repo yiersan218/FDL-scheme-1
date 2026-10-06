@@ -1,0 +1,247 @@
+{
+  "dataset": "animal",
+  "samples": 10158,
+  "view_dims": [
+    4096,
+    4096
+  ],
+  "num_clusters": 50,
+  "metrics": {
+    "acc": 0.5790509942902146,
+    "nmi": 0.6379613587600477,
+    "ari": 0.4676010417064788,
+    "confidence": 0.2337060272693634
+  },
+  "best_round": 15,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.5798385508958457,
+    "nmi": 0.6378942366974091,
+    "ari": 0.46805893230245926,
+    "confidence": 0.23510153591632843
+  },
+  "stability": {
+    "acc": 0.0007875566056311234,
+    "nmi": -6.712206263859155e-05,
+    "ari": 0.000457890595980448
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 4389762,
+    "elapsed_seconds": 106.38606572151184,
+    "peak_cuda_memory_bytes": 160535552
+  },
+  "diagnostics": {
+    "normalized_entropy": 0.7878424918780731,
+    "top1_top2_margin": 0.12731210887432098,
+    "effective_clusters": 49.64380645751953,
+    "min_cluster_occupancy": 0.0151870958507061,
+    "max_cluster_occupancy": 0.02432616427540779,
+    "prototype_soft_counts": [
+      227.86178588867188,
+      223.03646850585938,
+      196.91664123535156,
+      196.41107177734375,
+      214.35667419433594,
+      196.74131774902344,
+      185.23072814941406,
+      203.54139709472656,
+      200.17417907714844,
+      193.07872009277344,
+      213.32962036132812,
+      174.94015502929688,
+      198.093994140625,
+      205.4885711669922,
+      213.55455017089844,
+      209.6867218017578,
+      181.5465850830078,
+      212.3153076171875,
+      167.76443481445312,
+      200.00624084472656,
+      204.58497619628906,
+      175.06834411621094,
+      156.48287963867188,
+      199.3072509765625,
+      247.10525512695312,
+      190.4817657470703,
+      154.27056884765625,
+      194.29843139648438,
+      165.7588653564453,
+      231.101806640625,
+      195.36331176757812,
+      231.64100646972656,
+      239.77890014648438,
+      221.84197998046875,
+      238.55458068847656,
+      183.24989318847656,
+      168.17352294921875,
+      154.94691467285156,
+      206.26431274414062,
+      192.35572814941406,
+      187.3004913330078,
+      179.8369598388672,
+      229.84304809570312,
+      239.07623291015625,
+      245.5451202392578,
+      205.93408203125,
+      219.84149169921875,
+      233.54978942871094,
+      218.37347412109375,
+      233.99676513671875
+    ]
+  },
+  "communication": {
+    "uplink_bytes": 878093480,
+    "dense_uplink_bytes": 1756054880,
+    "downlink_bytes": 1755904800,
+    "compression_seconds": 76.32812060000003,
+    "uplink_reduction": 0.499962392974871
+  },
+  "config": {
+    "dataset": {
+      "name": "animal",
+      "file": "dataset/animal.mat",
+      "num_clusters": 50,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "cluster_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "cosine_temperature": 0.1,
+      "prototype_mode": "per_view",
+      "per_view_head_type": "cosine",
+      "per_view_temperature": 0.1
+    },
+    "training": {
+      "rounds": 20,
+      "pretrain_rounds": 12,
+      "center_init_round": 11,
+      "local_epochs": 1,
+      "pretraining_local_epochs": 1,
+      "clustering_local_epochs": 1,
+      "batch_size": 256,
+      "eval_batch_size": 512,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 10,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.05,
+      "balance": 0.05,
+      "view_semantic": 0.1
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化2\\protocol-v2\\a2\\tuning\\search\\missing_0p3\\A2_cos_tau_0p1_sem_0p1\\seed_42",
+      "save_model": false
+    },
+    "tuning": {
+      "best_round": 17,
+      "acc": 0.6268950580822996,
+      "nmi": 0.6868044158402079,
+      "ari": 0.5178013842352764,
+      "last_round_acc": 0.625812167749557,
+      "last_round_nmi": 0.6861966904901589,
+      "last_round_ari": 0.5166175636803556
+    },
+    "compression": {
+      "method": "stage",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": true
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.3,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\backup\\animal.json",
+    "experiment": {
+      "protocol_version": "global-per-view-prototype-v2-a2",
+      "variant": "A2",
+      "candidate": "A2_cos_tau_0p1_sem_0p1",
+      "candidate_rule": {
+        "variant": "A2",
+        "prototype_mode": "per_view",
+        "per_view_head_type": "cosine",
+        "student_t_distance_scale": 1.0,
+        "per_view_temperature": 0.1,
+        "view_semantic_weight": 0.1
+      },
+      "track": "tuning/search",
+      "scenario": "missing_0p3",
+      "missing_rate": 0.3,
+      "source_sha256": "fdc4829cbf2a8e03ca110d0361fa8e6d558f7e4bf36cf3024a71ed330057c7af",
+      "data_sha256": "3cbe9e7a9dedc92498b4724fe198260404ed65644c2dcb180b11150e6a6b01d2",
+      "environment": {
+        "python_version": "3.9.23",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "numpy_version": "2.0.1",
+        "sklearn_version": "1.6.1",
+        "torch_version": "2.5.1",
+        "requested_device": "cuda",
+        "cuda_available": true,
+        "torch_cuda_version": "11.8",
+        "cudnn_version": 90100,
+        "gpu_inventory": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 4070 SUPER",
+            "compute_capability": [
+              8,
+              9
+            ],
+            "total_memory_bytes": 12878086144
+          }
+        ],
+        "sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8"
+      },
+      "environment_sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8",
+      "fingerprint": "f045229bd81f7bfa3fb62260546316839e3d207c4a617fd9bc72f529819baaff"
+    }
+  },
+  "missing": {
+    "nominal_rate": 0.3,
+    "incomplete_sample_rate": 0.3000590667454223,
+    "missing_cell_rate": 0.15002953337271116,
+    "observed_per_view": [
+      8622,
+      8646
+    ],
+    "complete_per_client": [
+      1422,
+      1422,
+      1422,
+      1422,
+      1422
+    ],
+    "mask_sha256": "cbd7c3039fd6942ef0f5d23dcddc55cfb9b3cf571592ca9625b7d1a5ab3c3acf"
+  }
+}

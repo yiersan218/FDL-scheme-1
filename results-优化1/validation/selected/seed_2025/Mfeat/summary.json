@@ -1,0 +1,151 @@
+{
+  "dataset": "Mfeat",
+  "samples": 2000,
+  "view_dims": [
+    216,
+    76,
+    64,
+    6,
+    240,
+    47
+  ],
+  "num_clusters": 10,
+  "metrics": {
+    "acc": 0.9535,
+    "nmi": 0.9025121088704551,
+    "ari": 0.8995219806546595,
+    "confidence": 0.14053021371364594
+  },
+  "best_round": 11,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.9525,
+    "nmi": 0.9004555271287682,
+    "ari": 0.8972661082801971,
+    "confidence": 0.14195501804351807
+  },
+  "stability": {
+    "acc": -0.0010000000000000009,
+    "nmi": -0.0020565817416868803,
+    "ari": -0.002255872374462342
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 938639,
+    "elapsed_seconds": 26.836613416671753,
+    "peak_cuda_memory_bytes": 46363136
+  },
+  "communication": {
+    "uplink_bytes": 450575920,
+    "dense_uplink_bytes": 450575920,
+    "downlink_bytes": 450546720,
+    "compression_seconds": 0.0,
+    "uplink_reduction": 0.0
+  },
+  "config": {
+    "dataset": {
+      "name": "Mfeat",
+      "file": "dataset/Mfeat.mat",
+      "num_clusters": 10,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 128,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "semantic_projection": {
+        "enabled": false,
+        "bottleneck_dim": 0
+      },
+      "sample_fusion": {
+        "enabled": false,
+        "hidden_dim": 0,
+        "bound": 1.0,
+        "floor": 0.05
+      }
+    },
+    "training": {
+      "rounds": 24,
+      "pretrain_rounds": 9,
+      "center_init_round": 8,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-05,
+      "clustering_learning_rate": 1e-05,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 2025,
+      "device": "cuda",
+      "diagnostics": true
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.0001,
+      "clustering": 0.5,
+      "balance": 0.05
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\validation\\selected\\seed_2025",
+      "save_model": false
+    },
+    "tuning": {
+      "best_round": 23,
+      "acc": 0.9585,
+      "nmi": 0.9127539689342437,
+      "ari": 0.9103300024700572,
+      "last_round_acc": 0.958,
+      "last_round_nmi": 0.910903433904533,
+      "last_round_ari": 0.9090407395972177
+    },
+    "objective": {
+      "consistency": "loo_contrastive",
+      "temperature": 0.2,
+      "negative_weight": 0.0,
+      "completion_contrastive": true
+    },
+    "compression": {
+      "method": "none",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": false
+    },
+    "missing": {
+      "enabled": false,
+      "rate": 0.0,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Mfeat.json",
+    "experiment": {
+      "variant": "E1",
+      "candidate": "selected",
+      "track": "validation",
+      "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+      "data_sha256": "094a11bd3e654259262370a71e5f96fb4cbbbd61e3a020d4102199c73bb15eb9",
+      "torch_version": "2.5.1",
+      "fingerprint": "0987719bea511165bc108df8ea3dd898c56014e1fa72ac69d82bad867c651398"
+    }
+  }
+}

@@ -1,0 +1,1524 @@
+{
+  "selection_rule": "seed42 oracle-best NMI among stable four-loss candidates; if no candidate beats the tuned baseline, keep baseline; frozen before validation",
+  "datasets": {
+    "ALOI_100": {
+      "source": "tuning\\search\\EG_w0p2_lr_1em5\\seed_42\\ALOI_100\\summary.json",
+      "config": {
+        "dataset": {
+          "name": "ALOI_100",
+          "file": "dataset/ALOI_100.mat",
+          "num_clusters": 100,
+          "num_clients": 6,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            128,
+            64
+          ],
+          "embedding_dim": 32,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": true,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 16,
+          "pretrain_rounds": 12,
+          "center_init_round": 11,
+          "local_epochs": 1,
+          "pretraining_local_epochs": 1,
+          "clustering_local_epochs": 1,
+          "batch_size": 256,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 1e-05,
+          "clustering_learning_rate": 1e-05,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 10,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.5,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\search\\EG_w0p2_lr_1em5\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 15,
+          "acc": 0.7948148148148149,
+          "nmi": 0.8802326046097158,
+          "ari": 0.7021962232755511,
+          "last_round_acc": 0.794537037037037,
+          "last_round_nmi": 0.8800606545912305,
+          "last_round_ari": 0.7017892087598174
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\ALOI_100.json",
+        "experiment": {
+          "variant": "EG",
+          "candidate": "EG_w0p2_lr_1em5",
+          "track": "tuning/search",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "7e151504633464680c238876ff6c47976ec4d06fc5784dc3b0e27684a25a6a5f",
+          "torch_version": "2.5.1",
+          "fingerprint": "d77fc77c5bb34445aaf3593f4545c6938a0b2d3b4e13ccf9665d29bf23267be7"
+        }
+      },
+      "baseline_source": "tuning\\screen\\E0_w0p2_lr_original\\seed_42\\ALOI_100\\summary.json",
+      "baseline_config": {
+        "dataset": {
+          "name": "ALOI_100",
+          "file": "dataset/ALOI_100.mat",
+          "num_clusters": 100,
+          "num_clients": 6,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            128,
+            64
+          ],
+          "embedding_dim": 32,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 16,
+          "pretrain_rounds": 12,
+          "center_init_round": 11,
+          "local_epochs": 1,
+          "pretraining_local_epochs": 1,
+          "clustering_local_epochs": 1,
+          "batch_size": 256,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 1e-06,
+          "clustering_learning_rate": 1e-06,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 10,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.5,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\screen\\E0_w0p2_lr_original\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 15,
+          "acc": 0.7948148148148149,
+          "nmi": 0.8802326046097158,
+          "ari": 0.7021962232755511,
+          "last_round_acc": 0.794537037037037,
+          "last_round_nmi": 0.8800606545912305,
+          "last_round_ari": 0.7017892087598174
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\ALOI_100.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p2_lr_original",
+          "track": "tuning/screen",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "7e151504633464680c238876ff6c47976ec4d06fc5784dc3b0e27684a25a6a5f",
+          "torch_version": "2.5.1",
+          "fingerprint": "bc0f5297e9d4c4bd3d49337838b3834b7cd544b17ef979314c8193667e6239d9"
+        }
+      },
+      "candidate_accepted": true,
+      "best_candidate_source": "tuning\\search\\EG_w0p2_lr_1em5\\seed_42\\ALOI_100\\summary.json",
+      "candidate_screening_nmi": 0.8821554080816717,
+      "baseline_screening_nmi": 0.8802326046097158,
+      "reproduction_config": "configs\\ALOI_100.json"
+    },
+    "flower17": {
+      "source": "tuning\\screen\\E0_w0p2_lr_original\\seed_42\\flower17\\summary.json",
+      "config": {
+        "dataset": {
+          "name": "flower17",
+          "file": "dataset/flower17.mat",
+          "num_clusters": 17,
+          "num_clients": 5,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 128,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 20,
+          "pretrain_rounds": 8,
+          "center_init_round": 7,
+          "local_epochs": 2,
+          "pretraining_local_epochs": 2,
+          "clustering_local_epochs": 2,
+          "batch_size": 128,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 1e-06,
+          "clustering_learning_rate": 1e-06,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 20,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.5,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\screen\\E0_w0p2_lr_original\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 9,
+          "acc": 0.5051470588235294,
+          "nmi": 0.5482555702744353,
+          "ari": 0.3706597424575538,
+          "last_round_acc": 0.5044117647058823,
+          "last_round_nmi": 0.546482656640013,
+          "last_round_ari": 0.36952559139639674
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\flower17.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p2_lr_original",
+          "track": "tuning/screen",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "51ae9c1d0cd15e16d79414ff2049d56eb851073d2d4152d9e05f0e1488ff78ee",
+          "torch_version": "2.5.1",
+          "fingerprint": "1165a518b3ab05fb6ad0cc6483394d966928a4deb8c4a1bc61a4250e45d4c6ab"
+        }
+      },
+      "baseline_source": "tuning\\screen\\E0_w0p2_lr_original\\seed_42\\flower17\\summary.json",
+      "baseline_config": {
+        "dataset": {
+          "name": "flower17",
+          "file": "dataset/flower17.mat",
+          "num_clusters": 17,
+          "num_clients": 5,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 128,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 20,
+          "pretrain_rounds": 8,
+          "center_init_round": 7,
+          "local_epochs": 2,
+          "pretraining_local_epochs": 2,
+          "clustering_local_epochs": 2,
+          "batch_size": 128,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 1e-06,
+          "clustering_learning_rate": 1e-06,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 20,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.5,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\screen\\E0_w0p2_lr_original\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 9,
+          "acc": 0.5051470588235294,
+          "nmi": 0.5482555702744353,
+          "ari": 0.3706597424575538,
+          "last_round_acc": 0.5044117647058823,
+          "last_round_nmi": 0.546482656640013,
+          "last_round_ari": 0.36952559139639674
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\flower17.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p2_lr_original",
+          "track": "tuning/screen",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "51ae9c1d0cd15e16d79414ff2049d56eb851073d2d4152d9e05f0e1488ff78ee",
+          "torch_version": "2.5.1",
+          "fingerprint": "1165a518b3ab05fb6ad0cc6483394d966928a4deb8c4a1bc61a4250e45d4c6ab"
+        }
+      },
+      "candidate_accepted": false,
+      "best_candidate_source": "tuning\\search\\EG_w0p2_lr_1em5\\seed_42\\flower17\\summary.json",
+      "candidate_screening_nmi": 0.5219043770395004,
+      "baseline_screening_nmi": 0.5482555702744353,
+      "reproduction_config": "configs\\flower17.json"
+    },
+    "LandUse_21": {
+      "source": "tuning\\search\\E0_w0p2_lr_1em5\\seed_42\\LandUse_21\\summary.json",
+      "config": {
+        "dataset": {
+          "name": "LandUse_21",
+          "file": "dataset/LandUse_21.mat",
+          "num_clusters": 21,
+          "num_clients": 7,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 64,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 16,
+          "pretrain_rounds": 13,
+          "center_init_round": 12,
+          "local_epochs": 2,
+          "pretraining_local_epochs": 2,
+          "clustering_local_epochs": 2,
+          "batch_size": 128,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 1e-05,
+          "clustering_learning_rate": 1e-05,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 20,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.5,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\search\\E0_w0p2_lr_1em5\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 16,
+          "acc": 0.2876190476190476,
+          "nmi": 0.33610204343835953,
+          "ari": 0.14295063392523574,
+          "last_round_acc": 0.2876190476190476,
+          "last_round_nmi": 0.33610204343835953,
+          "last_round_ari": 0.14295063392523574
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\LandUse_21.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p2_lr_1em5",
+          "track": "tuning/search",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "6441fc42e84a83729e5a6436f4c1544dcc3fe115558458495b165677a732b67f",
+          "torch_version": "2.5.1",
+          "fingerprint": "9b4ce04db14308580ebfda5aa46599ff63c836f33b4ecd0cbca72a85ddb44132"
+        }
+      },
+      "baseline_source": "tuning\\search\\E0_w0p2_lr_1em5\\seed_42\\LandUse_21\\summary.json",
+      "baseline_config": {
+        "dataset": {
+          "name": "LandUse_21",
+          "file": "dataset/LandUse_21.mat",
+          "num_clusters": 21,
+          "num_clients": 7,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 64,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 16,
+          "pretrain_rounds": 13,
+          "center_init_round": 12,
+          "local_epochs": 2,
+          "pretraining_local_epochs": 2,
+          "clustering_local_epochs": 2,
+          "batch_size": 128,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 1e-05,
+          "clustering_learning_rate": 1e-05,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 20,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.5,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\search\\E0_w0p2_lr_1em5\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 16,
+          "acc": 0.2876190476190476,
+          "nmi": 0.33610204343835953,
+          "ari": 0.14295063392523574,
+          "last_round_acc": 0.2876190476190476,
+          "last_round_nmi": 0.33610204343835953,
+          "last_round_ari": 0.14295063392523574
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\LandUse_21.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p2_lr_1em5",
+          "track": "tuning/search",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "6441fc42e84a83729e5a6436f4c1544dcc3fe115558458495b165677a732b67f",
+          "torch_version": "2.5.1",
+          "fingerprint": "9b4ce04db14308580ebfda5aa46599ff63c836f33b4ecd0cbca72a85ddb44132"
+        }
+      },
+      "candidate_accepted": false,
+      "best_candidate_source": "tuning\\search\\E1_w0p0001_lr_1em5\\seed_42\\LandUse_21\\summary.json",
+      "candidate_screening_nmi": 0.3313087660582229,
+      "baseline_screening_nmi": 0.3374586408140176,
+      "reproduction_config": "configs\\LandUse_21.json"
+    },
+    "Mfeat": {
+      "source": "tuning\\search\\E1_w0p0001_lr_1em5\\seed_42\\Mfeat\\summary.json",
+      "config": {
+        "dataset": {
+          "name": "Mfeat",
+          "file": "dataset/Mfeat.mat",
+          "num_clusters": 10,
+          "num_clients": 5,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 128,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 24,
+          "pretrain_rounds": 9,
+          "center_init_round": 8,
+          "local_epochs": 2,
+          "pretraining_local_epochs": 2,
+          "clustering_local_epochs": 2,
+          "batch_size": 128,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 1e-05,
+          "clustering_learning_rate": 1e-05,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 20,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.0001,
+          "clustering": 0.5,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\search\\E1_w0p0001_lr_1em5\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 23,
+          "acc": 0.9585,
+          "nmi": 0.9127539689342437,
+          "ari": 0.9103300024700572,
+          "last_round_acc": 0.958,
+          "last_round_nmi": 0.910903433904533,
+          "last_round_ari": 0.9090407395972177
+        },
+        "objective": {
+          "consistency": "loo_contrastive",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Mfeat.json",
+        "experiment": {
+          "variant": "E1",
+          "candidate": "E1_w0p0001_lr_1em5",
+          "track": "tuning/search",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "094a11bd3e654259262370a71e5f96fb4cbbbd61e3a020d4102199c73bb15eb9",
+          "torch_version": "2.5.1",
+          "fingerprint": "106ec5b9b016232ef430c3aefa28f353726b29de7c7002045a513f778ef02eda"
+        }
+      },
+      "baseline_source": "tuning\\screen\\E0_w0p2_lr_original\\seed_42\\Mfeat\\summary.json",
+      "baseline_config": {
+        "dataset": {
+          "name": "Mfeat",
+          "file": "dataset/Mfeat.mat",
+          "num_clusters": 10,
+          "num_clients": 5,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 128,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 24,
+          "pretrain_rounds": 9,
+          "center_init_round": 8,
+          "local_epochs": 2,
+          "pretraining_local_epochs": 2,
+          "clustering_local_epochs": 2,
+          "batch_size": 128,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 1e-05,
+          "clustering_learning_rate": 1e-05,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 20,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.5,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\screen\\E0_w0p2_lr_original\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 23,
+          "acc": 0.9585,
+          "nmi": 0.9127539689342437,
+          "ari": 0.9103300024700572,
+          "last_round_acc": 0.958,
+          "last_round_nmi": 0.910903433904533,
+          "last_round_ari": 0.9090407395972177
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Mfeat.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p2_lr_original",
+          "track": "tuning/screen",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "094a11bd3e654259262370a71e5f96fb4cbbbd61e3a020d4102199c73bb15eb9",
+          "torch_version": "2.5.1",
+          "fingerprint": "fd3b2c22bf363e62bf62c3e2bcd63a6b46d92e08590fee20393b9f01462c7d9a"
+        }
+      },
+      "candidate_accepted": true,
+      "best_candidate_source": "tuning\\search\\E1_w0p0001_lr_1em5\\seed_42\\Mfeat\\summary.json",
+      "candidate_screening_nmi": 0.9137744507304238,
+      "baseline_screening_nmi": 0.9127539689342437,
+      "reproduction_config": "configs\\Mfeat.json"
+    },
+    "NUSWIDE": {
+      "source": "tuning\\search\\E0_w0p02_lr_1em4\\seed_42\\NUSWIDE\\summary.json",
+      "config": {
+        "dataset": {
+          "name": "NUSWIDE",
+          "file": "dataset/NUSWIDE.mat",
+          "num_clusters": 5,
+          "num_clients": 5,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 64,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 20,
+          "pretrain_rounds": 8,
+          "center_init_round": 7,
+          "local_epochs": 2,
+          "pretraining_local_epochs": 2,
+          "clustering_local_epochs": 2,
+          "batch_size": 128,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 0.0001,
+          "clustering_learning_rate": 0.0001,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 20,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.02,
+          "clustering": 0.5,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\search\\E0_w0p02_lr_1em4\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 20,
+          "acc": 0.5786,
+          "nmi": 0.26285372878227975,
+          "ari": 0.25543153780572664,
+          "last_round_acc": 0.5786,
+          "last_round_nmi": 0.26285372878227975,
+          "last_round_ari": 0.25543153780572664
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\NUSWIDE.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p02_lr_1em4",
+          "track": "tuning/search",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "0a875f23711076e0503dbb399871ff8d3f0ca056e46533f0196698aeb43094d2",
+          "torch_version": "2.5.1",
+          "fingerprint": "f97e96b2658157837c22454274b24ff776cc15bddbce0298ba9c77a6f38554a9"
+        }
+      },
+      "baseline_source": "tuning\\search\\E0_w0p02_lr_1em4\\seed_42\\NUSWIDE\\summary.json",
+      "baseline_config": {
+        "dataset": {
+          "name": "NUSWIDE",
+          "file": "dataset/NUSWIDE.mat",
+          "num_clusters": 5,
+          "num_clients": 5,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 64,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 20,
+          "pretrain_rounds": 8,
+          "center_init_round": 7,
+          "local_epochs": 2,
+          "pretraining_local_epochs": 2,
+          "clustering_local_epochs": 2,
+          "batch_size": 128,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 0.0001,
+          "clustering_learning_rate": 0.0001,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 20,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.02,
+          "clustering": 0.5,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\search\\E0_w0p02_lr_1em4\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 20,
+          "acc": 0.5786,
+          "nmi": 0.26285372878227975,
+          "ari": 0.25543153780572664,
+          "last_round_acc": 0.5786,
+          "last_round_nmi": 0.26285372878227975,
+          "last_round_ari": 0.25543153780572664
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\NUSWIDE.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p02_lr_1em4",
+          "track": "tuning/search",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "0a875f23711076e0503dbb399871ff8d3f0ca056e46533f0196698aeb43094d2",
+          "torch_version": "2.5.1",
+          "fingerprint": "f97e96b2658157837c22454274b24ff776cc15bddbce0298ba9c77a6f38554a9"
+        }
+      },
+      "candidate_accepted": false,
+      "best_candidate_source": "tuning\\search\\EG_w0p02_lr_1em4\\seed_42\\NUSWIDE\\summary.json",
+      "candidate_screening_nmi": 0.24087021780249113,
+      "baseline_screening_nmi": 0.2641112211823276,
+      "reproduction_config": "configs\\NUSWIDE.json"
+    },
+    "Scene-15": {
+      "source": "tuning\\search\\E0_w0p2_lr_1em4\\seed_42\\Scene-15\\summary.json",
+      "config": {
+        "dataset": {
+          "name": "Scene-15",
+          "file": "dataset/Scene-15.mat",
+          "num_clusters": 15,
+          "num_clients": 5,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 64,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 30,
+          "pretrain_rounds": 22,
+          "center_init_round": 14,
+          "local_epochs": 2,
+          "pretraining_local_epochs": 2,
+          "clustering_local_epochs": 3,
+          "batch_size": 128,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 0.0001,
+          "clustering_learning_rate": 0.0001,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99875,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 20,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.05,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\search\\E0_w0p2_lr_1em4\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 23,
+          "acc": 0.44905239687848386,
+          "nmi": 0.437947014589343,
+          "ari": 0.28240599224205803,
+          "last_round_acc": 0.44905239687848386,
+          "last_round_nmi": 0.437947014589343,
+          "last_round_ari": 0.28240599224205803
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Scene-15.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p2_lr_1em4",
+          "track": "tuning/search",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "ec33b5e1f53eea04ccacc8b7bdfc6091ed490b04214eb41fd83c05a0a173221f",
+          "torch_version": "2.5.1",
+          "fingerprint": "919eda1cd3e5ec95aaf4ddc54fb546f2a306a361999465f4acdb9290e64d9848"
+        }
+      },
+      "baseline_source": "tuning\\search\\E0_w0p2_lr_1em4\\seed_42\\Scene-15\\summary.json",
+      "baseline_config": {
+        "dataset": {
+          "name": "Scene-15",
+          "file": "dataset/Scene-15.mat",
+          "num_clusters": 15,
+          "num_clients": 5,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 64,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 30,
+          "pretrain_rounds": 22,
+          "center_init_round": 14,
+          "local_epochs": 2,
+          "pretraining_local_epochs": 2,
+          "clustering_local_epochs": 3,
+          "batch_size": 128,
+          "eval_batch_size": 1024,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 0.0001,
+          "clustering_learning_rate": 0.0001,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99875,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 20,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.05,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\search\\E0_w0p2_lr_1em4\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 23,
+          "acc": 0.44905239687848386,
+          "nmi": 0.437947014589343,
+          "ari": 0.28240599224205803,
+          "last_round_acc": 0.44905239687848386,
+          "last_round_nmi": 0.437947014589343,
+          "last_round_ari": 0.28240599224205803
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Scene-15.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p2_lr_1em4",
+          "track": "tuning/search",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "ec33b5e1f53eea04ccacc8b7bdfc6091ed490b04214eb41fd83c05a0a173221f",
+          "torch_version": "2.5.1",
+          "fingerprint": "919eda1cd3e5ec95aaf4ddc54fb546f2a306a361999465f4acdb9290e64d9848"
+        }
+      },
+      "candidate_accepted": false,
+      "best_candidate_source": "tuning\\search\\E1_w0p001_lr_1em5\\seed_42\\Scene-15\\summary.json",
+      "candidate_screening_nmi": 0.42087237795209664,
+      "baseline_screening_nmi": 0.4423501636328386,
+      "reproduction_config": "configs\\Scene-15.json"
+    },
+    "animal": {
+      "source": "tuning\\screen\\E0_w0p2_lr_original\\seed_42\\animal\\summary.json",
+      "config": {
+        "dataset": {
+          "name": "animal",
+          "file": "dataset/animal.mat",
+          "num_clusters": 50,
+          "num_clients": 5,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 64,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 20,
+          "pretrain_rounds": 12,
+          "center_init_round": 11,
+          "local_epochs": 1,
+          "pretraining_local_epochs": 1,
+          "clustering_local_epochs": 1,
+          "batch_size": 256,
+          "eval_batch_size": 512,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 1e-06,
+          "clustering_learning_rate": 1e-06,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 10,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.05,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\screen\\E0_w0p2_lr_original\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 17,
+          "acc": 0.6268950580822996,
+          "nmi": 0.6868044158402079,
+          "ari": 0.5178013842352764,
+          "last_round_acc": 0.625812167749557,
+          "last_round_nmi": 0.6861966904901589,
+          "last_round_ari": 0.5166175636803556
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\backup\\animal.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p2_lr_original",
+          "track": "tuning/screen",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "3cbe9e7a9dedc92498b4724fe198260404ed65644c2dcb180b11150e6a6b01d2",
+          "torch_version": "2.5.1",
+          "fingerprint": "796b1eaa1a8723b3b25575f0e504da68e4f5010aeeedc1d9b6aa1baa46cc93c7"
+        }
+      },
+      "baseline_source": "tuning\\screen\\E0_w0p2_lr_original\\seed_42\\animal\\summary.json",
+      "baseline_config": {
+        "dataset": {
+          "name": "animal",
+          "file": "dataset/animal.mat",
+          "num_clusters": 50,
+          "num_clients": 5,
+          "normalization": "standard"
+        },
+        "model": {
+          "hidden_dims": [
+            256,
+            128
+          ],
+          "embedding_dim": 64,
+          "dropout": 0.0,
+          "student_t_alpha": 1.0,
+          "semantic_projection": {
+            "enabled": false,
+            "bottleneck_dim": 0
+          },
+          "sample_fusion": {
+            "enabled": false,
+            "hidden_dim": 0,
+            "bound": 1.0,
+            "floor": 0.05
+          }
+        },
+        "training": {
+          "rounds": 20,
+          "pretrain_rounds": 12,
+          "center_init_round": 11,
+          "local_epochs": 1,
+          "pretraining_local_epochs": 1,
+          "clustering_local_epochs": 1,
+          "batch_size": 256,
+          "eval_batch_size": 512,
+          "learning_rate": 0.001,
+          "pretraining_end_learning_rate": 1e-06,
+          "clustering_learning_rate": 1e-06,
+          "cluster_head_learning_rate_multiplier": 1.0,
+          "center_momentum": 0.99,
+          "weight_decay": 1e-05,
+          "join_ratio": 1.0,
+          "eval_gap": 1,
+          "selection_metric": "nmi",
+          "center_init_n_init": 10,
+          "gradient_clip": 5.0,
+          "num_workers": 0,
+          "seed": 42,
+          "device": "cuda",
+          "diagnostics": true
+        },
+        "loss_weights": {
+          "reconstruction": 1.0,
+          "consistency": 0.2,
+          "clustering": 0.05,
+          "balance": 0.05
+        },
+        "output": {
+          "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\tuning\\screen\\E0_w0p2_lr_original\\seed_42",
+          "save_model": false
+        },
+        "tuning": {
+          "best_round": 17,
+          "acc": 0.6268950580822996,
+          "nmi": 0.6868044158402079,
+          "ari": 0.5178013842352764,
+          "last_round_acc": 0.625812167749557,
+          "last_round_nmi": 0.6861966904901589,
+          "last_round_ari": 0.5166175636803556
+        },
+        "objective": {
+          "consistency": "mse",
+          "temperature": 0.2,
+          "negative_weight": 0.0,
+          "completion_contrastive": true
+        },
+        "compression": {
+          "method": "none",
+          "budget_ratio": 0.5,
+          "calibration_size": 64,
+          "candidates": 6,
+          "view_weight": 0.1,
+          "pair_weight": 0.1,
+          "error_feedback": false
+        },
+        "missing": {
+          "enabled": false,
+          "rate": 0.0,
+          "method": "attention",
+          "heads": 4,
+          "anchor_size": 256
+        },
+        "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\backup\\animal.json",
+        "experiment": {
+          "variant": "E0",
+          "candidate": "E0_w0p2_lr_original",
+          "track": "tuning/screen",
+          "source_sha256": "9e9a0ed75307b3e09abf5608994604d648ad8b25f963096900b3174c6a0b7578",
+          "data_sha256": "3cbe9e7a9dedc92498b4724fe198260404ed65644c2dcb180b11150e6a6b01d2",
+          "torch_version": "2.5.1",
+          "fingerprint": "796b1eaa1a8723b3b25575f0e504da68e4f5010aeeedc1d9b6aa1baa46cc93c7"
+        }
+      },
+      "candidate_accepted": false,
+      "best_candidate_source": "tuning\\screen\\E1_w0p0001_lr_original\\seed_42\\animal\\summary.json",
+      "candidate_screening_nmi": 0.685863089343766,
+      "baseline_screening_nmi": 0.6868044158402079,
+      "reproduction_config": "configs\\animal.json"
+    }
+  }
+}

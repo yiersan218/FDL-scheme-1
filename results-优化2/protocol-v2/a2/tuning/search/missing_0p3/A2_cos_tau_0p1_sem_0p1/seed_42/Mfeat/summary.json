@@ -1,0 +1,215 @@
+{
+  "dataset": "Mfeat",
+  "samples": 2000,
+  "view_dims": [
+    216,
+    76,
+    64,
+    6,
+    240,
+    47
+  ],
+  "num_clusters": 10,
+  "metrics": {
+    "acc": 0.9545,
+    "nmi": 0.9019020541701925,
+    "ari": 0.9010057251500805,
+    "confidence": 0.6688571572303772
+  },
+  "best_round": 23,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.9545,
+    "nmi": 0.9019020541701925,
+    "ari": 0.9010057251500805,
+    "confidence": 0.670913577079773
+  },
+  "stability": {
+    "acc": 0.0,
+    "nmi": 0.0,
+    "ari": 0.0
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 994191,
+    "elapsed_seconds": 84.87415266036987,
+    "peak_cuda_memory_bytes": 46436864
+  },
+  "diagnostics": {
+    "normalized_entropy": 0.49035277249728926,
+    "top1_top2_margin": 0.5340097546577454,
+    "effective_clusters": 9.985869407653809,
+    "min_cluster_occupancy": 0.09294324368238449,
+    "max_cluster_occupancy": 0.10970304161310196,
+    "prototype_soft_counts": [
+      208.21681213378906,
+      198.3326873779297,
+      195.86123657226562,
+      214.26820373535156,
+      219.40602111816406,
+      185.8864288330078,
+      185.99783325195312,
+      191.8081512451172,
+      198.13348388671875,
+      202.08847045898438
+    ]
+  },
+  "communication": {
+    "uplink_bytes": 238771440,
+    "dense_uplink_bytes": 477387120,
+    "downlink_bytes": 477211680,
+    "compression_seconds": 44.65435399999933,
+    "uplink_reduction": 0.49983686195806876
+  },
+  "config": {
+    "dataset": {
+      "name": "Mfeat",
+      "file": "dataset/Mfeat.mat",
+      "num_clusters": 10,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 128,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "cluster_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "cosine_temperature": 0.1,
+      "prototype_mode": "per_view",
+      "per_view_head_type": "cosine",
+      "per_view_temperature": 0.1
+    },
+    "training": {
+      "rounds": 24,
+      "pretrain_rounds": 9,
+      "center_init_round": 8,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 2,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-05,
+      "clustering_learning_rate": 1e-05,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "consistency": 0.2,
+      "clustering": 0.5,
+      "balance": 0.05,
+      "view_semantic": 0.1
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化2\\protocol-v2\\a2\\tuning\\search\\missing_0p3\\A2_cos_tau_0p1_sem_0p1\\seed_42",
+      "save_model": false
+    },
+    "tuning": {
+      "best_round": 23,
+      "acc": 0.9585,
+      "nmi": 0.9127539689342437,
+      "ari": 0.9103300024700572,
+      "last_round_acc": 0.958,
+      "last_round_nmi": 0.910903433904533,
+      "last_round_ari": 0.9090407395972177
+    },
+    "compression": {
+      "method": "stage",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": true
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.3,
+      "method": "attention",
+      "heads": 4,
+      "anchor_size": 256
+    },
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Mfeat.json",
+    "experiment": {
+      "protocol_version": "global-per-view-prototype-v2-a2",
+      "variant": "A2",
+      "candidate": "A2_cos_tau_0p1_sem_0p1",
+      "candidate_rule": {
+        "variant": "A2",
+        "prototype_mode": "per_view",
+        "per_view_head_type": "cosine",
+        "student_t_distance_scale": 1.0,
+        "per_view_temperature": 0.1,
+        "view_semantic_weight": 0.1
+      },
+      "track": "tuning/search",
+      "scenario": "missing_0p3",
+      "missing_rate": 0.3,
+      "source_sha256": "fdc4829cbf2a8e03ca110d0361fa8e6d558f7e4bf36cf3024a71ed330057c7af",
+      "data_sha256": "094a11bd3e654259262370a71e5f96fb4cbbbd61e3a020d4102199c73bb15eb9",
+      "environment": {
+        "python_version": "3.9.23",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "numpy_version": "2.0.1",
+        "sklearn_version": "1.6.1",
+        "torch_version": "2.5.1",
+        "requested_device": "cuda",
+        "cuda_available": true,
+        "torch_cuda_version": "11.8",
+        "cudnn_version": 90100,
+        "gpu_inventory": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 4070 SUPER",
+            "compute_capability": [
+              8,
+              9
+            ],
+            "total_memory_bytes": 12878086144
+          }
+        ],
+        "sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8"
+      },
+      "environment_sha256": "f97a756841946ce9dde9cc781f1fa0097f6d1411643021dce02a03bd467d5ce8",
+      "fingerprint": "af4310784348be285c79787fb9375c38f3dab331acf429b3f152d7a9663e3f42"
+    }
+  },
+  "missing": {
+    "nominal_rate": 0.3,
+    "incomplete_sample_rate": 0.3,
+    "missing_cell_rate": 0.05,
+    "observed_per_view": [
+      1904,
+      1901,
+      1888,
+      1899,
+      1913,
+      1895
+    ],
+    "complete_per_client": [
+      280,
+      280,
+      280,
+      280,
+      280
+    ],
+    "mask_sha256": "c467437457f96a673b30f3ce0b34bce2e1e8b037a3a07f06d7aa77bfea7c148a"
+  }
+}

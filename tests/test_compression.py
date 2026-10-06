@@ -62,11 +62,16 @@ class CompressionTests(unittest.TestCase):
         self.assertGreater(packet["kept"], 0)
         self.assertLess(packet["kept"], packet["parameters"])
         recovered = reconstruct_state(global_model, packet["payload"], packet["centers"])
-        self.assertTrue(torch.equal(recovered["cluster_head.centers"], local_model.cluster_head.centers))
+        for key in global_model.prototype_center_keys():
+            self.assertTrue(torch.equal(recovered[key], local_model.state_dict()[key]))
         delta = flatten_update(local_model, global_model, ordinary_keys(global_model))
         restored_delta = decode_sparse(packet["payload"], delta.numel())
         self.assertTrue(torch.allclose(restored_delta + packet["residual"], delta))
-        dense_state = state_from_flat_update(global_model, delta, local_model.cluster_head.centers)
+        centers = {
+            key: local_model.state_dict()[key]
+            for key in global_model.prototype_center_keys()
+        }
+        dense_state = state_from_flat_update(global_model, delta, centers)
         for key in ordinary_keys(global_model):
             self.assertTrue(torch.allclose(dense_state[key], local_model.state_dict()[key]))
 
@@ -92,6 +97,34 @@ class CompressionTests(unittest.TestCase):
         sent = decode_sparse(packet["payload"], effective.numel())
         self.assertTrue(torch.allclose(sent + packet["residual"], effective))
 
+    def test_per_view_prototypes_use_fixed_center_payload_not_sparse_parameters(self):
+        torch.manual_seed(5)
+        global_model = MultiViewClusteringModel(
+            [4, 3], 2, [3], 2,
+            prototype_mode="per_view", per_view_head_type="student_t",
+        )
+        local_model = copy.deepcopy(global_model)
+        with torch.no_grad():
+            for parameter in local_model.parameters():
+                parameter.add_(torch.randn_like(parameter) * 0.01)
+        center_names = set(global_model.prototype_center_keys())
+        self.assertTrue(center_names.isdisjoint(ordinary_keys(global_model)))
+        packet = compress_client_update(
+            local_model, global_model,
+            {"method": "topk", "budget_ratio": 0.8},
+            centers_enabled=True,
+        )
+        self.assertIsInstance(packet["centers"], dict)
+        self.assertEqual(set(packet["centers"]), center_names)
+        recovered = reconstruct_state(
+            global_model, packet["payload"], packet["centers"]
+        )
+        for key in center_names:
+            self.assertTrue(torch.equal(recovered[key], local_model.state_dict()[key]))
+        self.assertLessEqual(
+            packet["bytes"], int(dense_uplink_bytes(global_model, True) * 0.8)
+        )
+
     def test_compression_overrides_are_validated(self):
         config = load_config("Mfeat")
         tuned = apply_overrides(config, ["compression.method=stage", "compression.budget_ratio=0.4"])
@@ -103,7 +136,9 @@ class CompressionTests(unittest.TestCase):
         torch.manual_seed(7)
         reference = MultiViewClusteringModel([4], 2, [3], 2)
         with torch.no_grad():
-            reference.cluster_head.centers.copy_(torch.tensor([[0.0, 0.0], [10.0, 10.0]]))
+            reference.prototype_heads[0].centers.copy_(
+                torch.tensor([[0.0, 0.0], [10.0, 10.0]])
+            )
         local_models = []
         for amount, centers in (
             (0.01, torch.tensor([[2.0, 2.0], [8.0, 8.0]])),
@@ -112,19 +147,19 @@ class CompressionTests(unittest.TestCase):
             local = copy.deepcopy(reference)
             with torch.no_grad():
                 for name, parameter in local.named_parameters():
-                    if name != "cluster_head.centers":
+                    if name != "prototype_heads.0.centers":
                         parameter.add_(amount)
-                local.cluster_head.centers.copy_(centers)
+                local.prototype_heads[0].centers.copy_(centers)
             local_models.append(local)
         dense_updates, sparse_updates = [], []
         for index, local in enumerate(local_models):
             state = {key: value.detach().cpu().clone() for key, value in local.state_dict().items()}
-            counts = torch.tensor([9.0, 1.0])
+            counts = torch.tensor([[9.0, 1.0]])
             dense_updates.append({"state_dict": state, "num_samples": 10, "cluster_counts": counts.clone()})
             delta = flatten_update(local, reference, ordinary_keys(reference))
             sparse_updates.append({
                 "payload": encode_sparse(delta, torch.arange(delta.numel())),
-                "centers": state["cluster_head.centers"],
+                "centers": {"prototype_heads.0.centers": state["prototype_heads.0.centers"]},
                 "num_samples": 10,
                 "cluster_counts": counts.clone(),
             })

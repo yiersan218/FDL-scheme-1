@@ -1,0 +1,57 @@
+{
+  "protocol_version": "a2-only-prototype-v1",
+  "stage": "A2",
+  "screening_seed": 42,
+  "representative_datasets": [
+    "ALOI_100",
+    "animal",
+    "Mfeat",
+    "Scene-15"
+  ],
+  "scenarios": [
+    "full",
+    "missing_0p3"
+  ],
+  "missing_rates": [
+    0.0,
+    0.3
+  ],
+  "selection_rule": "one global A2 rule across four representative datasets and full/missing-0.3; rank by all-run stability, stable-run count, macro last NMI, then macro oracle NMI",
+  "grid_policy": "non-Cartesian A2 grid: Student-t scale=1 semantic control/on, Student-t scale=2 semantic-on, and one cosine semantic-on ablation",
+  "loss_accounting": "loss_weights.view_semantic remains inside clustering; top-level losses are reconstruction, consistency, clustering, and balance",
+  "rules": [
+    {
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "per_view_temperature": 0.1,
+      "view_semantic_weight": 0.0
+    },
+    {
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "per_view_temperature": 0.1,
+      "view_semantic_weight": 0.1
+    },
+    {
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t",
+      "student_t_distance_scale": 2.0,
+      "per_view_temperature": 0.1,
+      "view_semantic_weight": 0.1
+    },
+    {
+      "variant": "A2",
+      "prototype_mode": "per_view",
+      "per_view_head_type": "cosine",
+      "student_t_distance_scale": 1.0,
+      "per_view_temperature": 0.1,
+      "view_semantic_weight": 0.1
+    }
+  ],
+  "expected_runs": 32
+}

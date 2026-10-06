@@ -1,0 +1,85 @@
+{
+  "dataset": {
+    "name": "ALOI_100",
+    "file": "dataset/ALOI_100.mat",
+    "num_clusters": 100,
+    "num_clients": 6,
+    "normalization": "standard"
+  },
+  "model": {
+    "hidden_dims": [
+      128,
+      64
+    ],
+    "embedding_dim": 32,
+    "dropout": 0.0,
+    "student_t_alpha": 1.0,
+    "semantic_projection": {
+      "enabled": false,
+      "bottleneck_dim": 0
+    },
+    "sample_fusion": {
+      "enabled": true,
+      "hidden_dim": 0,
+      "bound": 1.0,
+      "floor": 0.05
+    }
+  },
+  "training": {
+    "rounds": 16,
+    "pretrain_rounds": 12,
+    "center_init_round": 11,
+    "local_epochs": 1,
+    "pretraining_local_epochs": 1,
+    "clustering_local_epochs": 1,
+    "batch_size": 256,
+    "eval_batch_size": 1024,
+    "learning_rate": 0.001,
+    "pretraining_end_learning_rate": 1e-05,
+    "clustering_learning_rate": 1e-05,
+    "cluster_head_learning_rate_multiplier": 1.0,
+    "center_momentum": 0.99,
+    "weight_decay": 1e-05,
+    "join_ratio": 1.0,
+    "eval_gap": 1,
+    "selection_metric": "nmi",
+    "center_init_n_init": 10,
+    "gradient_clip": 5.0,
+    "num_workers": 0,
+    "seed": 42,
+    "device": "cuda",
+    "diagnostics": true
+  },
+  "loss_weights": {
+    "reconstruction": 1.0,
+    "consistency": 0.2,
+    "clustering": 0.5,
+    "balance": 0.05
+  },
+  "output": {
+    "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results-优化\\reproduction\\seed_42",
+    "save_model": false
+  },
+  "objective": {
+    "consistency": "mse",
+    "temperature": 0.2,
+    "negative_weight": 0.0,
+    "completion_contrastive": true
+  },
+  "compression": {
+    "method": "none",
+    "budget_ratio": 0.5,
+    "calibration_size": 64,
+    "candidates": 6,
+    "view_weight": 0.1,
+    "pair_weight": 0.1,
+    "error_feedback": false
+  },
+  "missing": {
+    "enabled": false,
+    "rate": 0.0,
+    "method": "attention",
+    "heads": 4,
+    "anchor_size": 256
+  }
+}

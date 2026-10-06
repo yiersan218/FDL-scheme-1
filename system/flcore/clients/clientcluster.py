@@ -3,12 +3,124 @@ from collections import defaultdict
 
 import numpy as np
 import torch
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, kmeans_plusplus
+from sklearn.utils import check_random_state
 from torch.utils.data import DataLoader
 
 from flcore.compression import compress_client_update
 from flcore.trainmodel.multiview import clustering_objective, target_distribution
 from utils.mat_data import MultiViewSubset, fixed_missing_mask
+
+
+def _normalize_rows(values, eps=1e-12):
+    """Normalize nonzero rows without producing NaNs for zero vectors."""
+    values = np.asarray(values, dtype=np.float64)
+    norms = np.linalg.norm(values, axis=1, keepdims=True)
+    normalized = np.zeros_like(values)
+    valid = norms[:, 0] > eps
+    normalized[valid] = values[valid] / norms[valid]
+    return normalized, valid
+
+
+def spherical_kmeans(
+    samples,
+    n_clusters,
+    *,
+    n_init=10,
+    max_iter=300,
+    random_state=None,
+    sample_weight=None,
+    tol=1e-4,
+):
+    """Cluster directions with cosine assignment and unit-norm centroids.
+
+    The public controls mirror the relevant sklearn KMeans controls. Each
+    initialization uses weighted k-means++ on normalized samples, followed by
+    spherical Lloyd iterations. Empty clusters and zero-mean clusters retain
+    a finite unit-vector fallback instead of yielding NaNs.
+    """
+    samples = np.asarray(samples)
+    if samples.ndim != 2 or samples.shape[0] == 0 or samples.shape[1] == 0:
+        raise ValueError("samples must be a non-empty 2D array")
+    if not np.isfinite(samples).all():
+        raise ValueError("samples must contain only finite values")
+    n_clusters = int(n_clusters)
+    n_init = int(n_init)
+    max_iter = int(max_iter)
+    if not 1 <= n_clusters <= samples.shape[0]:
+        raise ValueError("n_clusters must be between 1 and n_samples")
+    if n_init <= 0 or max_iter <= 0:
+        raise ValueError("n_init and max_iter must be positive")
+
+    normalized, nonzero = _normalize_rows(samples)
+    if sample_weight is None:
+        weights = np.ones(samples.shape[0], dtype=np.float64)
+    else:
+        weights = np.asarray(sample_weight, dtype=np.float64)
+        if weights.shape != (samples.shape[0],):
+            raise ValueError("sample_weight must contain one value per sample")
+        if not np.isfinite(weights).all() or np.any(weights < 0) or weights.sum() <= 0:
+            raise ValueError("sample_weight must be finite, nonnegative, and sum to > 0")
+
+    rng = check_random_state(random_state)
+    best_centers = None
+    best_labels = None
+    best_objective = np.inf
+
+    def repair_centers(centers):
+        centers, valid = _normalize_rows(centers)
+        if valid.all():
+            return centers
+        candidates = np.flatnonzero(nonzero & (weights > 0))
+        if candidates.size:
+            # Prefer high-weight observations and break ties by stable index.
+            order = candidates[np.argsort(-weights[candidates], kind="stable")]
+            for offset, row in enumerate(np.flatnonzero(~valid)):
+                centers[row] = normalized[order[offset % len(order)]]
+        else:
+            # The data have no direction. Canonical fallbacks keep the cosine
+            # head finite while preserving deterministic behavior.
+            for row in np.flatnonzero(~valid):
+                centers[row, row % centers.shape[1]] = 1.0
+        return centers
+
+    for _ in range(n_init):
+        initial, _ = kmeans_plusplus(
+            normalized,
+            n_clusters=n_clusters,
+            sample_weight=weights,
+            random_state=rng,
+        )
+        centers = repair_centers(initial)
+        labels = np.zeros(samples.shape[0], dtype=np.int64)
+
+        for _iteration in range(max_iter):
+            similarities = normalized @ centers.T
+            labels = similarities.argmax(axis=1)
+            updated = np.zeros_like(centers)
+            for cluster in range(n_clusters):
+                members = labels == cluster
+                if members.any() and weights[members].sum() > 0:
+                    updated[cluster] = np.average(
+                        normalized[members], axis=0, weights=weights[members]
+                    )
+                else:
+                    updated[cluster] = centers[cluster]
+            updated = repair_centers(updated)
+            shift = np.linalg.norm(updated - centers)
+            centers = updated
+            if shift <= float(tol):
+                break
+
+        similarities = normalized @ centers.T
+        labels = similarities.argmax(axis=1)
+        objective = np.sum(weights * (1.0 - similarities[np.arange(len(labels)), labels]))
+        if objective < best_objective:
+            best_objective = float(objective)
+            best_centers = centers.copy()
+            best_labels = labels.copy()
+
+    return best_centers.astype(np.float32), best_labels
 
 
 class FederatedClusteringClient:
@@ -42,27 +154,6 @@ class FederatedClusteringClient:
         views, labels, indices, mask = batch
         return views, labels, indices, mask
 
-    @torch.no_grad()
-    def anchor_bank(self, model):
-        if self.dataset.mask is None or model.completion_mode != "attention":
-            return None
-        complete = torch.nonzero(self.dataset.mask.all(dim=1), as_tuple=True)[0]
-        if len(complete) == 0:
-            return None
-        maximum = int(self.config["missing"]["anchor_size"])
-        if len(complete) > maximum:
-            generator = torch.Generator().manual_seed(
-                int(self.config["training"]["seed"]) + self.id * 1009 + 17011
-            )
-            complete = complete[torch.randperm(len(complete), generator=generator)[:maximum]]
-        was_training = model.training
-        model.eval()
-        views = tuple(view[complete].to(self.device) for view in self.dataset.views)
-        mask = self.dataset.mask[complete].to(self.device)
-        _embeddings, anchors = model.observed_fusion(views, mask)
-        model.train(was_training)
-        return anchors.detach()
-
     @property
     def num_samples(self):
         return len(self.dataset)
@@ -92,8 +183,7 @@ class FederatedClusteringClient:
         if phase not in {"pretraining", "clustering"}:
             raise ValueError(f"Unknown training phase: {phase}")
         model = copy.deepcopy(global_model).to(self.device)
-        anchors = self.anchor_bank(model)
-        target_cache = self.local_target_cache(model, anchors) if clustering_enabled else None
+        target_cache = self.local_target_cache(model) if clustering_enabled else None
         model.train()
         training = self.config["training"]
         learning_rate = float(training["learning_rate"])
@@ -108,7 +198,11 @@ class FederatedClusteringClient:
         head_learning_rate = learning_rate * float(
             training.get("cluster_head_learning_rate_multiplier", 1.0)
         )
-        head_parameters = list(model.cluster_head.parameters())
+        head_parameters = [
+            parameter
+            for head in model.clustering_heads()
+            for parameter in head.parameters()
+        ]
         head_parameter_ids = {id(parameter) for parameter in head_parameters}
         representation_parameters = [
             parameter for parameter in model.parameters()
@@ -136,7 +230,7 @@ class FederatedClusteringClient:
                     else None
                 )
                 optimizer.zero_grad(set_to_none=True)
-                outputs = model(views, mask=mask, anchors=anchors)
+                outputs = model(views, mask=mask)
                 loss, metrics = clustering_objective(
                     outputs,
                     views,
@@ -153,6 +247,7 @@ class FederatedClusteringClient:
                 if clip > 0:
                     torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
                 optimizer.step()
+                model.project_cluster_centers_()
                 for key, value in metrics.items():
                     totals[key] += value
                 steps += 1
@@ -162,7 +257,7 @@ class FederatedClusteringClient:
             "metrics": {key: value / max(steps, 1) for key, value in totals.items()},
         }
         if clustering_enabled:
-            result["cluster_counts"] = self.soft_cluster_counts(model, anchors)
+            result["cluster_counts"] = self.soft_cluster_counts(model)
         compression = self.config.get("compression", {"method": "none"})
         if compression["method"] == "none":
             result["state_dict"] = {
@@ -191,7 +286,6 @@ class FederatedClusteringClient:
                 views=views,
                 targets=targets,
                 mask=calibration_mask,
-                anchors=anchors,
                 centers_enabled=clustering_enabled,
                 clustering_scale=clustering_weight_scale,
                 residual=self.compression_residual if compression["error_feedback"] else None,
@@ -206,7 +300,7 @@ class FederatedClusteringClient:
         return result
 
     @torch.no_grad()
-    def local_target_cache(self, model, anchors=None):
+    def local_target_cache(self, model):
         """Build one full-local-data DEC target and keep it fixed this round."""
         model.eval()
         assignments = []
@@ -216,8 +310,8 @@ class FederatedClusteringClient:
             views = tuple(view.to(self.device, non_blocking=True) for view in views)
             if mask is not None:
                 mask = mask.to(self.device, non_blocking=True)
-            _view_embeddings, fused = model.encode(views, mask=mask, anchors=anchors)
-            assignments.append(model.cluster_head(fused))
+            outputs = model(views, mask=mask)
+            assignments.append(outputs["assignments"])
             indices.append(batch_indices)
         local_assignments = torch.cat(assignments, dim=0)
         local_targets = target_distribution(local_assignments).cpu()
@@ -230,7 +324,7 @@ class FederatedClusteringClient:
         return cache
 
     @torch.no_grad()
-    def soft_cluster_counts(self, model, anchors=None):
+    def soft_cluster_counts(self, model):
         """Return per-cluster soft counts without exposing sample assignments."""
         model.eval()
         counts = None
@@ -239,8 +333,13 @@ class FederatedClusteringClient:
             views = tuple(view.to(self.device, non_blocking=True) for view in views)
             if mask is not None:
                 mask = mask.to(self.device, non_blocking=True)
-            _view_embeddings, fused = model.encode(views, mask=mask, anchors=anchors)
-            batch_counts = model.cluster_head(fused).sum(dim=0)
+            outputs = model(views, mask=mask)
+            # Missing rows are zeros in view_assignments and therefore add no
+            # evidence to that view's prototype counts.
+            batch_counts = torch.stack([
+                assignment.sum(dim=0)
+                for assignment in outputs["view_assignments"]
+            ])
             counts = batch_counts if counts is None else counts + batch_counts
         return counts.detach().cpu()
 
@@ -249,20 +348,88 @@ class FederatedClusteringClient:
         """Return local KMeans centers and counts; raw embeddings never leave the client."""
         model = copy.deepcopy(model).to(self.device)
         model.eval()
-        anchors = self.anchor_bank(model)
-        embeddings = []
+        return self._per_view_cluster_summary(model)
+
+    @torch.no_grad()
+    def _per_view_cluster_summary(self, model):
+        """Build aligned aggregate prototypes from local shared pseudo-labels.
+
+        Only V x K centers, V x K counts, and V coverage totals leave the
+        client. The shared labels are computed locally and are never uploaded.
+        """
+        fused_batches = []
+        per_view_batches = [[] for _ in model.view_models]
+        mask_batches = []
         for batch in self._loader(False):
             views, _labels, _indices, mask = self._unpack(batch)
             views = tuple(view.to(self.device, non_blocking=True) for view in views)
-            if mask is not None:
+            if mask is None:
+                mask = torch.ones(
+                    (views[0].shape[0], len(views)),
+                    dtype=torch.bool,
+                    device=self.device,
+                )
+            else:
                 mask = mask.to(self.device, non_blocking=True)
-            embeddings.append(model.encode(views, mask=mask, anchors=anchors)[1].cpu().numpy())
-        embeddings = np.concatenate(embeddings, axis=0)
+            view_embeddings, fused = model.encode(views, mask=mask)
+            fused_batches.append(fused.cpu().numpy())
+            mask_batches.append(mask.cpu().numpy().astype(bool, copy=False))
+            for view_index, embedding in enumerate(view_embeddings):
+                per_view_batches[view_index].append(embedding.cpu().numpy())
+
+        fused = np.concatenate(fused_batches, axis=0)
+        masks = np.concatenate(mask_batches, axis=0)
+        view_embeddings = [np.concatenate(items, axis=0) for items in per_view_batches]
         num_clusters = int(self.config["dataset"]["num_clusters"])
-        kmeans = KMeans(
-            n_clusters=num_clusters,
-            n_init=int(self.config["training"].get("center_init_n_init", 10)),
-            random_state=int(self.config["training"]["seed"]) + self.id,
-        ).fit(embeddings)
-        counts = np.bincount(kmeans.labels_, minlength=num_clusters).astype(np.float64)
-        return kmeans.cluster_centers_.astype(np.float32), counts
+        if model.prototype_heads[0].head_type == "cosine":
+            _fused_centers, shared_labels = spherical_kmeans(
+                fused,
+                num_clusters,
+                n_init=int(self.config["training"].get("center_init_n_init", 10)),
+                max_iter=int(self.config["training"].get("center_init_max_iter", 300)),
+                random_state=int(self.config["training"]["seed"]) + self.id,
+            )
+        else:
+            pseudo = KMeans(
+                n_clusters=num_clusters,
+                n_init=int(self.config["training"].get("center_init_n_init", 10)),
+                random_state=int(self.config["training"]["seed"]) + self.id,
+            ).fit(fused)
+            shared_labels = pseudo.labels_
+
+        centers = []
+        counts = []
+        for view_index, (embedding, head) in enumerate(
+            zip(view_embeddings, model.prototype_heads)
+        ):
+            observed = masks[:, view_index]
+            normalized, nonzero = _normalize_rows(embedding)
+            view_counts = np.bincount(
+                shared_labels[observed], minlength=num_clusters
+            ).astype(np.float64)
+            # An unsupported local semantic slot keeps a finite unit prototype
+            # but has zero count, so it cannot affect server initialization.
+            view_centers = head.centers.detach().cpu().numpy().astype(
+                np.float64, copy=True
+            )
+            if head.head_type == "cosine":
+                view_centers, _valid = _normalize_rows(view_centers)
+            for cluster in range(num_clusters):
+                members = observed & nonzero & (shared_labels == cluster)
+                if members.any():
+                    mean = normalized[members].mean(axis=0, keepdims=True)
+                    if head.head_type == "cosine":
+                        candidate, valid = _normalize_rows(mean)
+                        if valid[0]:
+                            view_centers[cluster] = candidate[0]
+                    else:
+                        view_centers[cluster] = mean[0]
+            centers.append(view_centers.astype(np.float32))
+            counts.append(view_counts)
+
+        return {
+            "mode": "per_view",
+            "centers": np.stack(centers),
+            "counts": np.stack(counts),
+            "coverage": masks.sum(axis=0).astype(np.float64),
+        }
