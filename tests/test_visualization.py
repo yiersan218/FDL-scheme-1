@@ -1,3 +1,5 @@
+"""验证历史记录可视化的默认输出位置、指标图、损失图和阶段分界。"""
+
 import json
 import sys
 import tempfile
@@ -17,13 +19,17 @@ from visualization.main import DEFAULT_RESULTS_DIRECTORY  # noqa: E402
 
 
 class VisualizationTests(unittest.TestCase):
+    """检查可视化文件生成及两阶段标记，不执行真实数据训练。"""
+
     def test_default_experiment_results_are_inside_visualization(self):
+        """验证可视化入口的默认实验结果目录位于 visualization/result。"""
         self.assertEqual(
             DEFAULT_RESULTS_DIRECTORY,
             PROJECT_ROOT / "visualization" / "result",
         )
 
     def test_visualize_history_creates_metric_and_loss_images(self):
+        """验证模拟历史可生成非空指标图和损失图，并返回对应文件路径。"""
         phases = ("pretraining", "pretraining", "clustering")
         history = []
         for round_number in range(1, 4):
@@ -58,6 +64,7 @@ class VisualizationTests(unittest.TestCase):
                 self.assertGreater(path.stat().st_size, 0)
 
     def test_two_stage_boundary_is_detected(self):
+        """验证阶段分界位于最后预训练轮与首个聚类轮之间。"""
         history = [
             {"round": 1, "phase": "pretraining", "train": {}},
             {"round": 2, "phase": "pretraining", "train": {}},

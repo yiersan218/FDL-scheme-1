@@ -1,0 +1,262 @@
+{
+  "algorithm_version": "completion-v1",
+  "dataset": "Scene-15",
+  "samples": 4485,
+  "view_dims": [
+    20,
+    59,
+    40
+  ],
+  "num_clusters": 15,
+  "metrics": {
+    "acc": 0.3955406911928651,
+    "nmi": 0.42274444589967913,
+    "ari": 0.23282457069270246,
+    "confidence": 0.08286992460489273
+  },
+  "best_round": 29,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.3950947603121516,
+    "nmi": 0.4219583281375817,
+    "ari": 0.2320280437757305,
+    "confidence": 0.08268643170595169
+  },
+  "stability": {
+    "acc": -0.0004459308807134854,
+    "nmi": -0.0007861177620974158,
+    "ari": -0.0007965269169719624
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 345722,
+    "federated_parameters": 345722,
+    "local_completion_parameters_per_client": 0,
+    "elapsed_seconds": 122.27070903778076,
+    "peak_cuda_memory_bytes": 46902784
+  },
+  "diagnostics": {
+    "normalized_entropy": 0.9968878684581398,
+    "top1_top2_margin": 0.004166418220847845,
+    "effective_clusters": 14.987232208251953,
+    "min_cluster_occupancy": 0.06107334792613983,
+    "max_cluster_occupancy": 0.07287701219320297,
+    "prediction_soft_counts": [
+      290.5504455566406,
+      326.8531799316406,
+      301.99456787109375,
+      297.1719665527344,
+      291.08697509765625,
+      308.5486145019531,
+      296.2088928222656,
+      294.5423583984375,
+      302.436767578125,
+      311.74688720703125,
+      306.4277038574219,
+      273.9137878417969,
+      296.3466491699219,
+      280.9466247558594,
+      306.221923828125
+    ],
+    "completion_assignment_beta": 0.0
+  },
+  "communication": {
+    "uplink_bytes": 207507120,
+    "dense_uplink_bytes": 207507120,
+    "downlink_bytes": 207433200,
+    "compression_seconds": 0.0,
+    "uplink_reduction": 0.0
+  },
+  "config": {
+    "dataset": {
+      "name": "Scene-15",
+      "file": "dataset/Scene-15.mat",
+      "num_clusters": 15,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "cluster_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t"
+    },
+    "training": {
+      "rounds": 30,
+      "pretrain_rounds": 22,
+      "center_init_round": 14,
+      "local_epochs": 2,
+      "pretraining_local_epochs": 2,
+      "clustering_local_epochs": 3,
+      "batch_size": 128,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 0.0001,
+      "clustering_learning_rate": 0.0001,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99875,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 20,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 2027,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "completion": 1.0,
+      "clustering": 0.05,
+      "balance": 0.05
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.0
+    },
+    "completion": {
+      "enabled": true,
+      "anchor_size": 256,
+      "topk": 16,
+      "heads": 4,
+      "adapter_delta": 0.1,
+      "attention_strength": 0.3,
+      "fusion_weight": 0.25,
+      "temperature": 0.2,
+      "truncation": 9,
+      "use_attention": true,
+      "use_completed_initialization": false,
+      "use_completed_assignments": true,
+      "gate": true,
+      "value_mode": "per_view",
+      "alignment_mode": "mse",
+      "parameter_scope": "federated",
+      "seed": 0
+    },
+    "compression": {
+      "method": "none",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": false,
+      "budget_bytes": null,
+      "budget_bytes_pair": null
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results\\runs\\completion-v1\\completed\\rate-0\\seed-2027",
+      "save_model": true
+    },
+    "research": {
+      "enabled": false
+    },
+    "algorithm_version": "completion-v1",
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\Scene-15.json",
+    "experiment": {
+      "method": "completion-v1",
+      "variant": "completed",
+      "nominal_missing_rate": 0.0,
+      "seed": 2027,
+      "normalization_scope": "client_observed",
+      "initialization": "observed_only",
+      "teacher": "round_fixed_observed",
+      "source_files": [
+        {
+          "path": "system/config.py",
+          "sha256": "15e775b4558b76047887a9e57974eee792d9b66d492fae38db82917681bac871"
+        },
+        {
+          "path": "system/main.py",
+          "sha256": "28a0f00f1603d8b184280be73929383f787c5424244ec7ff3aa8e8990267d9cb"
+        },
+        {
+          "path": "system/utils/mat_data.py",
+          "sha256": "67c2e6e8eb44b63f76f2d4458f2131a7191f6748d198f4fa95ba40f1e9fc98e2"
+        },
+        {
+          "path": "system/flcore/trainmodel/multiview.py",
+          "sha256": "415bc75c3bd066760e3d1a3f94d7199c128dfaeec364e5d907cbed56201d7266"
+        },
+        {
+          "path": "system/flcore/trainmodel/completion.py",
+          "sha256": "c77f6a0e07701439d237f08e927f8caa9b586553017cd23c686bd63ecd0de876"
+        },
+        {
+          "path": "system/flcore/trainmodel/losses.py",
+          "sha256": "f26a9b6b1c9269669c23dc46c8987d91d732ed22053384fbc974ba066b3509c4"
+        },
+        {
+          "path": "system/flcore/clients/clientcluster.py",
+          "sha256": "c47dcd9be403fe5ee67ee003d6f640b9be8df3494bfc90ed50d2d207b7f4b8d2"
+        },
+        {
+          "path": "system/flcore/servers/servercluster.py",
+          "sha256": "6120b2b22b64233b9de36d637aaeb81de78b1628689c540231378358321473f3"
+        },
+        {
+          "path": "system/flcore/communication/__init__.py",
+          "sha256": "78051084ff6cfbfc7f91f7f232c1f7a781af9b100c5ff8d51e66c95626900739"
+        },
+        {
+          "path": "system/flcore/communication/codec.py",
+          "sha256": "8c2924393654ab08cc37f4827492c8e9532f7934f0545038a31f5392bf8f527d"
+        },
+        {
+          "path": "system/flcore/communication/compression.py",
+          "sha256": "6d7a25216f67e31a54031f7839860da335e1c474c2809e76e1ca69474a35ac5c"
+        },
+        {
+          "path": "system/run_incomplete.py",
+          "sha256": "cb9b3cbbcfc2ca816dd6fd82ec9ed03807831918a26ea6acbae57254d3456353"
+        }
+      ],
+      "source_sha256": "7c709c4cc748de39a9c6bce6e1a06a96f3df0112fb8599e32fef75c0eb6badf5",
+      "data_sha256": "ec33b5e1f53eea04ccacc8b7bdfc6091ed490b04214eb41fd83c05a0a173221f",
+      "compression": "none",
+      "budget_reference": "dense_upload",
+      "fingerprint": "d6b27aab08a20196e47b72cfaca31322a71ab2abda6060aa5a88c045d7f6d0d6"
+    }
+  },
+  "completion": {
+    "enabled": true,
+    "loss_type": "mse",
+    "consistency_type": "cross_view_completion",
+    "prediction": "bounded_completed_assignments",
+    "target_teacher": "observed_assignments_fixed_per_round",
+    "prototype_statistics": "observed_only",
+    "bank_scope": "client_local_ephemeral",
+    "parameter_scope": "federated",
+    "use_completed_initialization": false,
+    "structure_sha256": "351d6b42eeb49080c62f8d995b44700688194c56bbbe8662eb3e770060c47604"
+  },
+  "missing": {
+    "nominal_rate": 0.0,
+    "normalization_scope": "client_observed",
+    "incomplete_sample_rate": 0.0,
+    "missing_cell_rate": 0.0,
+    "observed_per_view": [
+      4485,
+      4485,
+      4485
+    ],
+    "complete_per_client": [
+      897,
+      897,
+      897,
+      897,
+      897
+    ],
+    "mask_sha256": "4543363149a938b8032e24e9286b8d9e7da015167c0360eb373518bf0bfd7493"
+  }
+}

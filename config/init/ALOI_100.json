@@ -1,7 +1,0 @@
-{
-  "dataset": {"name": "ALOI_100", "file": "dataset/ALOI_100.mat", "num_clusters": 100, "num_clients": 5, "normalization": "standard"},
-  "model": {"hidden_dims": [256, 128], "embedding_dim": 64, "dropout": 0.0, "student_t_alpha": 1.0},
-  "training": {"rounds": 20, "pretrain_rounds": 8, "local_epochs": 2, "batch_size": 128, "eval_batch_size": 1024, "learning_rate": 0.001, "clustering_learning_rate": 0.0001, "weight_decay": 0.00001, "join_ratio": 1.0, "eval_gap": 1, "selection_metric": "nmi", "center_init_n_init": 20, "gradient_clip": 5.0, "num_workers": 0, "seed": 42, "device": "cuda"},
-  "loss_weights": {"reconstruction": 1.0, "consistency": 0.2, "clustering": 0.5, "balance": 0.05},
-  "output": {"directory": "results/init_result", "save_model": true}
-}

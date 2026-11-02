@@ -1,3 +1,5 @@
+"""验证模型更新的稀疏编码、实际字节预算、误差反馈与服务端恢复。"""
+
 import copy
 import sys
 import unittest
@@ -10,8 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "system"))
 
 from config import apply_overrides, load_config  # noqa: E402
-from flcore.compression import (  # noqa: E402
-    compress_client_update,
+from flcore.communication.codec import (  # noqa: E402
     decode_sparse,
     dense_uplink_bytes,
     encode_sparse,
@@ -20,12 +21,16 @@ from flcore.compression import (  # noqa: E402
     reconstruct_state,
     state_from_flat_update,
 )
+from flcore.communication.compression import compress_client_update  # noqa: E402
 from flcore.trainmodel.multiview import MultiViewClusteringModel  # noqa: E402
 from flcore.servers.servercluster import FederatedMultiViewClusteringServer  # noqa: E402
 
 
 class CompressionTests(unittest.TestCase):
+    """检查压缩载荷完整性及其与 A2 原型聚合的兼容性。"""
+
     def test_sparse_wire_roundtrip_and_integrity(self):
+        """验证索引数值编码可精确还原，并拒绝截断载荷、错误维度和重复索引。"""
         update = torch.tensor([0.0, -2.5, 0.0, 4.0, 0.0])
         packet = encode_sparse(update, torch.tensor([3, 1]))
         self.assertEqual(len(packet), 12 + 2 * 8)
@@ -38,8 +43,9 @@ class CompressionTests(unittest.TestCase):
             encode_sparse(update, torch.tensor([1, 1]))
 
     def test_stage_packet_budget_centers_and_residual(self):
+        """验证 Stage 载荷符合字节预算、中心独立保存且残差补齐原始更新。"""
         torch.manual_seed(2)
-        global_model = MultiViewClusteringModel([8, 5], 3, [6], 4)
+        global_model = MultiViewClusteringModel([8, 5], 3, [6], 4, completion={"enabled": False})
         local_model = copy.deepcopy(global_model)
         with torch.no_grad():
             for parameter in local_model.parameters():
@@ -76,8 +82,9 @@ class CompressionTests(unittest.TestCase):
             self.assertTrue(torch.allclose(dense_state[key], local_model.state_dict()[key]))
 
     def test_stage_error_feedback_preserves_effective_update(self):
+        """验证上传稀疏更新与剩余残差之和等于叠加历史 EF 后的有效更新。"""
         torch.manual_seed(3)
-        global_model = MultiViewClusteringModel([8, 5], 3, [6], 4)
+        global_model = MultiViewClusteringModel([8, 5], 3, [6], 4, completion={"enabled": False})
         local_model = copy.deepcopy(global_model)
         with torch.no_grad():
             for parameter in local_model.parameters():
@@ -98,10 +105,12 @@ class CompressionTests(unittest.TestCase):
         self.assertTrue(torch.allclose(sent + packet["residual"], effective))
 
     def test_per_view_prototypes_use_fixed_center_payload_not_sparse_parameters(self):
+        """验证每视图中心从普通稀疏坐标中排除，并通过独立载荷精确恢复。"""
         torch.manual_seed(5)
         global_model = MultiViewClusteringModel(
             [4, 3], 2, [3], 2,
             prototype_mode="per_view", per_view_head_type="student_t",
+            completion={"enabled": False},
         )
         local_model = copy.deepcopy(global_model)
         with torch.no_grad():
@@ -126,6 +135,7 @@ class CompressionTests(unittest.TestCase):
         )
 
     def test_compression_overrides_are_validated(self):
+        """验证压缩方法可被覆盖，且非正预算比例会被拒绝。"""
         config = load_config("Mfeat")
         tuned = apply_overrides(config, ["compression.method=stage", "compression.budget_ratio=0.4"])
         self.assertEqual(tuned["compression"]["method"], "stage")
@@ -133,8 +143,9 @@ class CompressionTests(unittest.TestCase):
             apply_overrides(config, ["compression.budget_ratio=0"])
 
     def test_server_decoding_preserves_dense_aggregation_and_center_alignment(self):
+        """验证完整坐标编码后解码聚合与直接稠密聚合得到相同模型状态。"""
         torch.manual_seed(7)
-        reference = MultiViewClusteringModel([4], 2, [3], 2)
+        reference = MultiViewClusteringModel([4], 2, [3], 2, completion={"enabled": False})
         with torch.no_grad():
             reference.prototype_heads[0].centers.copy_(
                 torch.tensor([[0.0, 0.0], [10.0, 10.0]])
@@ -157,6 +168,7 @@ class CompressionTests(unittest.TestCase):
             counts = torch.tensor([[9.0, 1.0]])
             dense_updates.append({"state_dict": state, "num_samples": 10, "cluster_counts": counts.clone()})
             delta = flatten_update(local, reference, ordinary_keys(reference))
+            # 保留全部坐标以排除稀疏化误差，单独比较解码与直接上传后的聚合行为。
             sparse_updates.append({
                 "payload": encode_sparse(delta, torch.arange(delta.numel())),
                 "centers": {"prototype_heads.0.centers": state["prototype_heads.0.centers"]},

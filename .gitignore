@@ -1,24 +1,59 @@
-# Local-only instructions
-Instructions.md
-非提交开发日志.txt
+# 原始数据集大文件；保留 dataset 中的说明文档
+/dataset/*.mat
 
-# Dataset binaries; keep dataset documentation trackable
-dataset/*.mat
-
-# Python caches
+# Python 字节码、虚拟环境及构建产物
 __pycache__/
 *.py[cod]
+.venv/
+venv/
+env/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# 测试、静态检查和覆盖率缓存
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
 
-# OS and IDE metadata
+# IDE、辅助工具状态及仅供本机使用的说明
+/.idea/
+/.vscode/
+/.workbuddy/
+/.layout-refactor-check/
+/Instructions.md
+/非提交开发日志.txt
+*.iml
+
+# 本地环境变量；允许提交不含凭据的示例模板
+.env
+.env.*
+!.env.example
+!.env.template
+
+# 系统文件、编辑器备份、临时文件和普通运行日志
 .DS_Store
-.idea/
+Thumbs.db
+Desktop.ini
+*~
+*.swp
+*.swo
+*.tmp
+*.log
 
-# Model checkpoints
+# 模型权重和自动生成的可视化
 *.pt
+*.pth
+*.ckpt
+/visualization/output*/
+/visualization/result*/
 
-# Generated visualization artifacts
-visualization/output/
-visualization/result/
+# 其他实验输出默认仅留本地；本次 results/ 的完整记录纳入版本管理
+/results-*/
+!/results/*.log

@@ -1,0 +1,350 @@
+{
+  "algorithm_version": "completion-v1",
+  "dataset": "ALOI_100",
+  "samples": 10800,
+  "view_dims": [
+    77,
+    13,
+    64,
+    125
+  ],
+  "num_clusters": 100,
+  "metrics": {
+    "acc": 0.6714814814814815,
+    "nmi": 0.8092459970612629,
+    "ari": 0.5652695985757801,
+    "confidence": 0.013406654819846153
+  },
+  "best_round": 14,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.6712037037037037,
+    "nmi": 0.8087967815076313,
+    "ari": 0.5649367680074001,
+    "confidence": 0.013403108343482018
+  },
+  "stability": {
+    "acc": -0.0002777777777777102,
+    "nmi": -0.0004492155536315323,
+    "ari": -0.0003328305683799604
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 179483,
+    "federated_parameters": 179483,
+    "local_completion_parameters_per_client": 0,
+    "elapsed_seconds": 117.63750338554382,
+    "peak_cuda_memory_bytes": 72740352
+  },
+  "diagnostics": {
+    "normalized_entropy": 0.9983730290057966,
+    "top1_top2_margin": 0.0008004085393622518,
+    "effective_clusters": 99.77481079101562,
+    "min_cluster_occupancy": 0.007953393273055553,
+    "max_cluster_occupancy": 0.010912562720477581,
+    "prediction_soft_counts": [
+      108.13941192626953,
+      109.61873626708984,
+      106.38322448730469,
+      116.69036102294922,
+      108.94451141357422,
+      117.08489227294922,
+      108.52497100830078,
+      114.48226928710938,
+      101.44608306884766,
+      106.56664276123047,
+      112.82722473144531,
+      95.48625946044922,
+      116.09120178222656,
+      102.90426635742188,
+      112.6993408203125,
+      95.36005401611328,
+      95.38319396972656,
+      107.375,
+      101.9644775390625,
+      115.39897155761719,
+      106.69428253173828,
+      85.89667510986328,
+      98.43058013916016,
+      97.05757141113281,
+      102.72551727294922,
+      96.1440658569336,
+      116.34251403808594,
+      98.95464324951172,
+      104.67012786865234,
+      101.1904525756836,
+      99.06143951416016,
+      117.70309448242188,
+      104.1129150390625,
+      90.80216217041016,
+      98.6378173828125,
+      99.83198547363281,
+      111.33828735351562,
+      93.10539245605469,
+      112.26547241210938,
+      93.96698760986328,
+      115.66584777832031,
+      107.75077819824219,
+      112.38278198242188,
+      104.01750183105469,
+      105.16477966308594,
+      110.0162124633789,
+      110.61018371582031,
+      109.909912109375,
+      102.67120361328125,
+      109.49227142333984,
+      88.23793029785156,
+      113.57298278808594,
+      116.93660736083984,
+      107.76805114746094,
+      115.09402465820312,
+      117.05098724365234,
+      105.68283081054688,
+      108.31271362304688,
+      110.99221801757812,
+      114.41018676757812,
+      108.4403305053711,
+      114.38158416748047,
+      114.94764709472656,
+      113.85649108886719,
+      109.96605682373047,
+      107.1155776977539,
+      109.99811553955078,
+      109.19773864746094,
+      97.16110229492188,
+      114.54281616210938,
+      108.14024353027344,
+      116.59918975830078,
+      112.89991760253906,
+      108.15486145019531,
+      111.28105163574219,
+      110.27642822265625,
+      112.04556274414062,
+      112.6863021850586,
+      104.0779800415039,
+      103.23749542236328,
+      105.5835189819336,
+      113.31717681884766,
+      115.13549041748047,
+      115.05509185791016,
+      106.20247650146484,
+      108.139892578125,
+      101.4781265258789,
+      114.99512481689453,
+      114.47943878173828,
+      113.58147430419922,
+      115.69001770019531,
+      108.5902099609375,
+      111.92476654052734,
+      106.71864318847656,
+      103.63191986083984,
+      113.41820526123047,
+      114.55644226074219,
+      117.85572052001953,
+      116.66350555419922,
+      115.93612670898438
+    ],
+    "completion_assignment_beta": 0.11179515719413757
+  },
+  "communication": {
+    "uplink_bytes": 69296064,
+    "dense_uplink_bytes": 69296064,
+    "downlink_bytes": 68921472,
+    "compression_seconds": 0.0,
+    "uplink_reduction": 0.0
+  },
+  "config": {
+    "dataset": {
+      "name": "ALOI_100",
+      "file": "dataset/ALOI_100.mat",
+      "num_clusters": 100,
+      "num_clients": 6,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        128,
+        64
+      ],
+      "embedding_dim": 32,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "cluster_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t"
+    },
+    "training": {
+      "rounds": 16,
+      "pretrain_rounds": 12,
+      "center_init_round": 11,
+      "local_epochs": 1,
+      "pretraining_local_epochs": 1,
+      "clustering_local_epochs": 1,
+      "batch_size": 256,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 10,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 2024,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "completion": 1.0,
+      "clustering": 0.5,
+      "balance": 0.05
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.5
+    },
+    "completion": {
+      "enabled": true,
+      "anchor_size": 256,
+      "topk": 16,
+      "heads": 4,
+      "adapter_delta": 0.1,
+      "attention_strength": 0.3,
+      "fusion_weight": 0.25,
+      "temperature": 0.2,
+      "truncation": 9,
+      "use_attention": true,
+      "use_completed_initialization": false,
+      "use_completed_assignments": true,
+      "gate": true,
+      "value_mode": "per_view",
+      "alignment_mode": "mse",
+      "parameter_scope": "federated",
+      "seed": 0
+    },
+    "compression": {
+      "method": "none",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": false,
+      "budget_bytes": null,
+      "budget_bytes_pair": null
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results\\runs\\completion-v1\\completed\\rate-0p5\\seed-2024",
+      "save_model": true
+    },
+    "research": {
+      "enabled": false
+    },
+    "algorithm_version": "completion-v1",
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\ALOI_100.json",
+    "experiment": {
+      "method": "completion-v1",
+      "variant": "completed",
+      "nominal_missing_rate": 0.5,
+      "seed": 2024,
+      "normalization_scope": "client_observed",
+      "initialization": "observed_only",
+      "teacher": "round_fixed_observed",
+      "source_files": [
+        {
+          "path": "system/config.py",
+          "sha256": "15e775b4558b76047887a9e57974eee792d9b66d492fae38db82917681bac871"
+        },
+        {
+          "path": "system/main.py",
+          "sha256": "28a0f00f1603d8b184280be73929383f787c5424244ec7ff3aa8e8990267d9cb"
+        },
+        {
+          "path": "system/utils/mat_data.py",
+          "sha256": "67c2e6e8eb44b63f76f2d4458f2131a7191f6748d198f4fa95ba40f1e9fc98e2"
+        },
+        {
+          "path": "system/flcore/trainmodel/multiview.py",
+          "sha256": "415bc75c3bd066760e3d1a3f94d7199c128dfaeec364e5d907cbed56201d7266"
+        },
+        {
+          "path": "system/flcore/trainmodel/completion.py",
+          "sha256": "c77f6a0e07701439d237f08e927f8caa9b586553017cd23c686bd63ecd0de876"
+        },
+        {
+          "path": "system/flcore/trainmodel/losses.py",
+          "sha256": "f26a9b6b1c9269669c23dc46c8987d91d732ed22053384fbc974ba066b3509c4"
+        },
+        {
+          "path": "system/flcore/clients/clientcluster.py",
+          "sha256": "c47dcd9be403fe5ee67ee003d6f640b9be8df3494bfc90ed50d2d207b7f4b8d2"
+        },
+        {
+          "path": "system/flcore/servers/servercluster.py",
+          "sha256": "6120b2b22b64233b9de36d637aaeb81de78b1628689c540231378358321473f3"
+        },
+        {
+          "path": "system/flcore/communication/__init__.py",
+          "sha256": "78051084ff6cfbfc7f91f7f232c1f7a781af9b100c5ff8d51e66c95626900739"
+        },
+        {
+          "path": "system/flcore/communication/codec.py",
+          "sha256": "8c2924393654ab08cc37f4827492c8e9532f7934f0545038a31f5392bf8f527d"
+        },
+        {
+          "path": "system/flcore/communication/compression.py",
+          "sha256": "6d7a25216f67e31a54031f7839860da335e1c474c2809e76e1ca69474a35ac5c"
+        },
+        {
+          "path": "system/run_incomplete.py",
+          "sha256": "cb9b3cbbcfc2ca816dd6fd82ec9ed03807831918a26ea6acbae57254d3456353"
+        }
+      ],
+      "source_sha256": "7c709c4cc748de39a9c6bce6e1a06a96f3df0112fb8599e32fef75c0eb6badf5",
+      "data_sha256": "7e151504633464680c238876ff6c47976ec4d06fc5784dc3b0e27684a25a6a5f",
+      "compression": "none",
+      "budget_reference": "dense_upload",
+      "fingerprint": "588256e0b97d01db804c6576787a30fde261e90075bd5e7b08df79de0c1d911a"
+    }
+  },
+  "completion": {
+    "enabled": true,
+    "loss_type": "mse",
+    "consistency_type": "cross_view_completion",
+    "prediction": "bounded_completed_assignments",
+    "target_teacher": "observed_assignments_fixed_per_round",
+    "prototype_statistics": "observed_only",
+    "bank_scope": "client_local_ephemeral",
+    "parameter_scope": "federated",
+    "use_completed_initialization": false,
+    "structure_sha256": "133685471e8dec3b58781fda1f5fab04f83dfcfc5a80ad27a65989b13757f084"
+  },
+  "missing": {
+    "nominal_rate": 0.5,
+    "normalization_scope": "client_observed",
+    "incomplete_sample_rate": 0.5,
+    "missing_cell_rate": 0.125,
+    "observed_per_view": [
+      9421,
+      9471,
+      9442,
+      9466
+    ],
+    "complete_per_client": [
+      900,
+      900,
+      900,
+      900,
+      900,
+      900
+    ],
+    "mask_sha256": "d22eadaebb96bbd9a213238b6179297639dd2a78b613ac0d7e2aa6fbfb8d5d96"
+  }
+}

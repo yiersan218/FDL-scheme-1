@@ -1,0 +1,55 @@
+{
+  "dataset": {
+    "name": "animal",
+    "file": "dataset/animal.mat",
+    "num_clusters": 50,
+    "num_clients": 5,
+    "normalization": "standard"
+  },
+  "model": {
+    "hidden_dims": [
+      256,
+      128
+    ],
+    "embedding_dim": 64,
+    "dropout": 0.0,
+    "student_t_alpha": 1.0
+  },
+  "training": {
+    "rounds": 20,
+    "pretrain_rounds": 12,
+    "center_init_round": 11,
+    "local_epochs": 1,
+    "pretraining_local_epochs": 1,
+    "clustering_local_epochs": 1,
+    "batch_size": 256,
+    "eval_batch_size": 512,
+    "learning_rate": 0.001,
+    "pretraining_end_learning_rate": 1e-06,
+    "clustering_learning_rate": 1e-06,
+    "cluster_head_learning_rate_multiplier": 1.0,
+    "center_momentum": 0.99,
+    "weight_decay": 1e-05,
+    "join_ratio": 1.0,
+    "eval_gap": 1,
+    "selection_metric": "nmi",
+    "center_init_n_init": 10,
+    "gradient_clip": 5.0,
+    "num_workers": 0,
+    "seed": 42,
+    "device": "cuda"
+  },
+  "loss_weights": {
+    "reconstruction": 1.0,
+    "completion": 1.0,
+    "clustering": 0.05,
+    "balance": 0.05
+  },
+  "missing": null,
+  "completion": null,
+  "compression": null,
+  "output": {
+    "directory": "results-补全聚类",
+    "save_model": true
+  }
+}

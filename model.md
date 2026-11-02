@@ -1,265 +1,167 @@
-# 两阶段联邦多视图聚类模型
+# 补全驱动的联邦多视图聚类
 
-## 1. 问题定义
+当前算法标记为 `completion-v1`。目标是在客户端视图不完整时，通过跨视图潜在补全改善聚类；完整数据是掩码全真的特例。本文描述系统级算法，客户端公式与实现细节见 [模型架构.md](D:/Project/Python/研究生毕设/FDL-scheme-1/模型架构.md)。
 
-数据包含 \(V\) 个视图和 \(N\) 个样本：
+实现按职责分开：[multiview.py](D:/Project/Python/研究生毕设/FDL-scheme-1/system/flcore/trainmodel/multiview.py) 定义模型与前向，[completion.py](D:/Project/Python/研究生毕设/FDL-scheme-1/system/flcore/trainmodel/completion.py) 定义补全模块，[losses.py](D:/Project/Python/研究生毕设/FDL-scheme-1/system/flcore/trainmodel/losses.py) 定义 DEC 目标与总损失。客户端和服务端文件名保持不变；本次模块拆分不改变下述数学定义。
 
-\[
-\mathcal{X}=\{X^{(1)},X^{(2)},\ldots,X^{(V)}\},
-\quad X^{(v)}\in\mathbb{R}^{N\times D_v}.
-\]
+## 1. 问题定义与统一数据协议
 
-样本通过随机索引划分到 \(M\) 个客户端，各客户端样本集合互不重叠。完整实验保留全部视图；缺失实验固定样本×视图掩码并保证每个样本至少有一个真实观测视图。标签只用于最终评估，不进入任何训练步骤。
+客户端 \(k\) 持有互不重叠的样本集 \(\mathcal S_k\)，每个样本有 \(V\) 个视图及观测掩码 \(m_{iv}\)。当前实验生成器选取 \(\operatorname{round}(\rho N_k)\) 个样本，每个样本恰好缺一个视图；固定掩码贯穿训练、初始化、压缩和评估。
 
-## 2. 多视图表示学习
+所有缺失率均在客户端仅用可见行归一化，\(\rho=0\) 也不例外。原始隐藏值不参与统计或监督。当前仍为从完整 MAT 数据模拟整视图缺失的单进程联邦实验，不自动识别 NaN、零值或外部 mask 文件。
 
-每个视图配置独立的 MLP 编码器和解码器：
+## 2. 观测表示与补全预测
 
-\[
-z_i^{(v)}=f_v(x_i^{(v)}),
-\qquad
-\hat{x}_i^{(v)}=g_v(z_i^{(v)}).
-\]
-
-重构损失为：
+每视图独立自编码器产生 \(z_i^{(v)}=f_v(x_i^{(v)})\) 并重构输入。可见编码归一化后，以 \(a_v=\operatorname{softmax}(w)_v\) 在该样本的可见集合内融合：
 
 \[
-\mathcal{L}_{rec}
-=\frac{1}{V}\sum_{v=1}^{V}
-\operatorname{MSE}(\hat{X}^{(v)},X^{(v)}).
+h_i^{\mathrm{obs}}
+=\operatorname{norm}\left(
+\frac{\sum_vm_{iv}a_v\operatorname{norm}(z_i^{(v)})}
+{\sum_vm_{iv}a_v}\right).
 \]
 
-编码结果先进行 L2 归一化，再使用可学习视图权重融合：
+预测目标视图 \(v\) 时，Query 和锚点 Key 均排除 \(v\)，默认 Value 取本地完整锚点的真实目标视图编码；同 ID 锚点不得作为邻居。预测由有界近恒等适配器与受限注意力修正相加得到：
 
 \[
-a_v=\frac{\exp(w_v)}{\sum_{j=1}^{V}\exp(w_j)},
-\qquad
-h_i=\operatorname{norm}\left(
-\sum_{v=1}^{V}a_v\operatorname{norm}(z_i^{(v)})
-\right).
+\hat z_i^{(v)}
+=\operatorname{norm}\left[
+A_vq_{iv}^{\mathrm{src}}
++\eta_{\mathrm{att}}\kappa_tg_{iv}
+\operatorname{norm}(\mathrm{MHA}_{iv})\right].
 \]
 
-跨视图一致性损失约束各视图表示接近融合表示：
+锚点和教师编码停止梯度，空锚点库回退到映射预测；无支持预测不进入完成融合。预测字段始终与观测编码、原始掩码分开。
+
+## 3. 聚类概率与梯度边界
+
+各视图维护独立 Student-t 原型。真实观测概率等权平均为
 
 \[
-\mathcal{L}_{con}
-=\frac{1}{V}\sum_{v=1}^{V}
-\operatorname{MSE}(\operatorname{norm}(Z^{(v)}),H).
+Q_i^{\mathrm{obs}}=\frac{\sum_vm_{iv}q_i^{(v)}}{\sum_vm_{iv}}.
 \]
 
-## 3. 聚类头
-
-聚类头维护 \(K\) 个可训练中心 \(\mu_j\)。样本到中心的 Student-t 软分配为：
+缺失预测经停止梯度的原型产生 \(q_i^{(v),\mathrm{imp}}\)。用 detached 的视图权重、支持度与有效标记在缺失集合内归一化，得到 \(Q_i^{\mathrm{imp}}\)。正式概率为
 
 \[
-q_{ij}=
-\frac{(1+\lVert h_i-\mu_j\rVert^2/\alpha)^{-(\alpha+1)/2}}
-{\sum_{k}(1+\lVert h_i-\mu_k\rVert^2/\alpha)^{-(\alpha+1)/2}}.
+Q_i=(1-\bar\beta_i)Q_i^{\mathrm{obs}}
++\bar\beta_iQ_i^{\mathrm{imp}},\qquad
+\bar\beta_i=\operatorname{sg}(\beta_i),\quad
+0\le\beta_i\le\mathrm{fusion\_weight}\le0.25 .
 \]
 
-A2 固定使用 `prototype_mode=per_view`：视图 \(v\) 维护独立中心 \(\mu_j^{(v)}\)，只对真实观测行计算 \(q_{ij}^{(v)}\)，再按观测掩码均匀平均：
+完整样本、无支持预测和关闭补全概率消融均取 \(\beta_i=0\)。预测分支可更新补全器和源编码器，但不直接通过伪观测梯度更新原型；观测分支正常更新原型。原型聚合的硬、软计数也只来自真实观测。
+
+原 A2 方案仅使用 \(Q^{\mathrm{obs}}\)。新模型保留逐视图中心组织，但正式预测路径已变化，因此结果必须以新版本标记保存。
+
+## 4. 四项统一损失
 
 \[
-q_{ij}=\frac{\sum_v m_i^{(v)}q_{ij}^{(v)}}{\sum_v m_i^{(v)}}.
+\mathcal L=
+\lambda_{\mathrm{rec}}\mathcal L_{\mathrm{rec}}
++\lambda_{\mathrm{comp}}\mathcal L_{\mathrm{comp}}
++\gamma_t\lambda_{\mathrm{clu}}\mathcal L_{\mathrm{KL}}
++\gamma_t\lambda_{\mathrm{bal}}\mathcal L_{\mathrm{bal}} .
 \]
 
-缺失行不进入对应视图的编码、分配、中心或计数。完整视图与缺失视图实验都使用相同的每视图 Student-t 原型结构，不再根据数据规模切换聚类头。
+### 4.1 观测重构
 
-DEC 目标分布为：
+对每个非空观测视图，按观测样本及特征数平均重构平方误差，再等权平均视图。真实缺失值没有重构监督，零占位不作为真值。
+
+### 4.2 留一视图补全 MSE
+
+令 \(\mathcal S_v\) 为目标 \(v\) 真实可见、有其他源视图且预测/教师有效的行，\(\mathcal V_S=\{v:|\mathcal S_v|>0\}\)。正式默认目标为
 
 \[
-p_{ij}=
-\frac{q_{ij}^2/\sum_i q_{ij}}
-{\sum_k(q_{ik}^2/\sum_i q_{ik})}.
+\mathcal L_{\mathrm{comp}}
+=\frac1{|\mathcal V_S|}
+\sum_{v\in\mathcal V_S}
+\frac1{|\mathcal S_v|d}
+\sum_{i\in\mathcal S_v}
+\|\hat z_i^{(v)}-\operatorname{sg}(\operatorname{norm}(z_i^{(v)}))\|_2^2 .
 \]
 
-聚类损失使用 KL 散度：
+完整与缺失数据都使用此定义。教师是当前前向的观测编码 detach；它不同于下面按整轮固定的 DEC 教师。没有监督时返回图内零，不切回旧 MSE。一旦补全已配置，训练损失必须收到补全上下文；无上下文前向仅用于观测教师和真实计数。
+
+`contrastive`、`paired` 是显式损失消融，不能由缺失率暗中切换。显式 `completion.enabled=false` 的观测基线保留旧融合一致性，作为不同方法参与对照。
+
+### 4.3 固定观测教师的 DEC
+
+每轮开始使用客户端全部样本的 \(Q^{\mathrm{obs}}\)：
 
 \[
-\mathcal{L}_{KL}=KL(P\Vert Q).
+f_j=\sum_{i\in\mathcal S_k}Q_{ij}^{\mathrm{obs}},\qquad
+\hat p_{ij}=\operatorname{sg}\left[
+\frac{(Q_{ij}^{\mathrm{obs}})^2/f_j}
+{\sum_l(Q_{il}^{\mathrm{obs}})^2/f_l}\right].
 \]
 
-簇均衡损失为：
+本轮所有 batch、epoch 共用 \(\hat P\)，学生使用当前完成概率：
 
 \[
-\mathcal{L}_{bal}
-=\sum_{j=1}^{K}\bar q_j\log(K\bar q_j),
-\qquad
-\bar q_j=\frac{1}{N}\sum_i q_{ij}.
+\mathcal L_{\mathrm{KL}}
+=\frac1B\sum_{i,j}\hat p_{ij}\log\frac{\hat p_{ij}}{Q_{ij}} .
 \]
 
-## 4. 总损失
-
-第 \(t\) 轮的总损失为：
+### 4.4 弱簇均衡
 
 \[
-\mathcal{L}^{(t)}
-=\lambda_{rec}\mathcal{L}_{rec}
-+\lambda_{con}\mathcal{L}_{con}
-+s_t\lambda_{clu}\mathcal{L}_{KL}
-+s_t\lambda_{bal}\mathcal{L}_{bal}.
+\bar q_j=\frac1B\sum_iQ_{ij},\qquad
+\mathcal L_{\mathrm{bal}}=\sum_j\bar q_j\log(K\bar q_j).
 \]
 
-其中 \(s_t\) 是聚类损失调度系数。中心初始化前 \(s_t=0\)；初始化后在预训练阶段线性增加；正式聚类阶段固定为 1。
+它是抑制退化的正则，不保证硬簇等量，不应被解释为各客户端分布均匀的先验事实。正式 `view_semantic=0`，不叠加第五项。
 
-## 5. 阶段一：聚类感知预训练
+## 5. 两阶段调度
 
-阶段范围为：
+前 `center_init_round` 轮使用重构和补全；完成这些轮次后、下一轮训练前，由所有客户端摘要初始化中心。初始化后的预训练逐步增加 DEC/均衡项：
 
 \[
-1\le t\le T_{pre},
+\gamma_t=
+\begin{cases}
+0,&t\le T_{\mathrm{init}},\\
+(t-T_{\mathrm{init}})/\max(T_{\mathrm{pre}}-T_{\mathrm{init}},1),
+&T_{\mathrm{init}}<t\le T_{\mathrm{pre}},\\
+1,&t>T_{\mathrm{pre}}.
+\end{cases}
 \]
 
-其中 \(T_{pre}=\texttt{pretrain\_rounds}\)。整个区间在历史中统一记录为 `pretraining`。
+第 `pretrain_rounds+1` 轮进入 `clustering`。历史只记录 `pretraining/clustering`，中心初始化不是第三个训练阶段。学习率由初始化前预训练、初始化后预训练、正式聚类三段参数控制；AdamW 每轮重建。
 
-### 5.1 中心初始化前
+## 6. 初始化和联邦聚合
 
-前 \(T_c=\texttt{center\_init\_round}\) 轮使用：
+初始化以本地观测融合或完成融合做共同 KMeans，逐视图中心均值仅取真实观测非零编码，硬计数取真实观测分组。客户端上传中心、计数与覆盖量。
 
-\[
-\mathcal{L}=\lambda_{rec}\mathcal{L}_{rec}
-+\lambda_{con}\mathcal{L}_{con}.
-\]
+服务端选择覆盖量最大的参考视图，求共同簇排列并应用到全部视图。共享普通参数按参与客户端样本数平均；原型按对齐后的逐视图软计数平均，再应用 `center_momentum`。中心统计不包含预测视图。
 
-该过程属于阶段一内部的表示学习部分，不是独立训练阶段。
+`parameter_scope=federated` 时补全参数共享；`local` 时每个客户端跨轮保存自己的参数，服务端公共初始化不参与这些参数的聚合。
 
-### 5.2 联邦中心初始化
+## 7. 推理、最佳轮和状态恢复
 
-完成第 \(T_c\) 轮后，客户端先用本地融合表示产生共同伪标签，再上传每视图中心、计数和覆盖量；服务端选覆盖率最高的参考视图，求一次客户端到全局语义顺序的 Hungarian 排列，并把同一排列应用到该客户端全部视图。原始样本、单样本表示、分配和伪标签不会离开客户端。
+正式评估由服务端调用 `client.predict(global_model, round_number)`。客户端内部遍历已归一化的数据，使用同一真实 mask，载入全局共享参数及对应 local 私有参数，重新构建本地锚点，以完成概率 \(Q\) 的 argmax 预测。接口返回 CPU 上的 assignments、labels 与 assignment_beta，服务端据此汇总指标；这些返回值属于仿真评估，不改变训练上传协议。
 
-### 5.3 中心初始化后
+仅正式聚类阶段按 `selection_metric` 选最佳轮。最佳快照包含全局参数、对应轮号以及各客户端 local 私有参数，恢复时必须成套。逐轮历史保留真实末轮；恢复最佳状态后的指标不能冒充真实末轮。
 
-从第 \(T_c+1\) 轮至第 \(T_{pre}\) 轮启用聚类目标，其权重为：
+当前输出仍以 history/summary JSON 为主；`output.save_model` 是兼容字段，不意味着生成模型权重文件。
 
-\[
-s_t=\frac{t-T_c}{T_{pre}-T_c}.
-\]
+## 8. 压缩与缺失率解耦
 
-若分母为 0，则正式聚类阶段直接使用 \(s_t=1\)。中心初始化后使用 `pretraining_end_learning_rate`，但 phase 仍为 `pretraining`。
+压缩是通信选择，不是缺失学习的前提。`none`、Stage＋EF 等应在全部缺失率采用同一设置，比较方法时保持实际字节预算一致。通信实现位于 `system/flcore/communication/`：`codec.py` 负责参数范围、编解码、字节和状态恢复，`compression.py` 负责候选评分、Stage 与 EF。
 
-每个客户端在通信轮开始时，用完整本地数据计算一次目标分布 \(P\)，并在本轮所有本地 epoch 和 batch 中固定使用，减少伪标签抖动。
+Stage 的任务损失和分配关系使用当前完成模型；真实观测 mask、固定 DEC 目标、参考锚点与教师在候选间保持一致。local 参数、锚点、ID、EF 残差不上传。编码载荷字节不等于实测网络流量。
 
-## 6. 阶段二：正式聚类
+## 9. 配置语义
 
-阶段范围为：
+三个顶层 null 占位仍支持。当前默认补全开启、MSE 监督、完成概率开启、federated 作用域；缺失率为 0，压缩为 none。
 
-\[
-T_{pre}<t\le T.
-\]
+`loss_weights.completion` 是正式第二项权重；旧 `consistency` 可经加载器迁移。七份当前配置使用 completion=1.0 作为尚未调优的起点，其他超参数也不能继承旧实验的最优性结论。
 
-历史记录为 `clustering`，聚类权重固定为 \(s_t=1\)，学习率切换为 `clustering_learning_rate`。编码器、解码器、视图权重和聚类中心继续联合优化。
+## 10. 实验记录与证据
 
-模型只在该阶段按配置的选择指标保存最佳状态，当前选择指标为 NMI。
+当前仅保留 [results](D:/Project/Python/研究生毕设/FDL-scheme-1/results) 中的 175 次实验：七数据集，缺失率 0、0.1、0.3、0.5、0.7，种子 42、2024、2025、2026、2027。方案为 completed，无通信压缩，统一观测初始化。原始记录、计划和源码快照保留在该目录，其他历史性能目录和报告已按用户 2026-11-02 的要求删除。
 
-## 7. 联邦聚合
+[统计报告](D:/Project/Python/研究生毕设/FDL-scheme-1/results/statistics.md) 按数据集和缺失率分别给出 ACC、NMI、ARI 的五次均值与样本方差（ddof=1），同一最佳轮与真实末轮分表。该批未包含关闭补全对照，不能单独用来证明补全收益。
 
-### 7.1 普通参数
+统一入口为 `system/run_incomplete.py`，比较 `baseline/observed_completion/completed` 三组，默认只运行 completed。所有率统一客户端观测归一化与通信设置，三组都关闭完成初始化；压缩时使用关闭补全的基线模型导出的相同绝对字节预算。计划、源码、配置不一致时要求新的结果目录，命令见 [README](D:/Project/Python/研究生毕设/FDL-scheme-1/README.md)。
 
-客户端 \(m\) 拥有 \(n_m\) 个样本，普通参数采用 FedAvg：
-
-\[
-\theta=\sum_m\frac{n_m}{\sum_j n_j}\theta_m.
-\]
-
-### 7.2 聚类中心
-
-不同客户端的簇编号没有固定语义。服务端先根据中心距离使用 Hungarian 算法将本地中心排列到全局中心顺序，然后按每个簇的软计数聚合：
-
-\[
-\mu_k^{agg}=
-\frac{\sum_m c_{mk}\mu_{mk}}
-{\sum_m c_{mk}}.
-\]
-
-每视图模式对参考视图只求一次排列，再同步排列所有视图的原型与计数；随后分别按视图、按簇使用同一公式聚合。若对每个视图独立求排列，会破坏跨视图共同簇槽位，因此不允许该做法。
-
-可选中心动量为：
-
-\[
-\mu_k\leftarrow
-\rho\mu_k^{old}+(1-\rho)\mu_k^{agg}.
-\]
-
-## 8. 两阶段训练算法
-
-```text
-初始化全局模型
-for round = 1 ... rounds:
-    phase = pretraining if round <= pretrain_rounds else clustering
-
-    if round == center_init_round + 1:
-        客户端计算本地 KMeans 中心与计数
-        服务端初始化全局中心
-
-    if 中心尚未初始化:
-        clustering_scale = 0
-    elif phase == pretraining:
-        clustering_scale 线性增加到 1
-    else:
-        clustering_scale = 1
-
-    客户端基于完整本地数据固定本轮 DEC 目标
-    客户端执行对应阶段的本地训练
-    服务端聚合普通参数和对齐后的聚类中心
-    评估 ACC、NMI、ARI
-
-    if phase == clustering:
-        按 NMI 更新最佳检查点
-```
-
-## 9. 参数语义
-
-| 参数 | 含义 |
-|---|---|
-| `rounds` | 总通信轮数 |
-| `pretrain_rounds` | 阶段一结束轮次 |
-| `center_init_round` | 阶段一内部中心初始化时点 |
-| `learning_rate` | 中心初始化前预训练学习率 |
-| `pretraining_end_learning_rate` | 中心初始化后预训练学习率 |
-| `clustering_learning_rate` | 阶段二学习率 |
-| `pretraining_local_epochs` | 阶段一本地 epoch |
-| `clustering_local_epochs` | 阶段二本地 epoch |
-| `cluster_head_learning_rate_multiplier` | 聚类头学习率倍数 |
-| `center_momentum` | 聚类中心融合动量 |
-| `model.prototype_mode` | 固定为 `per_view` |
-| `model.per_view_head_type` | A2 消融支持 Student-t 或 cosine；冻结性能协议使用 Student-t |
-| `model.student_t_distance_scale` | 冻结性能协议固定为 1 |
-
-## 10. 评估与稳定性
-
-- ACC 使用 Hungarian 匹配后的聚类准确率。
-- NMI 为模型选择指标。
-- ARI 衡量成对聚类一致性。
-- 固定 `seed=42` 和客户端数量进行参数比较。
-- 稳定方案要求最佳轮到末轮的三项指标绝对差值均不超过 0.01。
-- 七个正式数据集的四项损失权重均保持为正数，不关闭任何损失项。
-
-A2 七数据集、五档缺失率的单种子结果见 [`性能统计.md`](性能统计.md)，原始逐轮记录位于 `results-性能统计/A2/`；完整视图和缺失率 0.3 的三种子验证记录位于 `results-优化2/protocol-v2/a2/validation/`。
-
-## 11. 模型上行压缩扩展
-
-压缩只作用于客户端普通模型参数更新：客户端以本轮全局参数为参照，上传稀疏索引与数值，服务端解码后仍用样本数权重聚合。聚类中心和软簇计数单独上传，继续使用第 7.2 节的对齐与融合规则；中心初始化前不上传未训练的中心。关闭压缩（`compression.method=none`）时沿用原始全量上传路径。
-
-`topk` 按更新幅值选择；`paper` 参考 ICLR 2026 的线性层激活感知评分；`stage` 在固定编码字节预算内比较若干完整候选更新。阶段评分由相同校准样本上的原训练目标退化、各视图及融合表示的样本关系变化、以及中心初始化后按既有 `s_t` 加权的软同簇关系变化组成。`stage_task` 关闭两个关系项作为消融。校准只使用本地视图和本轮固定 DEC 目标，不使用真实标签。可选误差反馈残差只留在客户端。
-
-模型上传字节数包含稀疏索引、数值、头信息、中心与计数；下行仍按完整模型估算。`results-压缩/` 是切换到 A2-only 前的历史记录；当前 A2 压缩实验应写入独立目录（例如 `results-A2-压缩/`）。设计与验证门槛见 [`模型优化/模型压缩.md`](模型优化/模型压缩.md)。
-
-历史压缩结果曾对七个数据集统一使用 `stage_ef`。在相同的 50% 实际编码上行字节预算与 `seed=42` 下，Stage＋反馈在 5/7 个数据集的 NMI 高于 `topk_ef`，但七集等权平均 NMI 为 0.565782，对方为 0.568708；压缩计算时间也更高。详见 [`tuning_summary.md`](results-压缩/tuning_summary.md)。这些数值不是当前 A2 的性能证据。
-
-Stage 的误差反馈残差只留在客户端；评分参考模型由稠密扁平更新在本地构造，不产生完整更新的临时传输包。20% 上行预算、三个种子的 Stage＋反馈对照和未成功的调参尝试保留在 [`Stage优化实验.md`](results-压缩/tuning/历史报告/Stage优化实验.md)，属于历史探索证据。
-
-## 12. 缺失视图掩码扩展
-
-缺失实验先按原规则随机划分客户端，再在每个客户端内部固定样本×视图掩码。`missing.rate=r` 表示约 `r` 的样本各随机缺失一个视图；每个样本至少保留一个视图。只有本地可见值参与归一化、编码、重构、DEC 目标缓存、中心初始化、软簇计数和压缩校准。
-
-对每个样本，可见视图编码按 `view_logits` 在其观测集合内重新归一化并融合。隐藏视图保持为空，不构造替代表示。A2 的原型分配、中心和计数使用同一真实观测掩码。
-
-重构与一致性损失只在真实可见视图上计算；DEC KL 与均衡损失使用 A2 的观测视图平均分配。两阶段轮次、中心初始化、目标分布固定规则与聚合方式不变。普通网络参数进入现有 FedAvg 与压缩载荷，原型中心仍单独聚合。压缩评分的完整更新与候选使用同一校准样本、掩码及 DEC 目标；掩码不上传。
-
-缺失实验固定与 `stage_ef` 联用。方案、数据隔离和结论边界见 [`缺失补全.md`](模型优化/缺失补全.md)，不同缺失率结果见 `results-性能统计/A2/`。
-
-## 13. 二次优化验证结果
-
-A2 冻结为每视图 Student-t `s=1`、`view_semantic=0`。在七个数据集、`seed=42/2024/2025` 的真实末轮上，完整视图宏平均 ACC/NMI/ARI 为 `0.585894/0.575831/0.446499`，缺失率 0.3 为 `0.564572/0.549547/0.418522`。这组记录用于说明 A2 的多种子表现；五档缺失率曲线目前只使用 `seed=42`。
-
-论文依据、逐数据集结果、配置和验证边界见 [`二次优化方案.md`](模型优化/二次优化方案.md)、[`性能统计.md`](性能统计.md) 与 `results-优化2/protocol-v2/a2/`。
+后续配对验证应固定预处理、mask、种子、预算，同时报告最佳轮、真实末轮、稳定性及通信载荷。新结果必须携带 `algorithm_version=completion-v1`，变更实验设置时另选目录，保留本批结果。

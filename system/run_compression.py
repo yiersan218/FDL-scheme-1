@@ -1,12 +1,12 @@
-"""Reproducible fixed-uplink-budget compression search and reporting."""
+"""在固定上行模型载荷预算下运行压缩候选，并汇总性能与通信代价。"""
 
 import argparse
 import copy
 import json
 import shutil
-from pathlib import Path
 
-from config import BACKUP_CONFIG_DIR, DEFAULT_CONFIG_DIR, apply_overrides, load_config, resolve_project_path
+from config import (ALGORITHM_VERSION, DEFAULT_CONFIG_DIR, apply_overrides,
+                    ensure_writable_output, load_config)
 from main import run
 from summarize_results import collect_result, write_summary
 
@@ -15,8 +15,9 @@ CANDIDATES = ("none", "topk", "topk_ef", "paper", "stage", "stage_ef", "stage_ta
 
 
 def parse_args():
+    """解析压缩对照参数；默认按研究方案选择 Stage＋客户端误差反馈。"""
     parser = argparse.ArgumentParser(description="Tune model uplink compression at a fixed byte budget")
-    parser.add_argument("--results-dir", default="results-压缩")
+    parser.add_argument("--results-dir", default="results-补全聚类-压缩")
     parser.add_argument("--budget-ratio", type=float, default=0.5)
     parser.add_argument("--dataset", action="append", dest="datasets")
     parser.add_argument("--candidate", action="append", choices=CANDIDATES, dest="candidates")
@@ -27,16 +28,20 @@ def parse_args():
 
 
 def _read_json(path):
+    """以 UTF-8 读取候选结果 JSON。"""
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
 
 
 def _write_json(path, value):
+    """以 UTF-8 写出 JSON，并保留中文字段值。"""
+    path = ensure_writable_output(path)
     with path.open("w", encoding="utf-8") as handle:
         json.dump(value, handle, indent=2, ensure_ascii=False)
 
 
 def _settings(name):
+    """将实验候选名称转换为压缩器方法、评分权重和误差反馈配置。"""
     if name == "none":
         return {"method": "none"}
     if name == "topk_ef":
@@ -52,13 +57,26 @@ def _settings(name):
 
 
 def _stable(summary, history):
+    """判断 ACC、NMI、ARI 从最佳轮到真实末轮的绝对变化是否均不超过 0.01。"""
     best = next(row["clustering"] for row in history if row["round"] == summary["best_round"])
     last = history[-1]["clustering"]
     return all(abs(last[key] - best[key]) <= 0.01 for key in ("acc", "nmi", "ari"))
 
 
 def _publish_stage_ef(root, config_paths, budget_ratio, device, force):
-    """Publish the user-selected single method and its matched Top-k+EF comparison."""
+    """发布统一 Stage＋EF 结果及其同预算 Top-k＋EF 对照。
+
+    方法由研究方案预先指定，不依据本次平均 NMI 自动换成其他候选。
+    各候选原始记录保存在 tuning 目录，正式目录保存选定方法的结果副本。
+
+    Args:
+        root: 本轮压缩实验的输出根目录。
+        config_paths: 待运行的数据集配置路径序列。
+        budget_ratio: 相对于稠密上行模型载荷的字节预算比例。
+        device: 训练设备名称。
+        force: 是否重新运行已有匹配候选。
+    """
+    root = ensure_writable_output(root)
     results = {}
     for config_path in config_paths:
         dataset = config_path.stem
@@ -66,10 +84,11 @@ def _publish_stage_ef(root, config_paths, budget_ratio, device, force):
             results[(dataset, candidate)] = _one_run(
                 config_path, root, candidate, budget_ratio, device, force
             )
+        # 此入口固定发布 Stage＋EF；Top-k＋EF 只作同预算对照，不据指标事后替换正式方法。
         summary, history, source_root = results[(dataset, "stage_ef")]
-        destination = root / dataset
+        destination = ensure_writable_output(root / dataset)
         destination.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source_root / dataset / "history.json", destination / "history.json")
+        shutil.copy2(source_root / dataset / "history.json", ensure_writable_output(destination / "history.json"))
         formal = copy.deepcopy(summary)
         formal["config"]["output"]["directory"] = str(root)
         formal["compression_search"] = {
@@ -105,7 +124,7 @@ def _publish_stage_ef(root, config_paths, budget_ratio, device, force):
         "绝对变化均不超过 0.01。逐轮结果与完整配置见各数据集的 `history.json`、`summary.json`；"
         "与 Top-k_ef 的同预算对比见 `tuning_summary.md`。", "",
     ])
-    (root / "summary.md").write_text("\n".join(summary_lines), encoding="utf-8")
+    ensure_writable_output(root / "summary.md").write_text("\n".join(summary_lines), encoding="utf-8")
 
     comparison_lines = [
         "# Stage＋误差反馈与 Top-k_ef 同预算对比", "",
@@ -160,19 +179,29 @@ def _publish_stage_ef(root, config_paths, budget_ratio, device, force):
         "不是实测网络流量或延迟；下行未压缩。仅有单种子，同一评估集上的差异不能证明统计显著性。",
         "原始候选结果见 `tuning/stage_ef-b50/` 与 `tuning/topk_ef-b50/`。", "",
     ])
-    (root / "tuning_summary.md").write_text("\n".join(comparison_lines), encoding="utf-8")
+    ensure_writable_output(root / "tuning_summary.md").write_text("\n".join(comparison_lines), encoding="utf-8")
     print(f"Published Stage+EF results for {n} datasets in {root}", flush=True)
 
 
 def _one_run(config_path, root, candidate, budget_ratio, device, force):
+    """复用压缩配置匹配的候选结果，或启动一次候选训练。
+
+    Returns:
+        tuple: 候选摘要、逐轮历史和候选结果根目录。
+
+    已有结果的复用检查限于此处列出的压缩字段，不等同于完整源码溯源审计。
+    """
+    root = ensure_writable_output(root)
     settings = _settings(candidate)
     candidate_root = root / "tuning" / f"{candidate}-b{int(round(budget_ratio * 100))}"
     summary_path = candidate_root / config_path.stem / "summary.json"
     history_path = summary_path.with_name("history.json")
+    # 此处只核对压缩候选设置；需要隔离不同源码或训练配置时，应使用新的结果根目录。
     if summary_path.exists() and history_path.exists() and not force:
         existing = _read_json(summary_path)
         compression = existing["config"].get("compression", {})
-        if (compression.get("method") == settings["method"]
+        if (existing["config"].get("algorithm_version") == ALGORITHM_VERSION
+                and compression.get("method") == settings["method"]
                 and (candidate == "none" or abs(compression.get("budget_ratio", 0) - budget_ratio) < 1e-9)
                 and all(compression.get(key) == value for key, value in settings.items())):
             print(f"Reuse {candidate} {config_path.stem}", flush=True)
@@ -193,6 +222,7 @@ def _one_run(config_path, root, candidate, budget_ratio, device, force):
 
 
 def _comparison(root, chosen, results, budget_ratio, selection):
+    """汇总各数据集选定候选与稠密基线的指标、载荷字节及压缩耗时。"""
     lines = [
         "# 压缩通信与聚类性能对比",
         "",
@@ -248,10 +278,11 @@ def _comparison(root, chosen, results, budget_ratio, selection):
         "若压缩方案的聚类指标低于稠密基线，应如实解释为通信与精度的权衡，不宣称双重提升。",
         "",
     ])
-    (root / "通信与性能对比.md").write_text("\n".join(lines), encoding="utf-8")
+    ensure_writable_output(root / "通信与性能对比.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 def _uniform_comparison(root, results, datasets, budget_ratio):
+    """比较统一候选的跨数据集表现，写出选择依据并返回候选名称。"""
     methods = ("topk_ef", "stage")
     statistics = {}
     for method in methods:
@@ -320,15 +351,16 @@ def _uniform_comparison(root, results, datasets, budget_ratio):
         "完整逐轮数据保留在 `tuning/topk_ef-b50/` 与 `tuning/stage-b50/`；"
         "稠密基线对照见 `通信与性能对比.md`。", "",
     ])
-    (root / "统一方法对比.md").write_text("\n".join(lines), encoding="utf-8")
+    ensure_writable_output(root / "统一方法对比.md").write_text("\n".join(lines), encoding="utf-8")
     return winner
 
 
 def main():
+    """调度候选训练与结果复用，再按指定选择范围发布正式汇总。"""
     args = parse_args()
-    root = resolve_project_path(args.results_dir)
+    root = ensure_writable_output(args.results_dir)
     root.mkdir(parents=True, exist_ok=True)
-    config_paths = sorted(DEFAULT_CONFIG_DIR.glob("*.json")) + sorted(BACKUP_CONFIG_DIR.glob("*.json"))
+    config_paths = sorted(DEFAULT_CONFIG_DIR.glob("*.json"))
     if args.datasets:
         config_paths = [path for path in config_paths if path.stem in args.datasets]
     if not config_paths:
@@ -384,9 +416,9 @@ def main():
         winner = uniform_winner or max(options)[-1]
         chosen[dataset] = winner
         summary, history, candidate_root = results[(dataset, winner)]
-        destination = root / dataset
+        destination = ensure_writable_output(root / dataset)
         destination.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(candidate_root / dataset / "history.json", destination / "history.json")
+        shutil.copy2(candidate_root / dataset / "history.json", ensure_writable_output(destination / "history.json"))
         formal = copy.deepcopy(summary)
         formal["config"]["output"]["directory"] = str(root)
         formal["compression_search"] = {
@@ -398,7 +430,8 @@ def main():
         }
         _write_json(destination / "summary.json", formal)
         tuning_lines.append(f"| {dataset} | **选定：{winner}** | | | | | | | |")
-    (root / "tuning_summary.md").write_text("\n".join(tuning_lines) + "\n", encoding="utf-8")
+    ensure_writable_output(root / "tuning_summary.md").write_text("\n".join(tuning_lines) + "\n", encoding="utf-8")
+    ensure_writable_output(root / "summary.md")
     write_summary(root, expected_datasets=chosen, title="固定上行预算模型压缩结果")
     _comparison(root, chosen, results, args.budget_ratio, args.selection)
     print(f"Selected: {chosen}", flush=True)

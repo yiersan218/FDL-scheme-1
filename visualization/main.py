@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+"""提供训练后绘图和读取已有历史绘图两种命令行用法。"""
+
 import argparse
 import os
 import sys
@@ -11,6 +13,7 @@ VISUALIZATION_DIR = Path(__file__).resolve().parent
 DEFAULT_RESULTS_DIRECTORY = VISUALIZATION_DIR / "result"
 DEFAULT_PLOT_DIRECTORY = VISUALIZATION_DIR / "output"
 if str(PROJECT_ROOT) not in sys.path:
+    # 支持从任意工作目录直接运行该文件，同时复用项目训练入口。
     sys.path.insert(0, str(PROJECT_ROOT))
 if str(SYSTEM_DIR) not in sys.path:
     sys.path.insert(0, str(SYSTEM_DIR))
@@ -21,7 +24,22 @@ from visualization.plot_history import visualize_history
 
 
 def run(config, skip_training=False, results_directory=None, plot_directory=None, image_format="png", dpi=160):
-    """Run one configured experiment when requested, then visualize its history."""
+    """按配置训练或读取已有记录，生成聚类指标图和损失图。
+
+    Args:
+        config: 已加载的实验配置；函数会更新其中的 output.directory。
+        skip_training: 为 True 时只读取已有 history.json，不启动训练。
+        results_directory: 结果根目录，其下按数据集名称定位运行记录。
+        plot_directory: 图像根目录；未提供时使用 visualization/output。
+        image_format: 输出图片格式，由绘图后端保存。
+        dpi: 保存图像时使用的分辨率。
+
+    Returns:
+        包含 metrics 和 losses 两个文件路径的字典。
+
+    Raises:
+        FileNotFoundError: 指定数据集目录中没有可读取的训练历史。
+    """
     dataset = config["dataset"]["name"]
     result_root = Path(results_directory) if results_directory else DEFAULT_RESULTS_DIRECTORY
     if not result_root.is_absolute():
@@ -57,6 +75,7 @@ def run(config, skip_training=False, results_directory=None, plot_directory=None
 
 
 def parse_args():
+    """解析数据集配置、训练开关以及绘图格式等命令行参数。"""
     parser = argparse.ArgumentParser(description="Run and visualize federated multi-view clustering")
     parser.add_argument("--config", default="Scene-15", help="Config name or JSON path")
     parser.add_argument("--override", action="append", default=[], help="Override dotted key, e.g. training.rounds=5")

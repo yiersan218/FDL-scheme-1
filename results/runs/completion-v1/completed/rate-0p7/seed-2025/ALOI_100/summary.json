@@ -1,0 +1,350 @@
+{
+  "algorithm_version": "completion-v1",
+  "dataset": "ALOI_100",
+  "samples": 10800,
+  "view_dims": [
+    77,
+    13,
+    64,
+    125
+  ],
+  "num_clusters": 100,
+  "metrics": {
+    "acc": 0.6731481481481482,
+    "nmi": 0.8004770212504888,
+    "ari": 0.550150774683409,
+    "confidence": 0.013519869185984135
+  },
+  "best_round": 16,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.6731481481481482,
+    "nmi": 0.8004770212504888,
+    "ari": 0.550150774683409,
+    "confidence": 0.013519869185984135
+  },
+  "stability": {
+    "acc": 0.0,
+    "nmi": 0.0,
+    "ari": 0.0
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 179483,
+    "federated_parameters": 179483,
+    "local_completion_parameters_per_client": 0,
+    "elapsed_seconds": 98.68740773200989,
+    "peak_cuda_memory_bytes": 72329216
+  },
+  "diagnostics": {
+    "normalized_entropy": 0.9983228102272524,
+    "top1_top2_margin": 0.0009825574234127998,
+    "effective_clusters": 99.66487121582031,
+    "min_cluster_occupancy": 0.007901942357420921,
+    "max_cluster_occupancy": 0.011204678565263748,
+    "prediction_soft_counts": [
+      115.67057037353516,
+      108.51778411865234,
+      115.30725860595703,
+      97.13882446289062,
+      95.66522979736328,
+      107.7850570678711,
+      91.79875183105469,
+      109.39279174804688,
+      108.17835998535156,
+      109.3930892944336,
+      96.02413940429688,
+      104.24032592773438,
+      117.44520568847656,
+      88.0934066772461,
+      91.33932495117188,
+      85.34098052978516,
+      99.5112075805664,
+      102.05316925048828,
+      100.67323303222656,
+      99.5714111328125,
+      105.3749008178711,
+      104.81510925292969,
+      114.86991882324219,
+      101.67144775390625,
+      102.21731567382812,
+      119.81288146972656,
+      107.088623046875,
+      85.69125366210938,
+      95.37620544433594,
+      101.3457260131836,
+      105.80564880371094,
+      113.61895751953125,
+      106.72618103027344,
+      88.94194030761719,
+      119.7049789428711,
+      99.1131820678711,
+      115.10574340820312,
+      117.8092041015625,
+      115.09169006347656,
+      96.06275177001953,
+      99.03649139404297,
+      111.46331024169922,
+      111.16127014160156,
+      99.72875213623047,
+      108.0753402709961,
+      108.24650573730469,
+      98.9753646850586,
+      97.66260528564453,
+      115.44387817382812,
+      118.50401306152344,
+      116.83226013183594,
+      105.84170532226562,
+      110.98075866699219,
+      98.02572631835938,
+      96.96550750732422,
+      116.9895248413086,
+      99.78892517089844,
+      99.76652526855469,
+      119.36859893798828,
+      116.00150299072266,
+      104.53585815429688,
+      107.10384368896484,
+      114.44361114501953,
+      111.8622055053711,
+      99.57275390625,
+      109.94445037841797,
+      121.01053619384766,
+      120.51576232910156,
+      114.95213317871094,
+      116.3335189819336,
+      106.3006362915039,
+      112.8012924194336,
+      109.54042053222656,
+      111.3181381225586,
+      115.13988494873047,
+      109.49781036376953,
+      107.89188385009766,
+      107.16868591308594,
+      109.86151885986328,
+      107.0409164428711,
+      95.71527862548828,
+      113.39026641845703,
+      102.55719757080078,
+      110.71041870117188,
+      120.25790405273438,
+      107.5020523071289,
+      117.1347885131836,
+      109.27159118652344,
+      106.53877258300781,
+      118.55042266845703,
+      120.46696472167969,
+      119.29953002929688,
+      116.75455474853516,
+      118.40992736816406,
+      119.15495300292969,
+      119.508056640625,
+      115.03791809082031,
+      111.42245483398438,
+      113.92372131347656,
+      119.31558227539062
+    ],
+    "completion_assignment_beta": 0.15598063170909882
+  },
+  "communication": {
+    "uplink_bytes": 69296064,
+    "dense_uplink_bytes": 69296064,
+    "downlink_bytes": 68921472,
+    "compression_seconds": 0.0,
+    "uplink_reduction": 0.0
+  },
+  "config": {
+    "dataset": {
+      "name": "ALOI_100",
+      "file": "dataset/ALOI_100.mat",
+      "num_clusters": 100,
+      "num_clients": 6,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        128,
+        64
+      ],
+      "embedding_dim": 32,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "cluster_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t"
+    },
+    "training": {
+      "rounds": 16,
+      "pretrain_rounds": 12,
+      "center_init_round": 11,
+      "local_epochs": 1,
+      "pretraining_local_epochs": 1,
+      "clustering_local_epochs": 1,
+      "batch_size": 256,
+      "eval_batch_size": 1024,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 10,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 2025,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "completion": 1.0,
+      "clustering": 0.5,
+      "balance": 0.05
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.7
+    },
+    "completion": {
+      "enabled": true,
+      "anchor_size": 256,
+      "topk": 16,
+      "heads": 4,
+      "adapter_delta": 0.1,
+      "attention_strength": 0.3,
+      "fusion_weight": 0.25,
+      "temperature": 0.2,
+      "truncation": 9,
+      "use_attention": true,
+      "use_completed_initialization": false,
+      "use_completed_assignments": true,
+      "gate": true,
+      "value_mode": "per_view",
+      "alignment_mode": "mse",
+      "parameter_scope": "federated",
+      "seed": 0
+    },
+    "compression": {
+      "method": "none",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": false,
+      "budget_bytes": null,
+      "budget_bytes_pair": null
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results\\runs\\completion-v1\\completed\\rate-0p7\\seed-2025",
+      "save_model": true
+    },
+    "research": {
+      "enabled": false
+    },
+    "algorithm_version": "completion-v1",
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\ALOI_100.json",
+    "experiment": {
+      "method": "completion-v1",
+      "variant": "completed",
+      "nominal_missing_rate": 0.7,
+      "seed": 2025,
+      "normalization_scope": "client_observed",
+      "initialization": "observed_only",
+      "teacher": "round_fixed_observed",
+      "source_files": [
+        {
+          "path": "system/config.py",
+          "sha256": "15e775b4558b76047887a9e57974eee792d9b66d492fae38db82917681bac871"
+        },
+        {
+          "path": "system/main.py",
+          "sha256": "28a0f00f1603d8b184280be73929383f787c5424244ec7ff3aa8e8990267d9cb"
+        },
+        {
+          "path": "system/utils/mat_data.py",
+          "sha256": "67c2e6e8eb44b63f76f2d4458f2131a7191f6748d198f4fa95ba40f1e9fc98e2"
+        },
+        {
+          "path": "system/flcore/trainmodel/multiview.py",
+          "sha256": "415bc75c3bd066760e3d1a3f94d7199c128dfaeec364e5d907cbed56201d7266"
+        },
+        {
+          "path": "system/flcore/trainmodel/completion.py",
+          "sha256": "c77f6a0e07701439d237f08e927f8caa9b586553017cd23c686bd63ecd0de876"
+        },
+        {
+          "path": "system/flcore/trainmodel/losses.py",
+          "sha256": "f26a9b6b1c9269669c23dc46c8987d91d732ed22053384fbc974ba066b3509c4"
+        },
+        {
+          "path": "system/flcore/clients/clientcluster.py",
+          "sha256": "c47dcd9be403fe5ee67ee003d6f640b9be8df3494bfc90ed50d2d207b7f4b8d2"
+        },
+        {
+          "path": "system/flcore/servers/servercluster.py",
+          "sha256": "6120b2b22b64233b9de36d637aaeb81de78b1628689c540231378358321473f3"
+        },
+        {
+          "path": "system/flcore/communication/__init__.py",
+          "sha256": "78051084ff6cfbfc7f91f7f232c1f7a781af9b100c5ff8d51e66c95626900739"
+        },
+        {
+          "path": "system/flcore/communication/codec.py",
+          "sha256": "8c2924393654ab08cc37f4827492c8e9532f7934f0545038a31f5392bf8f527d"
+        },
+        {
+          "path": "system/flcore/communication/compression.py",
+          "sha256": "6d7a25216f67e31a54031f7839860da335e1c474c2809e76e1ca69474a35ac5c"
+        },
+        {
+          "path": "system/run_incomplete.py",
+          "sha256": "cb9b3cbbcfc2ca816dd6fd82ec9ed03807831918a26ea6acbae57254d3456353"
+        }
+      ],
+      "source_sha256": "7c709c4cc748de39a9c6bce6e1a06a96f3df0112fb8599e32fef75c0eb6badf5",
+      "data_sha256": "7e151504633464680c238876ff6c47976ec4d06fc5784dc3b0e27684a25a6a5f",
+      "compression": "none",
+      "budget_reference": "dense_upload",
+      "fingerprint": "ca4f03f2e56404ee498a7c5324e00e2599ebb1a3945ffb3b4a56a8908c80e802"
+    }
+  },
+  "completion": {
+    "enabled": true,
+    "loss_type": "mse",
+    "consistency_type": "cross_view_completion",
+    "prediction": "bounded_completed_assignments",
+    "target_teacher": "observed_assignments_fixed_per_round",
+    "prototype_statistics": "observed_only",
+    "bank_scope": "client_local_ephemeral",
+    "parameter_scope": "federated",
+    "use_completed_initialization": false,
+    "structure_sha256": "133685471e8dec3b58781fda1f5fab04f83dfcfc5a80ad27a65989b13757f084"
+  },
+  "missing": {
+    "nominal_rate": 0.7,
+    "normalization_scope": "client_observed",
+    "incomplete_sample_rate": 0.7,
+    "missing_cell_rate": 0.175,
+    "observed_per_view": [
+      8871,
+      8868,
+      8931,
+      8970
+    ],
+    "complete_per_client": [
+      540,
+      540,
+      540,
+      540,
+      540,
+      540
+    ],
+    "mask_sha256": "11d43054a655c180e8fe33976911000acfeb36e80f6f104345e78d58e25a2a45"
+  }
+}

@@ -1,0 +1,1773 @@
+{
+  "algorithm_version": "completion-v1",
+  "plan_sha256": "2aed89c4e836739b1bc3fed040546e91e0f88914f3078045ab3b58ac7726dc54",
+  "compression": "none",
+  "expected_seeds": [
+    42,
+    2024,
+    2025,
+    2026,
+    2027
+  ],
+  "variance_ddof": 1,
+  "population_variance_ddof": 0,
+  "metric_scale": "raw_ratio_not_percent",
+  "best_definition": "同一次运行按配置 selection_metric 选定的同一最佳聚类轮；三个指标不分别取最大值",
+  "last_definition": "配置规定的最后一个通信轮，取自原始 history.json",
+  "expected_runs": 175,
+  "completed_runs": 175,
+  "complete": true,
+  "pending_result_directories": [],
+  "groups": [
+    {
+      "dataset": "ALOI_100",
+      "rate": 0.0,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.7583518518518518,
+          "variance": 5.986968449931416e-05,
+          "population_variance": 4.789574759945133e-05
+        },
+        "nmi": {
+          "mean": 0.8645076293997893,
+          "variance": 1.0931574457043006e-05,
+          "population_variance": 8.745259565634404e-06
+        },
+        "ari": {
+          "mean": 0.6742076054818603,
+          "variance": 1.360550553218768e-05,
+          "population_variance": 1.0884404425750143e-05
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.7582962962962962,
+          "variance": 5.939900548696811e-05,
+          "population_variance": 4.751920438957448e-05
+        },
+        "nmi": {
+          "mean": 0.8643393207420277,
+          "variance": 1.0738044711936237e-05,
+          "population_variance": 8.59043576954899e-06
+        },
+        "ari": {
+          "mean": 0.6740156780309933,
+          "variance": 1.3315470121858747e-05,
+          "population_variance": 1.0652376097486998e-05
+        }
+      }
+    },
+    {
+      "dataset": "ALOI_100",
+      "rate": 0.1,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.7463703703703704,
+          "variance": 0.0004054586762688612,
+          "population_variance": 0.00032436694101508896
+        },
+        "nmi": {
+          "mean": 0.8626880491072202,
+          "variance": 8.939654302560068e-05,
+          "population_variance": 7.151723442048054e-05
+        },
+        "ari": {
+          "mean": 0.6622042229290369,
+          "variance": 0.0005028944055593783,
+          "population_variance": 0.00040231552444750266
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.7461851851851852,
+          "variance": 0.0003958093278463658,
+          "population_variance": 0.0003166474622770926
+        },
+        "nmi": {
+          "mean": 0.8623747940100303,
+          "variance": 9.00340178697891e-05,
+          "population_variance": 7.202721429583128e-05
+        },
+        "ari": {
+          "mean": 0.6615895960290036,
+          "variance": 0.00050138916642124,
+          "population_variance": 0.00040111133313699206
+        }
+      }
+    },
+    {
+      "dataset": "ALOI_100",
+      "rate": 0.3,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.7190740740740741,
+          "variance": 5.749742798353902e-05,
+          "population_variance": 4.599794238683121e-05
+        },
+        "nmi": {
+          "mean": 0.8407442424284679,
+          "variance": 1.904322871056691e-05,
+          "population_variance": 1.5234582968453527e-05
+        },
+        "ari": {
+          "mean": 0.6264149126976154,
+          "variance": 0.000140064907354977,
+          "population_variance": 0.00011205192588398161
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.7186481481481481,
+          "variance": 5.411779835390944e-05,
+          "population_variance": 4.329423868312755e-05
+        },
+        "nmi": {
+          "mean": 0.8400704170766017,
+          "variance": 1.9384766391339486e-05,
+          "population_variance": 1.550781311307159e-05
+        },
+        "ari": {
+          "mean": 0.6255990902292641,
+          "variance": 0.00013624198021851326,
+          "population_variance": 0.00010899358417481062
+        }
+      }
+    },
+    {
+      "dataset": "ALOI_100",
+      "rate": 0.5,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.697462962962963,
+          "variance": 0.00036792952674897237,
+          "population_variance": 0.0002943436213991779
+        },
+        "nmi": {
+          "mean": 0.8225757951221231,
+          "variance": 9.141860498632345e-05,
+          "population_variance": 7.313488398905876e-05
+        },
+        "ari": {
+          "mean": 0.5918898381065992,
+          "variance": 0.00048530000688414205,
+          "population_variance": 0.00038824000550731366
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.6968333333333333,
+          "variance": 0.00035214077503429225,
+          "population_variance": 0.0002817126200274338
+        },
+        "nmi": {
+          "mean": 0.8221311414113275,
+          "variance": 9.117858374741587e-05,
+          "population_variance": 7.29428669979327e-05
+        },
+        "ari": {
+          "mean": 0.591086288278033,
+          "variance": 0.00047618623425768684,
+          "population_variance": 0.0003809489874061495
+        }
+      }
+    },
+    {
+      "dataset": "ALOI_100",
+      "rate": 0.7,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.6467222222222222,
+          "variance": 0.00032618141289437623,
+          "population_variance": 0.00026094513031550096
+        },
+        "nmi": {
+          "mean": 0.7894558258566311,
+          "variance": 8.809362032279393e-05,
+          "population_variance": 7.047489625823515e-05
+        },
+        "ari": {
+          "mean": 0.5307160590111842,
+          "variance": 0.0002797624469322723,
+          "population_variance": 0.00022380995754581784
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.6461481481481481,
+          "variance": 0.0003305495541838136,
+          "population_variance": 0.00026443964334705086
+        },
+        "nmi": {
+          "mean": 0.7891166989536382,
+          "variance": 8.741583014098215e-05,
+          "population_variance": 6.993266411278573e-05
+        },
+        "ari": {
+          "mean": 0.5303766292344658,
+          "variance": 0.0002735799718762885,
+          "population_variance": 0.0002188639775010308
+        }
+      }
+    },
+    {
+      "dataset": "LandUse_21",
+      "rate": 0.0,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.2581904761904762,
+          "variance": 0.00011931972789115637,
+          "population_variance": 9.54557823129251e-05
+        },
+        "nmi": {
+          "mean": 0.3031588207927275,
+          "variance": 0.0001281701821570701,
+          "population_variance": 0.00010253614572565607
+        },
+        "ari": {
+          "mean": 0.12347267068982899,
+          "variance": 5.345512945761447e-05,
+          "population_variance": 4.2764103566091574e-05
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.25847619047619047,
+          "variance": 0.0001221541950113377,
+          "population_variance": 9.772335600907015e-05
+        },
+        "nmi": {
+          "mean": 0.3027807139215944,
+          "variance": 0.0001267427793869118,
+          "population_variance": 0.00010139422350952946
+        },
+        "ari": {
+          "mean": 0.12342019995588686,
+          "variance": 5.349932237138537e-05,
+          "population_variance": 4.279945789710829e-05
+        }
+      }
+    },
+    {
+      "dataset": "LandUse_21",
+      "rate": 0.1,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.272,
+          "variance": 8.700680272108847e-05,
+          "population_variance": 6.960544217687077e-05
+        },
+        "nmi": {
+          "mean": 0.3115061732501274,
+          "variance": 0.00013961661531502141,
+          "population_variance": 0.00011169329225201713
+        },
+        "ari": {
+          "mean": 0.13341514323644638,
+          "variance": 5.646578271277849e-05,
+          "population_variance": 4.51726261702228e-05
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.2720952380952381,
+          "variance": 8.941043083900251e-05,
+          "population_variance": 7.152834467120202e-05
+        },
+        "nmi": {
+          "mean": 0.3114586300902092,
+          "variance": 0.00013804726948034776,
+          "population_variance": 0.00011043781558427821
+        },
+        "ari": {
+          "mean": 0.13343432169074623,
+          "variance": 5.695239105773926e-05,
+          "population_variance": 4.5561912846191404e-05
+        }
+      }
+    },
+    {
+      "dataset": "LandUse_21",
+      "rate": 0.3,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.2723809523809524,
+          "variance": 0.00010521541950113404,
+          "population_variance": 8.417233560090723e-05
+        },
+        "nmi": {
+          "mean": 0.305804008767855,
+          "variance": 0.0001508584913696806,
+          "population_variance": 0.00012068679309574446
+        },
+        "ari": {
+          "mean": 0.133185912428196,
+          "variance": 5.2535629412214e-05,
+          "population_variance": 4.20285035297712e-05
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.2722857142857143,
+          "variance": 0.00010197278911564622,
+          "population_variance": 8.157823129251698e-05
+        },
+        "nmi": {
+          "mean": 0.3056146607133317,
+          "variance": 0.0001481811592346253,
+          "population_variance": 0.00011854492738770024
+        },
+        "ari": {
+          "mean": 0.1331195361713537,
+          "variance": 5.177056017862119e-05,
+          "population_variance": 4.141644814289695e-05
+        }
+      }
+    },
+    {
+      "dataset": "LandUse_21",
+      "rate": 0.5,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.257047619047619,
+          "variance": 0.00021784580498866236,
+          "population_variance": 0.00017427664399092987
+        },
+        "nmi": {
+          "mean": 0.29506225119761303,
+          "variance": 0.00023068153067106115,
+          "population_variance": 0.00018454522453684893
+        },
+        "ari": {
+          "mean": 0.12020243009789651,
+          "variance": 0.00017893756566526747,
+          "population_variance": 0.00014315005253221397
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.25666666666666665,
+          "variance": 0.00021099773242630373,
+          "population_variance": 0.00016879818594104298
+        },
+        "nmi": {
+          "mean": 0.29481291455116315,
+          "variance": 0.0002308789324157508,
+          "population_variance": 0.00018470314593260062
+        },
+        "ari": {
+          "mean": 0.11999171606085011,
+          "variance": 0.00017641097118115825,
+          "population_variance": 0.0001411287769449266
+        }
+      }
+    },
+    {
+      "dataset": "LandUse_21",
+      "rate": 0.7,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.24352380952380953,
+          "variance": 0.00022603174603174608,
+          "population_variance": 0.00018082539682539686
+        },
+        "nmi": {
+          "mean": 0.2769151601933097,
+          "variance": 0.00031803470728148167,
+          "population_variance": 0.0002544277658251853
+        },
+        "ari": {
+          "mean": 0.10648553426990094,
+          "variance": 0.0001713571832501963,
+          "population_variance": 0.00013708574660015703
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.24323809523809525,
+          "variance": 0.0002285034013605443,
+          "population_variance": 0.00018280272108843544
+        },
+        "nmi": {
+          "mean": 0.2764757773889484,
+          "variance": 0.00032607865460044345,
+          "population_variance": 0.0002608629236803548
+        },
+        "ari": {
+          "mean": 0.1062837902416147,
+          "variance": 0.00017219490340791328,
+          "population_variance": 0.00013775592272633063
+        }
+      }
+    },
+    {
+      "dataset": "Mfeat",
+      "rate": 0.0,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.9621999999999999,
+          "variance": 4.324999999999997e-06,
+          "population_variance": 3.4599999999999974e-06
+        },
+        "nmi": {
+          "mean": 0.9194140469558025,
+          "variance": 1.0054209406791661e-05,
+          "population_variance": 8.043367525433329e-06
+        },
+        "ari": {
+          "mean": 0.918034122261912,
+          "variance": 2.0034931146644315e-05,
+          "population_variance": 1.602794491731545e-05
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.9614,
+          "variance": 4.550000000000019e-06,
+          "population_variance": 3.640000000000015e-06
+        },
+        "nmi": {
+          "mean": 0.9180950558800852,
+          "variance": 1.1015344603082061e-05,
+          "population_variance": 8.812275682465649e-06
+        },
+        "ari": {
+          "mean": 0.9163269959568182,
+          "variance": 2.0467720450700995e-05,
+          "population_variance": 1.6374176360560795e-05
+        }
+      }
+    },
+    {
+      "dataset": "Mfeat",
+      "rate": 0.1,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.9327,
+          "variance": 0.0019833250000000006,
+          "population_variance": 0.0015866600000000006
+        },
+        "nmi": {
+          "mean": 0.905532343724365,
+          "variance": 0.0006281487989881915,
+          "population_variance": 0.0005025190391905531
+        },
+        "ari": {
+          "mean": 0.885294923986953,
+          "variance": 0.002578467017968972,
+          "population_variance": 0.0020627736143751774
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.9317,
+          "variance": 0.0020054499999999963,
+          "population_variance": 0.0016043599999999972
+        },
+        "nmi": {
+          "mean": 0.9038700846920356,
+          "variance": 0.0006486299688797033,
+          "population_variance": 0.0005189039751037626
+        },
+        "ari": {
+          "mean": 0.8835737181428647,
+          "variance": 0.0026100389128808376,
+          "population_variance": 0.00208803113030467
+        }
+      }
+    },
+    {
+      "dataset": "Mfeat",
+      "rate": 0.3,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.9407,
+          "variance": 0.0019146999999999968,
+          "population_variance": 0.0015317599999999975
+        },
+        "nmi": {
+          "mean": 0.9056321321332397,
+          "variance": 0.0003570299552052669,
+          "population_variance": 0.0002856239641642135
+        },
+        "ari": {
+          "mean": 0.8946558253998839,
+          "variance": 0.0019029123992918397,
+          "population_variance": 0.0015223299194334718
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.9403,
+          "variance": 0.0019694499999999998,
+          "population_variance": 0.0015755599999999997
+        },
+        "nmi": {
+          "mean": 0.9049534840441629,
+          "variance": 0.0004015745802081835,
+          "population_variance": 0.0003212596641665468
+        },
+        "ari": {
+          "mean": 0.8940289651924741,
+          "variance": 0.0019750266773002063,
+          "population_variance": 0.0015800213418401651
+        }
+      }
+    },
+    {
+      "dataset": "Mfeat",
+      "rate": 0.5,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.9594,
+          "variance": 2.4675000000000105e-05,
+          "population_variance": 1.9740000000000085e-05
+        },
+        "nmi": {
+          "mean": 0.9134018197314658,
+          "variance": 7.84478866281087e-05,
+          "population_variance": 6.275830930248695e-05
+        },
+        "ari": {
+          "mean": 0.9122654883904894,
+          "variance": 0.00010954296962517323,
+          "population_variance": 8.763437570013858e-05
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.9591,
+          "variance": 2.6424999999999914e-05,
+          "population_variance": 2.113999999999993e-05
+        },
+        "nmi": {
+          "mean": 0.9128430705554276,
+          "variance": 7.953540520245413e-05,
+          "population_variance": 6.36283241619633e-05
+        },
+        "ari": {
+          "mean": 0.91161080648896,
+          "variance": 0.0001178797169886359,
+          "population_variance": 9.430377359090872e-05
+        }
+      }
+    },
+    {
+      "dataset": "Mfeat",
+      "rate": 0.7,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.9551,
+          "variance": 7.675000000000019e-06,
+          "population_variance": 6.140000000000016e-06
+        },
+        "nmi": {
+          "mean": 0.9043565249162072,
+          "variance": 2.4559163595434684e-05,
+          "population_variance": 1.9647330876347747e-05
+        },
+        "ari": {
+          "mean": 0.9032539642125723,
+          "variance": 3.217306789379417e-05,
+          "population_variance": 2.5738454315035336e-05
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.9547,
+          "variance": 8.450000000000148e-06,
+          "population_variance": 6.760000000000118e-06
+        },
+        "nmi": {
+          "mean": 0.9036920983959901,
+          "variance": 2.8624894556916144e-05,
+          "population_variance": 2.2899915645532918e-05
+        },
+        "ari": {
+          "mean": 0.9024869599920481,
+          "variance": 3.5557148558657284e-05,
+          "population_variance": 2.8445718846925825e-05
+        }
+      }
+    },
+    {
+      "dataset": "NUSWIDE",
+      "rate": 0.0,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.58724,
+          "variance": 0.00018224799999999976,
+          "population_variance": 0.00014579839999999983
+        },
+        "nmi": {
+          "mean": 0.2787738619216427,
+          "variance": 0.00010630453005814963,
+          "population_variance": 8.50436240465197e-05
+        },
+        "ari": {
+          "mean": 0.26586113289523117,
+          "variance": 0.00021837564495355162,
+          "population_variance": 0.00017470051596284132
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.58656,
+          "variance": 0.00017584800000000007,
+          "population_variance": 0.00014067840000000004
+        },
+        "nmi": {
+          "mean": 0.2780314756815922,
+          "variance": 0.00010839874904566806,
+          "population_variance": 8.671899923653445e-05
+        },
+        "ari": {
+          "mean": 0.2652415972841589,
+          "variance": 0.0002150376137026785,
+          "population_variance": 0.0001720300909621428
+        }
+      }
+    },
+    {
+      "dataset": "NUSWIDE",
+      "rate": 0.1,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.56308,
+          "variance": 0.0012138520000000003,
+          "population_variance": 0.0009710816000000003
+        },
+        "nmi": {
+          "mean": 0.26473081155355915,
+          "variance": 0.0004439985225898542,
+          "population_variance": 0.00035519881807188333
+        },
+        "ari": {
+          "mean": 0.24452334274475337,
+          "variance": 0.0011224310238510072,
+          "population_variance": 0.0008979448190808057
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.5623199999999999,
+          "variance": 0.0012097319999999996,
+          "population_variance": 0.0009677855999999997
+        },
+        "nmi": {
+          "mean": 0.26378166561467303,
+          "variance": 0.0004424289320579256,
+          "population_variance": 0.0003539431456463405
+        },
+        "ari": {
+          "mean": 0.24370585388357094,
+          "variance": 0.0011253122470871856,
+          "population_variance": 0.0009002497976697484
+        }
+      }
+    },
+    {
+      "dataset": "NUSWIDE",
+      "rate": 0.3,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.55216,
+          "variance": 0.0018207279999999989,
+          "population_variance": 0.0014565823999999992
+        },
+        "nmi": {
+          "mean": 0.25882251544084883,
+          "variance": 0.0004424691656619108,
+          "population_variance": 0.0003539753325295286
+        },
+        "ari": {
+          "mean": 0.2393662790816823,
+          "variance": 0.0008947945084257261,
+          "population_variance": 0.0007158356067405808
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.55092,
+          "variance": 0.0018190119999999998,
+          "population_variance": 0.0014552096
+        },
+        "nmi": {
+          "mean": 0.2580266284349926,
+          "variance": 0.00043626698530750495,
+          "population_variance": 0.00034901358824600395
+        },
+        "ari": {
+          "mean": 0.23786034117588054,
+          "variance": 0.0009011537272552945,
+          "population_variance": 0.0007209229818042356
+        }
+      }
+    },
+    {
+      "dataset": "NUSWIDE",
+      "rate": 0.5,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.55048,
+          "variance": 0.004192192000000001,
+          "population_variance": 0.0033537536000000008
+        },
+        "nmi": {
+          "mean": 0.25378063675412255,
+          "variance": 0.000861207369520224,
+          "population_variance": 0.0006889658956161791
+        },
+        "ari": {
+          "mean": 0.2365463198959567,
+          "variance": 0.001899378020634607,
+          "population_variance": 0.0015195024165076858
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.55004,
+          "variance": 0.004225928,
+          "population_variance": 0.0033807424000000005
+        },
+        "nmi": {
+          "mean": 0.2528301583027648,
+          "variance": 0.0008819700274759046,
+          "population_variance": 0.0007055760219807237
+        },
+        "ari": {
+          "mean": 0.23581514496055841,
+          "variance": 0.0019387263517794946,
+          "population_variance": 0.0015509810814235958
+        }
+      }
+    },
+    {
+      "dataset": "NUSWIDE",
+      "rate": 0.7,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.5323599999999999,
+          "variance": 0.0037266679999999977,
+          "population_variance": 0.0029813343999999984
+        },
+        "nmi": {
+          "mean": 0.24274647446846773,
+          "variance": 0.0009334414255816293,
+          "population_variance": 0.0007467531404653035
+        },
+        "ari": {
+          "mean": 0.22263068713137174,
+          "variance": 0.0019157719805172194,
+          "population_variance": 0.0015326175844137756
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.53196,
+          "variance": 0.003773648,
+          "population_variance": 0.0030189184
+        },
+        "nmi": {
+          "mean": 0.24220434707230543,
+          "variance": 0.00094935855397011,
+          "population_variance": 0.0007594868431760881
+        },
+        "ari": {
+          "mean": 0.22205862841689689,
+          "variance": 0.0019411358182241402,
+          "population_variance": 0.0015529086545793122
+        }
+      }
+    },
+    {
+      "dataset": "Scene-15",
+      "rate": 0.0,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.42180602006688966,
+          "variance": 0.0003613531541407066,
+          "population_variance": 0.0002890825233125653
+        },
+        "nmi": {
+          "mean": 0.4315721919944085,
+          "variance": 5.1415332481923424e-05,
+          "population_variance": 4.113226598553874e-05
+        },
+        "ari": {
+          "mean": 0.24863218279893531,
+          "variance": 0.00018685549056535384,
+          "population_variance": 0.00014948439245228307
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.42015607580824976,
+          "variance": 0.00031534820018170326,
+          "population_variance": 0.00025227856014536264
+        },
+        "nmi": {
+          "mean": 0.43054963871962043,
+          "variance": 4.677955491349084e-05,
+          "population_variance": 3.742364393079268e-05
+        },
+        "ari": {
+          "mean": 0.24700028308395186,
+          "variance": 0.00016331806279465164,
+          "population_variance": 0.0001306544502357213
+        }
+      }
+    },
+    {
+      "dataset": "Scene-15",
+      "rate": 0.1,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.4356298773690078,
+          "variance": 0.00026142884307781786,
+          "population_variance": 0.00020914307446225427
+        },
+        "nmi": {
+          "mean": 0.4333844364324056,
+          "variance": 6.975049409855575e-05,
+          "population_variance": 5.580039527884459e-05
+        },
+        "ari": {
+          "mean": 0.25808900749203195,
+          "variance": 0.00012138920097785328,
+          "population_variance": 9.711136078228263e-05
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.43085841694537347,
+          "variance": 0.0003242469323609357,
+          "population_variance": 0.00025939754588874856
+        },
+        "nmi": {
+          "mean": 0.43128949643553866,
+          "variance": 9.276113631093535e-05,
+          "population_variance": 7.420890904874828e-05
+        },
+        "ari": {
+          "mean": 0.25260600664721067,
+          "variance": 8.956743760644661e-05,
+          "population_variance": 7.165395008515728e-05
+        }
+      }
+    },
+    {
+      "dataset": "Scene-15",
+      "rate": 0.3,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.41079152731326646,
+          "variance": 0.00016285177023871235,
+          "population_variance": 0.00013028141619096987
+        },
+        "nmi": {
+          "mean": 0.4250155433573578,
+          "variance": 0.00012108828742648572,
+          "population_variance": 9.687062994118858e-05
+        },
+        "ari": {
+          "mean": 0.2446963430219112,
+          "variance": 0.00012544596842723328,
+          "population_variance": 0.00010035677474178663
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.4088740245261984,
+          "variance": 0.00017689088737511035,
+          "population_variance": 0.00014151270990008828
+        },
+        "nmi": {
+          "mean": 0.4238442091380364,
+          "variance": 0.00013893461590185231,
+          "population_variance": 0.00011114769272148185
+        },
+        "ari": {
+          "mean": 0.24247072783140586,
+          "variance": 0.00015313580841890394,
+          "population_variance": 0.00012250864673512315
+        }
+      }
+    },
+    {
+      "dataset": "Scene-15",
+      "rate": 0.5,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.4082943143812709,
+          "variance": 0.00033659578751915484,
+          "population_variance": 0.00026927663001532386
+        },
+        "nmi": {
+          "mean": 0.4044002015956594,
+          "variance": 9.899355439281099e-05,
+          "population_variance": 7.919484351424878e-05
+        },
+        "ari": {
+          "mean": 0.2368476580221074,
+          "variance": 0.00010676676617285204,
+          "population_variance": 8.541341293828164e-05
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.40124860646599775,
+          "variance": 0.0004448272390689143,
+          "population_variance": 0.0003558617912551314
+        },
+        "nmi": {
+          "mean": 0.4023794465698009,
+          "variance": 9.190489066505142e-05,
+          "population_variance": 7.352391253204114e-05
+        },
+        "ari": {
+          "mean": 0.2308041147160803,
+          "variance": 0.000130842664815701,
+          "population_variance": 0.00010467413185256079
+        }
+      }
+    },
+    {
+      "dataset": "Scene-15",
+      "rate": 0.7,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.3836789297658863,
+          "variance": 0.0005269739712083762,
+          "population_variance": 0.00042157917696670095
+        },
+        "nmi": {
+          "mean": 0.3997935684028636,
+          "variance": 7.162390358220457e-05,
+          "population_variance": 5.729912286576365e-05
+        },
+        "ari": {
+          "mean": 0.22345719110382842,
+          "variance": 0.00013332595315940847,
+          "population_variance": 0.00010666076252752678
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.3783723522853958,
+          "variance": 0.0005087439986378481,
+          "population_variance": 0.0004069951989102784
+        },
+        "nmi": {
+          "mean": 0.3964701998683769,
+          "variance": 8.876588769484815e-05,
+          "population_variance": 7.101271015587852e-05
+        },
+        "ari": {
+          "mean": 0.21712838953661234,
+          "variance": 9.66635036877811e-05,
+          "population_variance": 7.733080295022488e-05
+        }
+      }
+    },
+    {
+      "dataset": "animal",
+      "rate": 0.0,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.5873203386493404,
+          "variance": 0.00011329170013569037,
+          "population_variance": 9.06333601085523e-05
+        },
+        "nmi": {
+          "mean": 0.67760043577928,
+          "variance": 7.542581823884244e-05,
+          "population_variance": 6.034065459107394e-05
+        },
+        "ari": {
+          "mean": 0.4897194552224618,
+          "variance": 0.00011121429043565598,
+          "population_variance": 8.897143234852478e-05
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.5866706044496948,
+          "variance": 0.0001076639421999509,
+          "population_variance": 8.613115375996072e-05
+        },
+        "nmi": {
+          "mean": 0.6770539678762493,
+          "variance": 7.653978966838726e-05,
+          "population_variance": 6.123183173470982e-05
+        },
+        "ari": {
+          "mean": 0.4888095964034499,
+          "variance": 0.00011892294417711792,
+          "population_variance": 9.513835534169434e-05
+        }
+      }
+    },
+    {
+      "dataset": "animal",
+      "rate": 0.1,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.5787950383933845,
+          "variance": 0.00028952667948791544,
+          "population_variance": 0.00023162134359033237
+        },
+        "nmi": {
+          "mean": 0.656819623285162,
+          "variance": 0.0001641193933745181,
+          "population_variance": 0.0001312955146996145
+        },
+        "ari": {
+          "mean": 0.4740411667245334,
+          "variance": 0.00025347874958444683,
+          "population_variance": 0.00020278299966755746
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.5780271707028943,
+          "variance": 0.00029171207541439897,
+          "population_variance": 0.00023336966033151918
+        },
+        "nmi": {
+          "mean": 0.6560914646525929,
+          "variance": 0.00016553225540075808,
+          "population_variance": 0.00013242580432060646
+        },
+        "ari": {
+          "mean": 0.47289858079757985,
+          "variance": 0.0002708087918454306,
+          "population_variance": 0.00021664703347634446
+        }
+      }
+    },
+    {
+      "dataset": "animal",
+      "rate": 0.3,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.5411892104745029,
+          "variance": 0.00038455505978564873,
+          "population_variance": 0.00030764404782851896
+        },
+        "nmi": {
+          "mean": 0.6160298155700424,
+          "variance": 0.0001385073732764483,
+          "population_variance": 0.00011080589862115865
+        },
+        "ari": {
+          "mean": 0.43350269280632925,
+          "variance": 0.00016082089766815863,
+          "population_variance": 0.0001286567181345269
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.5404016538688718,
+          "variance": 0.0003990290678397669,
+          "population_variance": 0.0003192232542718135
+        },
+        "nmi": {
+          "mean": 0.6151452132846456,
+          "variance": 0.00014460127901865587,
+          "population_variance": 0.0001156810232149247
+        },
+        "ari": {
+          "mean": 0.4324545388744902,
+          "variance": 0.00017577131815849976,
+          "population_variance": 0.0001406170545267998
+        }
+      }
+    },
+    {
+      "dataset": "animal",
+      "rate": 0.5,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.5120693049812955,
+          "variance": 0.00043778956011459143,
+          "population_variance": 0.00035023164809167316
+        },
+        "nmi": {
+          "mean": 0.5747957602909389,
+          "variance": 0.0001180836100022287,
+          "population_variance": 9.446688800178296e-05
+        },
+        "ari": {
+          "mean": 0.38399678671582743,
+          "variance": 0.00016689129255541009,
+          "population_variance": 0.00013351303404432807
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.5115377042724946,
+          "variance": 0.00044751869080460215,
+          "population_variance": 0.0003580149526436817
+        },
+        "nmi": {
+          "mean": 0.5741539572074045,
+          "variance": 0.00012795925356250481,
+          "population_variance": 0.00010236740285000385
+        },
+        "ari": {
+          "mean": 0.38318095282431347,
+          "variance": 0.00017430320208937394,
+          "population_variance": 0.00013944256167149914
+        }
+      }
+    },
+    {
+      "dataset": "animal",
+      "rate": 0.7,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.4795629060838748,
+          "variance": 0.0004705026596704537,
+          "population_variance": 0.00037640212773636296
+        },
+        "nmi": {
+          "mean": 0.5430910593315542,
+          "variance": 0.0002048867948109618,
+          "population_variance": 0.00016390943584876943
+        },
+        "ari": {
+          "mean": 0.34581192061744415,
+          "variance": 0.0002314155210338534,
+          "population_variance": 0.0001851324168270827
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.4788147273085253,
+          "variance": 0.0004765297005869961,
+          "population_variance": 0.00038122376046959683
+        },
+        "nmi": {
+          "mean": 0.5420553744543869,
+          "variance": 0.00019796692432586484,
+          "population_variance": 0.0001583735394606919
+        },
+        "ari": {
+          "mean": 0.3449268322965617,
+          "variance": 0.0002447486641328651,
+          "population_variance": 0.00019579893130629208
+        }
+      }
+    },
+    {
+      "dataset": "flower17",
+      "rate": 0.0,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.4736764705882353,
+          "variance": 0.0005807742214532871,
+          "population_variance": 0.0004646193771626296
+        },
+        "nmi": {
+          "mean": 0.5023874571540236,
+          "variance": 3.10421794426509e-05,
+          "population_variance": 2.483374355412072e-05
+        },
+        "ari": {
+          "mean": 0.33027650249209645,
+          "variance": 0.00026007537244663963,
+          "population_variance": 0.0002080602979573117
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.47352941176470587,
+          "variance": 0.00058850562283737,
+          "population_variance": 0.00047080449826989606
+        },
+        "nmi": {
+          "mean": 0.5019180935709633,
+          "variance": 3.597085698491992e-05,
+          "population_variance": 2.8776685587935937e-05
+        },
+        "ari": {
+          "mean": 0.32989102171962686,
+          "variance": 0.0002630291241802593,
+          "population_variance": 0.00021042329934420746
+        }
+      }
+    },
+    {
+      "dataset": "flower17",
+      "rate": 0.1,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.4582352941176471,
+          "variance": 0.0009654519896193774,
+          "population_variance": 0.0007723615916955019
+        },
+        "nmi": {
+          "mean": 0.4826604895227318,
+          "variance": 0.0007251994748599268,
+          "population_variance": 0.0005801595798879414
+        },
+        "ari": {
+          "mean": 0.3117942593859804,
+          "variance": 0.0007511084999966441,
+          "population_variance": 0.0006008867999973154
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.4576470588235294,
+          "variance": 0.0009484753460207616,
+          "population_variance": 0.0007587802768166093
+        },
+        "nmi": {
+          "mean": 0.4817101171632416,
+          "variance": 0.0006744099488594287,
+          "population_variance": 0.0005395279590875429
+        },
+        "ari": {
+          "mean": 0.3109476035359711,
+          "variance": 0.0007120224399002839,
+          "population_variance": 0.0005696179519202271
+        }
+      }
+    },
+    {
+      "dataset": "flower17",
+      "rate": 0.3,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.4525,
+          "variance": 0.0006175929930795849,
+          "population_variance": 0.000494074394463668
+        },
+        "nmi": {
+          "mean": 0.4744502989428956,
+          "variance": 0.0002927951296307716,
+          "population_variance": 0.0002342361037046173
+        },
+        "ari": {
+          "mean": 0.3133035916949294,
+          "variance": 0.000253155319447173,
+          "population_variance": 0.0002025242555577384
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.45176470588235296,
+          "variance": 0.0006019139273356403,
+          "population_variance": 0.00048153114186851227
+        },
+        "nmi": {
+          "mean": 0.4735380705391024,
+          "variance": 0.0003109714202247613,
+          "population_variance": 0.000248777136179809
+        },
+        "ari": {
+          "mean": 0.3124762113270024,
+          "variance": 0.00025427276576974573,
+          "population_variance": 0.00020341821261579657
+        }
+      }
+    },
+    {
+      "dataset": "flower17",
+      "rate": 0.5,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.45279411764705885,
+          "variance": 0.0007272923875432522,
+          "population_variance": 0.0005818339100346017
+        },
+        "nmi": {
+          "mean": 0.4669704707505002,
+          "variance": 0.0002992075985482241,
+          "population_variance": 0.0002393660788385793
+        },
+        "ari": {
+          "mean": 0.30135705956957703,
+          "variance": 0.0001728787871170453,
+          "population_variance": 0.00013830302969363624
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.4530882352941176,
+          "variance": 0.0007218858131487886,
+          "population_variance": 0.0005775086505190308
+        },
+        "nmi": {
+          "mean": 0.4655080044141445,
+          "variance": 0.00030514502100763123,
+          "population_variance": 0.00024411601680610502
+        },
+        "ari": {
+          "mean": 0.3002587201068846,
+          "variance": 0.00018023939857091911,
+          "population_variance": 0.0001441915188567353
+        }
+      }
+    },
+    {
+      "dataset": "flower17",
+      "rate": 0.7,
+      "variant": "completed",
+      "compression": "none",
+      "n": 5,
+      "expected_n": 5,
+      "seeds": [
+        42,
+        2024,
+        2025,
+        2026,
+        2027
+      ],
+      "complete": true,
+      "best": {
+        "acc": {
+          "mean": 0.4363235294117647,
+          "variance": 0.0019508542387543261,
+          "population_variance": 0.0015606833910034607
+        },
+        "nmi": {
+          "mean": 0.45509525731714046,
+          "variance": 0.0016861754186073099,
+          "population_variance": 0.001348940334885848
+        },
+        "ari": {
+          "mean": 0.2909461456810502,
+          "variance": 0.0017252629985791163,
+          "population_variance": 0.001380210398863293
+        }
+      },
+      "last": {
+        "acc": {
+          "mean": 0.43558823529411766,
+          "variance": 0.001924091695501731,
+          "population_variance": 0.0015392733564013848
+        },
+        "nmi": {
+          "mean": 0.4540771909717327,
+          "variance": 0.0016791530690696322,
+          "population_variance": 0.0013433224552557058
+        },
+        "ari": {
+          "mean": 0.2899657494465628,
+          "variance": 0.0016768599772632536,
+          "population_variance": 0.0013414879818106028
+        }
+      }
+    }
+  ]
+}

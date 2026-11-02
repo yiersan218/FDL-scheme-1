@@ -1,0 +1,295 @@
+{
+  "algorithm_version": "completion-v1",
+  "dataset": "animal",
+  "samples": 10158,
+  "view_dims": [
+    4096,
+    4096
+  ],
+  "num_clusters": 50,
+  "metrics": {
+    "acc": 0.47981886198070484,
+    "nmi": 0.5446581432188061,
+    "ari": 0.3500801072937129,
+    "confidence": 0.025152400135993958
+  },
+  "best_round": 13,
+  "selection_metric": "nmi",
+  "selection_protocol": "oracle-best: labels used only for evaluation/checkpoint selection",
+  "last_metrics": {
+    "acc": 0.4793266391021855,
+    "nmi": 0.5421777972338984,
+    "ari": 0.3484547830353279,
+    "confidence": 0.02514967881143093
+  },
+  "stability": {
+    "acc": -0.000492222878519355,
+    "nmi": -0.0024803459849077614,
+    "ari": -0.0016253242583850191
+  },
+  "runtime": {
+    "device": "cuda",
+    "torch_version": "2.5.1",
+    "parameters": 4402306,
+    "federated_parameters": 4402306,
+    "local_completion_parameters_per_client": 0,
+    "elapsed_seconds": 43.99464559555054,
+    "peak_cuda_memory_bytes": 156346880
+  },
+  "diagnostics": {
+    "normalized_entropy": 0.9988647917406049,
+    "top1_top2_margin": 0.0012820682022720575,
+    "effective_clusters": 49.945491790771484,
+    "min_cluster_occupancy": 0.017628587782382965,
+    "max_cluster_occupancy": 0.02135474979877472,
+    "prediction_soft_counts": [
+      189.09011840820312,
+      205.4672393798828,
+      203.65753173828125,
+      194.6053009033203,
+      206.28868103027344,
+      209.8712158203125,
+      211.49221801757812,
+      208.40438842773438,
+      199.14529418945312,
+      186.69558715820312,
+      181.9582061767578,
+      200.7129669189453,
+      196.14195251464844,
+      208.6583251953125,
+      202.0494384765625,
+      207.10873413085938,
+      188.0190887451172,
+      202.51382446289062,
+      195.8756866455078,
+      204.62200927734375,
+      207.3907012939453,
+      194.24734497070312,
+      195.51690673828125,
+      200.08082580566406,
+      196.7274169921875,
+      201.76156616210938,
+      188.71449279785156,
+      179.07122802734375,
+      205.62832641601562,
+      194.74090576171875,
+      211.96315002441406,
+      190.48500061035156,
+      213.80860900878906,
+      214.3412322998047,
+      216.9215850830078,
+      202.5357208251953,
+      214.27381896972656,
+      216.52757263183594,
+      211.25807189941406,
+      208.4273223876953,
+      215.36865234375,
+      208.2543487548828,
+      214.1202392578125,
+      210.1923370361328,
+      205.587158203125,
+      211.92950439453125,
+      215.03988647460938,
+      214.94639587402344,
+      195.8138427734375,
+      199.95040893554688
+    ],
+    "completion_assignment_beta": 0.134916290640831
+  },
+  "communication": {
+    "uplink_bytes": 1761072480,
+    "dense_uplink_bytes": 1761072480,
+    "downlink_bytes": 1760922400,
+    "compression_seconds": 0.0,
+    "uplink_reduction": 0.0
+  },
+  "config": {
+    "dataset": {
+      "name": "animal",
+      "file": "dataset/animal.mat",
+      "num_clusters": 50,
+      "num_clients": 5,
+      "normalization": "standard"
+    },
+    "model": {
+      "hidden_dims": [
+        256,
+        128
+      ],
+      "embedding_dim": 64,
+      "dropout": 0.0,
+      "student_t_alpha": 1.0,
+      "cluster_head_type": "student_t",
+      "student_t_distance_scale": 1.0,
+      "prototype_mode": "per_view",
+      "per_view_head_type": "student_t"
+    },
+    "training": {
+      "rounds": 20,
+      "pretrain_rounds": 12,
+      "center_init_round": 11,
+      "local_epochs": 1,
+      "pretraining_local_epochs": 1,
+      "clustering_local_epochs": 1,
+      "batch_size": 256,
+      "eval_batch_size": 512,
+      "learning_rate": 0.001,
+      "pretraining_end_learning_rate": 1e-06,
+      "clustering_learning_rate": 1e-06,
+      "cluster_head_learning_rate_multiplier": 1.0,
+      "center_momentum": 0.99,
+      "weight_decay": 1e-05,
+      "join_ratio": 1.0,
+      "eval_gap": 1,
+      "selection_metric": "nmi",
+      "center_init_n_init": 10,
+      "gradient_clip": 5.0,
+      "num_workers": 0,
+      "seed": 2024,
+      "device": "cuda"
+    },
+    "loss_weights": {
+      "reconstruction": 1.0,
+      "completion": 1.0,
+      "clustering": 0.05,
+      "balance": 0.05
+    },
+    "missing": {
+      "enabled": true,
+      "rate": 0.7
+    },
+    "completion": {
+      "enabled": true,
+      "anchor_size": 256,
+      "topk": 16,
+      "heads": 4,
+      "adapter_delta": 0.1,
+      "attention_strength": 0.3,
+      "fusion_weight": 0.25,
+      "temperature": 0.2,
+      "truncation": 9,
+      "use_attention": true,
+      "use_completed_initialization": false,
+      "use_completed_assignments": true,
+      "gate": true,
+      "value_mode": "per_view",
+      "alignment_mode": "mse",
+      "parameter_scope": "federated",
+      "seed": 0
+    },
+    "compression": {
+      "method": "none",
+      "budget_ratio": 0.5,
+      "calibration_size": 64,
+      "candidates": 6,
+      "view_weight": 0.1,
+      "pair_weight": 0.1,
+      "error_feedback": false,
+      "budget_bytes": null,
+      "budget_bytes_pair": null
+    },
+    "output": {
+      "directory": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\results\\runs\\completion-v1\\completed\\rate-0p7\\seed-2024",
+      "save_model": true
+    },
+    "research": {
+      "enabled": false
+    },
+    "algorithm_version": "completion-v1",
+    "config_path": "D:\\Project\\Python\\研究生毕设\\FDL-scheme-1\\config\\animal.json",
+    "experiment": {
+      "method": "completion-v1",
+      "variant": "completed",
+      "nominal_missing_rate": 0.7,
+      "seed": 2024,
+      "normalization_scope": "client_observed",
+      "initialization": "observed_only",
+      "teacher": "round_fixed_observed",
+      "source_files": [
+        {
+          "path": "system/config.py",
+          "sha256": "15e775b4558b76047887a9e57974eee792d9b66d492fae38db82917681bac871"
+        },
+        {
+          "path": "system/main.py",
+          "sha256": "28a0f00f1603d8b184280be73929383f787c5424244ec7ff3aa8e8990267d9cb"
+        },
+        {
+          "path": "system/utils/mat_data.py",
+          "sha256": "67c2e6e8eb44b63f76f2d4458f2131a7191f6748d198f4fa95ba40f1e9fc98e2"
+        },
+        {
+          "path": "system/flcore/trainmodel/multiview.py",
+          "sha256": "415bc75c3bd066760e3d1a3f94d7199c128dfaeec364e5d907cbed56201d7266"
+        },
+        {
+          "path": "system/flcore/trainmodel/completion.py",
+          "sha256": "c77f6a0e07701439d237f08e927f8caa9b586553017cd23c686bd63ecd0de876"
+        },
+        {
+          "path": "system/flcore/trainmodel/losses.py",
+          "sha256": "f26a9b6b1c9269669c23dc46c8987d91d732ed22053384fbc974ba066b3509c4"
+        },
+        {
+          "path": "system/flcore/clients/clientcluster.py",
+          "sha256": "c47dcd9be403fe5ee67ee003d6f640b9be8df3494bfc90ed50d2d207b7f4b8d2"
+        },
+        {
+          "path": "system/flcore/servers/servercluster.py",
+          "sha256": "6120b2b22b64233b9de36d637aaeb81de78b1628689c540231378358321473f3"
+        },
+        {
+          "path": "system/flcore/communication/__init__.py",
+          "sha256": "78051084ff6cfbfc7f91f7f232c1f7a781af9b100c5ff8d51e66c95626900739"
+        },
+        {
+          "path": "system/flcore/communication/codec.py",
+          "sha256": "8c2924393654ab08cc37f4827492c8e9532f7934f0545038a31f5392bf8f527d"
+        },
+        {
+          "path": "system/flcore/communication/compression.py",
+          "sha256": "6d7a25216f67e31a54031f7839860da335e1c474c2809e76e1ca69474a35ac5c"
+        },
+        {
+          "path": "system/run_incomplete.py",
+          "sha256": "cb9b3cbbcfc2ca816dd6fd82ec9ed03807831918a26ea6acbae57254d3456353"
+        }
+      ],
+      "source_sha256": "7c709c4cc748de39a9c6bce6e1a06a96f3df0112fb8599e32fef75c0eb6badf5",
+      "data_sha256": "3cbe9e7a9dedc92498b4724fe198260404ed65644c2dcb180b11150e6a6b01d2",
+      "compression": "none",
+      "budget_reference": "dense_upload",
+      "fingerprint": "b47e9f0223a73b6fdbb4e246c40b70570271f330452a63131ebf81d48ea779bc"
+    }
+  },
+  "completion": {
+    "enabled": true,
+    "loss_type": "mse",
+    "consistency_type": "cross_view_completion",
+    "prediction": "bounded_completed_assignments",
+    "target_teacher": "observed_assignments_fixed_per_round",
+    "prototype_statistics": "observed_only",
+    "bank_scope": "client_local_ephemeral",
+    "parameter_scope": "federated",
+    "use_completed_initialization": false,
+    "structure_sha256": "85d9f4501c015d6ad85d3cf41414975a753ae01a259cdba2eec57954f529578d"
+  },
+  "missing": {
+    "nominal_rate": 0.7,
+    "normalization_scope": "client_observed",
+    "incomplete_sample_rate": 0.6999409332545776,
+    "missing_cell_rate": 0.3499704666272888,
+    "observed_per_view": [
+      6573,
+      6633
+    ],
+    "complete_per_client": [
+      610,
+      610,
+      610,
+      609,
+      609
+    ],
+    "mask_sha256": "bc88336f8059e7cc7b8b51dbaaf31841dd9f7a0558a3f89039217ec9911a28da"
+  }
+}
